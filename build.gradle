@@ -22,15 +22,15 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.5'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.5'
+//	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
+//	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.5'
+//	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.5'
 
 	implementation group: 'org.springframework.session', name: 'spring-session-core', version: '3.2.2'
 	implementation group: 'org.springframework.session', name: 'spring-session-jdbc', version: '3.2.2'
 
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	testImplementation 'org.springframework.security:spring-security-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	testImplementation 'org.springframework.security:spring-security-test'
 
 	runtimeOnly group: 'com.h2database', name: 'h2', version: '2.2.224'
 }
