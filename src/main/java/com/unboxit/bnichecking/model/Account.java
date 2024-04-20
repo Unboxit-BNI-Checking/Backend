@@ -4,13 +4,18 @@ package com.unboxit.bnichecking.model;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "accounts")
-public class Account implements TimestampedEntity  {
+@EntityListeners(AuditingEntityListener.class)
+public class Account  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long accountId;
@@ -22,14 +27,16 @@ public class Account implements TimestampedEntity  {
     private String customerName;
 
     @Column(nullable = false)
-    private String balance;
+    private Long balance;
 
     @Column(name="is_blocked", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-    private boolean isBlocked;
+    private boolean blocked;
 
+    @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
@@ -39,13 +46,8 @@ public class Account implements TimestampedEntity  {
     @OneToMany(mappedBy = "account")
     private List<Favourite> ownedFavourites;
 
-    public Account(long accountId, String accountNumber, String customerName, String balance, boolean isBlocked) {
-        this.accountId = accountId;
-        this.accountNumber = accountNumber;
-        this.customerName = customerName;
-        this.balance = balance;
-        this.isBlocked = isBlocked;
-    }
+
+    public Account() {}
 
     public long getAccountId() {
         return accountId;
@@ -71,38 +73,34 @@ public class Account implements TimestampedEntity  {
         this.customerName = customerName;
     }
 
-    public String getBalance() {
+    public Long getBalance() {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 
-    public boolean isBlocked() {
-        return isBlocked;
+    public boolean getBlocked() {
+        return blocked;
     }
 
     public void setBlocked(boolean blocked) {
-        isBlocked = blocked;
+        blocked = blocked;
     }
 
-    @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    @Override
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    @Override
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    @Override
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
@@ -115,13 +113,13 @@ public class Account implements TimestampedEntity  {
         this.deletedAt = deletedAt;
     }
 
-    public List<Favourite> getOwnedFavourites() {
-        return ownedFavourites;
-    }
-
-    public void setOwnedFavourites(List<Favourite> ownedFavourites) {
-        this.ownedFavourites = ownedFavourites;
-    }
+//    public List<Favourite> getOwnedFavourites() {
+//        return ownedFavourites;
+//    }
+//
+//    public void setOwnedFavourites(List<Favourite> ownedFavourites) {
+//        this.ownedFavourites = ownedFavourites;
+//    }
 
 
 
