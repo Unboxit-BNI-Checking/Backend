@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "accounts")
+@Table(name = "accounts", indexes = @Index(name = "idx_account_number", columnList = "account_number"))
 @EntityListeners(AuditingEntityListener.class)
 public class Account  {
     @Id
@@ -51,10 +51,6 @@ public class Account  {
 
     public long getAccountId() {
         return accountId;
-    }
-
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
     }
 
     public String getAccountNumber() {
