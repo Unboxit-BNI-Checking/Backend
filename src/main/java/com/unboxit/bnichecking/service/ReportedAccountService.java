@@ -1,7 +1,6 @@
 package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.model.ReportedAccount;
-import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.repository.ReportedAccountJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -48,19 +48,6 @@ public class ReportedAccount {
     @JoinColumn(name = "admin_id", nullable = true)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Admins admins;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "admin_id")
-//    @OnDelete(action = OnDeleteAction.NO_ACTION)
-//    private Admins admins;
-
-//    public Admins getAdmins() {
-//        return admins;
-//    }
-//
-//    public void setAdmins(Admins admins) {
-//        this.admins = admins;
-//    }
 
     public LocalDateTime getTime_finished() {
         return time_finished;
@@ -86,22 +73,6 @@ public class ReportedAccount {
         this.updatedAt = updatedAt;
     }
 
-//    public List<Reports> getOwnedReport() {
-//        return ownedReport;
-//    }
-//
-//    public void setOwnedReport(List<Reports> ownedReport) {
-//        this.ownedReport = ownedReport;
-//    }
-//
-//    public Account getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(Account account) {
-//        this.account = account;
-//    }
-
     public LocalDateTime getDeletedAt() {
         return deletedAt;
     }
@@ -124,5 +95,29 @@ public class ReportedAccount {
 
     public void setReportedAccountId(long reportedAccountId) {
         this.reportedAccountId = reportedAccountId;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public List<Reports> getOwnedReports() {
+        return ownedReports;
+    }
+
+    public void setOwnedReports(List<Reports> ownedReports) {
+        this.ownedReports = ownedReports;
+    }
+
+    public Admins getAdmins() {
+        return admins;
+    }
+
+    public void setAdmins(Admins admins) {
+        this.admins = admins;
     }
 }

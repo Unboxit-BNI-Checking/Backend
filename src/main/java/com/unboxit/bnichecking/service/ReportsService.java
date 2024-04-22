@@ -29,6 +29,7 @@ public class ReportsService {
     public Reports createReports(@RequestBody Reports newReports){
         return this.reportsRepository.save(newReports);
     }
+
     public ResponseEntity<String> updateReports(@PathVariable Long id, @RequestBody Reports updatedReports){
         if(this.reportsRepository.findById(id).isEmpty()){
             return ResponseEntity.status(400).body("Reports not found");

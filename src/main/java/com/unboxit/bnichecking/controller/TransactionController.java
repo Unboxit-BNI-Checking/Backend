@@ -1,8 +1,6 @@
 package com.unboxit.bnichecking.controller;
 
-import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.model.Transaction;
-import com.unboxit.bnichecking.service.ReportsService;
 import com.unboxit.bnichecking.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +29,7 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/transaction/{id}", produces = "application/json") //Get Resource
-    public Transaction getTransaction(@PathVariable Long id){
+    public Transaction getTransactionById(@PathVariable Long id){
         return transactionService.getTransactionById(id);
     }
 
