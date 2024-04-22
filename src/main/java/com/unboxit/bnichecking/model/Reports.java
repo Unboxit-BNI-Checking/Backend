@@ -10,10 +10,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-//@Table(name = "reports", indexes = {
-//        @Index(name = "idx_transaction_id", columnList = "transaction_id"),
-//        @Index(name = "idx_reported_account_id", columnList = "reported_account_id")
-//})
+@Table(name = "reports", indexes = {
+        @Index(name = "idx_transaction_id", columnList = "transaction_id"),
+        @Index(name = "idx_reported_account_id", columnList = "reported_account_id")
+})
 @EntityListeners(AuditingEntityListener.class)
 public class Reports {
     @Id
@@ -44,4 +44,59 @@ public class Reports {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private ReportedAccount reportedAccount;
 
+    public long getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(long reportId) {
+        this.reportId = reportId;
+    }
+
+    public String getChronology() {
+        return chronology;
+    }
+
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public ReportedAccount getReportedAccount() {
+        return reportedAccount;
+    }
+
+    public void setReportedAccount(ReportedAccount reportedAccount) {
+        this.reportedAccount = reportedAccount;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

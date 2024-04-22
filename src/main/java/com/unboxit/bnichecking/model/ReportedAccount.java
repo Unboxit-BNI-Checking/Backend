@@ -45,7 +45,7 @@ public class ReportedAccount {
     private List<Reports> ownedReports;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
+    @JoinColumn(name = "admin_id", nullable = true)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Admins admins;
 //
