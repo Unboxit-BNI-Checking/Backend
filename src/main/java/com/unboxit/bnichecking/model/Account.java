@@ -46,6 +46,13 @@ public class Account  {
 
     public Account() {}
 
+    public Account(String accountNumber, String customerName, Long balance, Boolean blocked) {
+        this.accountNumber = accountNumber;
+        this.customerName = customerName;
+        this.balance = balance;
+        this.blocked = blocked;
+    }
+
     public long getAccountId() {
         return accountId;
     }
