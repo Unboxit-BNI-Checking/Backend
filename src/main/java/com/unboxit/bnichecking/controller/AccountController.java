@@ -1,6 +1,5 @@
 package com.unboxit.bnichecking.controller;
 
-import com.unboxit.bnichecking.exception.AccountNotFoundException;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.repository.AccountJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

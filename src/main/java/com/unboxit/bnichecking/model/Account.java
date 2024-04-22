@@ -1,10 +1,7 @@
 package com.unboxit.bnichecking.model;
 
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,7 +17,7 @@ public class Account  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long accountId;
 
-    @Column(name="account_number", nullable = false, unique = true)
+    @Column(name="account_number", nullable = false, unique = true, length = 10)
     private String accountNumber;
 
     @Column(name="customer_name", nullable = false)
@@ -29,8 +26,8 @@ public class Account  {
     @Column(nullable = false)
     private Long balance;
 
-    @Column(name="is_blocked", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-    private boolean blocked;
+    @Column(name="blocked", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+    private Boolean blocked;
 
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
@@ -77,12 +74,12 @@ public class Account  {
         this.balance = balance;
     }
 
-    public boolean getBlocked() {
+    public Boolean getBlocked() {
         return blocked;
     }
 
-    public void setBlocked(boolean blocked) {
-        blocked = blocked;
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
     }
 
     public LocalDateTime getCreatedAt() {
