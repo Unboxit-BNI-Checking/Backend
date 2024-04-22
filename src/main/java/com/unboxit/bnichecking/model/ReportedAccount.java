@@ -8,13 +8,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.w3c.dom.Text;
 
 @Entity
-@Table(name = "ReportedAccount", indexes = {
-        @Index(name = "idx_reported_account_number", columnList = "reported_account_number"),
-})
+//@Table(name = "ReportedAccount", indexes = {
+//        @Index(name = "idx_reported_account_number", columnList = "account_number"),
+//})
 @EntityListeners(AuditingEntityListener.class)
 public class ReportedAccount {
     @Id
@@ -37,27 +35,27 @@ public class ReportedAccount {
 
     @Column(name="deleted_at")
     private LocalDateTime deletedAt;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "account_id")
+//    @OnDelete(action = OnDeleteAction.NO_ACTION)
+//    private Account account;
+//
+//    @OneToMany(mappedBy = "ReportedAccount")
+//    private List<Reports> ownedReport;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "admin_id")
+//    @OnDelete(action = OnDeleteAction.NO_ACTION)
+//    private Admins admins;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Account account;
-
-    @OneToMany(mappedBy = "ReportedAccount")
-    private List<Reports> ownedReport;
-
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Admins admins;
-
-    public Admins getAdmins() {
-        return admins;
-    }
-
-    public void setAdmins(Admins admins) {
-        this.admins = admins;
-    }
+//    public Admins getAdmins() {
+//        return admins;
+//    }
+//
+//    public void setAdmins(Admins admins) {
+//        this.admins = admins;
+//    }
 
     public LocalDateTime getTime_finished() {
         return time_finished;
@@ -83,21 +81,21 @@ public class ReportedAccount {
         this.updatedAt = updatedAt;
     }
 
-    public List<Reports> getOwnedReport() {
-        return ownedReport;
-    }
-
-    public void setOwnedReport(List<Reports> ownedReport) {
-        this.ownedReport = ownedReport;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
+//    public List<Reports> getOwnedReport() {
+//        return ownedReport;
+//    }
+//
+//    public void setOwnedReport(List<Reports> ownedReport) {
+//        this.ownedReport = ownedReport;
+//    }
+//
+//    public Account getAccount() {
+//        return account;
+//    }
+//
+//    public void setAccount(Account account) {
+//        this.account = account;
+//    }
 
     public LocalDateTime getDeletedAt() {
         return deletedAt;
