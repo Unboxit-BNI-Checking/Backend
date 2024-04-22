@@ -18,14 +18,16 @@ public class Favourite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long favouriteId;
 
-    @Column(name="favourite_account_number", nullable = false)
-    private String favouriteAccountNumber;
+    @ManyToOne
+    @JoinColumn(name="favourite_account_number", referencedColumnName="account_number", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Account favouriteAccount;
 
     @Column(name="name", nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name="accountId", nullable = false)
+    @JoinColumn(name="account_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Account account;
 
@@ -48,12 +50,12 @@ public class Favourite {
         return favouriteId;
     }
 
-    public String getFavouriteAccountNumber() {
-        return favouriteAccountNumber;
+    public Account getFavouriteAccount() {
+        return favouriteAccount;
     }
 
-    public void setFavouriteAccountNumber(String favouriteAccountNumber) {
-        this.favouriteAccountNumber = favouriteAccountNumber;
+    public void setFavouriteAccount(Account favouriteAccount) {
+        this.favouriteAccount = favouriteAccount;
     }
 
     public String getName() {
