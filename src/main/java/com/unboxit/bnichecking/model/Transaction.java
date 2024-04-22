@@ -42,6 +42,9 @@ public class Transaction {
     @Column(name="deleted_at")
     private LocalDateTime deletedAt;
 
+    @OneToOne(mappedBy = "transaction")
+    private Reports reports;
+
     public long getTransactionId() {
         return transactionId;
     }
