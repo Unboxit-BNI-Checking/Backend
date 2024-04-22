@@ -35,14 +35,19 @@ public class ReportedAccount {
 
     @Column(name="deleted_at")
     private LocalDateTime deletedAt;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "account_id")
-//    @OnDelete(action = OnDeleteAction.NO_ACTION)
-//    private Account account;
-//
-//    @OneToMany(mappedBy = "ReportedAccount")
-//    private List<Reports> ownedReport;
+
+    @ManyToOne
+    @JoinColumn(name = "account_number", referencedColumnName="account_number")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private Account account;
+
+    @OneToMany(mappedBy = "reportedAccount")
+    private List<Reports> ownedReports;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private Admins admins;
 //
 //    @ManyToOne
 //    @JoinColumn(name = "admin_id")

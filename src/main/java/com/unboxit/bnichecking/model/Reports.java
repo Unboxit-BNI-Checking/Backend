@@ -34,8 +34,14 @@ public class Reports {
     @Column(name="deleted_at")
     private LocalDateTime deletedAt;
 
-//    @ManyToOne
-//    @JoinColumn(name="account_id", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private Account account;
+    @OneToOne
+    @JoinColumn(name="transaction_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private Transaction transaction;
+
+    @ManyToOne
+    @JoinColumn(name="reported_account_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private ReportedAccount reportedAccount;
+
 }
