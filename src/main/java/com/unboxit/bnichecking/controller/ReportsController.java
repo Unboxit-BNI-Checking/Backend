@@ -24,8 +24,8 @@ public class ReportsController {
     }
 
     @PostMapping(value = "/reports", consumes = "application/json", produces = "application/json") //Create Resource
-    public Reports createReports(@RequestBody Reports newProduct){
-        return reportsService.createReports(newProduct);
+    public Reports createReports(@RequestBody Reports newReports){
+        return reportsService.createReports(newReports);
     }
 
     @GetMapping(value = "/reports/{id}", produces = "application/json") //Get Resource
@@ -34,8 +34,8 @@ public class ReportsController {
     }
 
     @PutMapping(value = "/reports/{id}", produces = "application/json") //Update Resource
-    public ResponseEntity<String> updateReports(@PathVariable Long id, @RequestBody Reports updatedProduct){
-        return reportsService.updateReports(id, updatedProduct);
+    public ResponseEntity<String> updateReports(@PathVariable Long id, @RequestBody Reports updatedReports){
+        return reportsService.updateReports(id, updatedReports);
     }
 
     @DeleteMapping(value = "/reports/{id}", produces = "application/json") //Delete Resource
