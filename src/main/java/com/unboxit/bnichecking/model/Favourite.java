@@ -1,6 +1,5 @@
 package com.unboxit.bnichecking.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -44,6 +43,12 @@ public class Favourite {
 
 
     public Favourite() {
+    }
+
+    public Favourite(Account favouriteAccount, String name, Account account) {
+        this.favouriteAccount = favouriteAccount;
+        this.name = name;
+        this.account = account;
     }
 
     public long getFavouriteId() {

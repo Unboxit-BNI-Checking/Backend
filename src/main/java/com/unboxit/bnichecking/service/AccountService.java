@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -17,6 +16,10 @@ public class AccountService {
     @Autowired
     private AccountJpaRepository repository;
 
+
+    public Account getAccountByAccountId(Long accountId) {
+        return repository.findAccountByAccountId(accountId);
+    }
 
     public Account getAccountByAccountNumber(String accountNumber) {
         return repository.findAccountByAccountNumber(accountNumber);

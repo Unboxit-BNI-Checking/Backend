@@ -10,6 +10,8 @@ public interface AccountJpaRepository extends JpaRepository<Account, Long> {
 
     Account findAccountByAccountNumber(String accountNumber);
 
+    Account findAccountByAccountId(Long accountId);
+
 //    @Query(value="SELECT * FROM users WHERE name=?1 AND phone_number = ?2", nativeQuery = true)
 //    List<User> findByUserNameAndUserPhoneNumber(String userName, String userPhoneNumber);
 //
