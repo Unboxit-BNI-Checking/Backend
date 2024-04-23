@@ -7,10 +7,14 @@ import com.unboxit.bnichecking.model.TwitterReport;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.TwitterReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -26,9 +30,18 @@ public class TwitterReportController {
         this.accountService = accountService;
     }
 
+//    @GetMapping("/twitterReports")
+//    public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReport(){
+//        return ResponseEntity.ok(new ApiResponse<>(true, twitterReportService.getAllTwitterReport(), null));
+//    }
+
     @GetMapping("/twitterReports")
-    public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReport(){
-        return ResponseEntity.ok(new ApiResponse<>(true, twitterReportService.getAllTwitterReport(), null));
+    public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReportByQueris(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate,
+                                                                                        @RequestParam(required = false, defaultValue = "false") boolean includeDeleted,
+                                                                                        @RequestParam(required = false) String twitterUsername){
+
+
+        return ResponseEntity.ok(new ApiResponse<>(true, twitterReportService.getAllTwitterReportByQueries(fromDate, twitterUsername, includeDeleted),null));
     }
 
     @PostMapping("/twitterReports")
