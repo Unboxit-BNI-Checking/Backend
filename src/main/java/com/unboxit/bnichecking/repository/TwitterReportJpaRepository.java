@@ -13,19 +13,6 @@ public interface TwitterReportJpaRepository extends JpaRepository<TwitterReport,
     @Query(value="SELECT * FROM twitter_reports WHERE reported_account_number=?1", nativeQuery = true)
     List<TwitterReport> findByAccountNumber(String accountNumber);
 
-    List<TwitterReport> findByCreatedAtAfterAndDeletedAtIsNullAndTwitterUsername(
-            @Param("fromDate") LocalDateTime fromDate,
-            @Param("twitterUsername") String twitterUsername
-    );
-
-    List<TwitterReport> findByCreatedAtAfterAndDeletedAtIsNull(
-            @Param("fromDate") LocalDateTime fromDate
-    );
-
-    List<TwitterReport> findByTwitterUsername(
-            @Param("twitterUsername") String twitterUsername
-    );
-
     @Query(value = "SELECT * FROM twitter_reports tr WHERE " +
             "( TRUE = :#{#fromDate == null} OR tr.post_date > :fromDate) AND " +
             "( CASE WHEN :includeDeleted THEN true ELSE tr.deleted_at IS NULL END) AND" +

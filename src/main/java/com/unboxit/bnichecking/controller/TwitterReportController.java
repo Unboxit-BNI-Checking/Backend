@@ -29,12 +29,6 @@ public class TwitterReportController {
         this.twitterReportService = twitterReportService;
         this.accountService = accountService;
     }
-
-//    @GetMapping("/twitterReports")
-//    public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReport(){
-//        return ResponseEntity.ok(new ApiResponse<>(true, twitterReportService.getAllTwitterReport(), null));
-//    }
-
     @GetMapping("/twitterReports")
     public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReportByQueris(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate,
                                                                                         @RequestParam(required = false, defaultValue = "false") boolean includeDeleted,
