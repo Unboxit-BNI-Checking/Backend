@@ -2,8 +2,6 @@ package com.unboxit.bnichecking.entity.http.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDateTime;
-
 public class CreateTransaction {
     @JsonProperty("account_number_source")
     private String accountNumberSource;

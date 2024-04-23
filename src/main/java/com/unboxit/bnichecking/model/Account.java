@@ -46,6 +46,12 @@ public class Account  {
     @OneToMany(mappedBy = "account")
     private List<ReportedAccount> ownedReportedAccount;
 
+    @OneToMany(mappedBy = "accountNumberSource")
+    private List<Transaction> transactionsAsSource;
+
+    @OneToMany(mappedBy = "accountNumberDestination")
+    private List<Transaction> transactionsAsDestination;
+
     public Account() {}
 
     public Account(String accountNumber, String customerName, Long balance, Boolean blocked) {

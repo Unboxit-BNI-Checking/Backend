@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "transactions", indexes = {@Index(name = "idx_account_number_source", columnList = "account_number_source"),@Index(name = "idx_account_number_destination", columnList = "account_number_destination") })
+@Table(name = "transaction", indexes = {@Index(name = "idx_account_number_source", columnList = "account_number_source"),@Index(name = "idx_account_number_destination", columnList = "account_number_destination") })
 @EntityListeners(AuditingEntityListener.class)
 public class Transaction {
     @Id
@@ -44,6 +44,16 @@ public class Transaction {
 
     @OneToOne(mappedBy = "transaction")
     private Reports reports;
+
+    public Transaction(){
+
+    }
+    public Transaction(Account accountNumberSource, Account accountNumberDestination, long amount, String note) {
+        this.accountNumberSource = accountNumberSource;
+        this.accountNumberDestination = accountNumberDestination;
+        this.amount = amount;
+        this.note = note;
+    }
 
     public Transaction(String accountNumberSource, String accountNumberDestination, long amount, String note) {
     }

@@ -7,5 +7,9 @@ import java.util.List;
 
 public interface TransactionJpaRepository extends JpaRepository<Transaction, Long> {
     @Query(value="SELECT * FROM transaction WHERE account_number_source=?1", nativeQuery = true)
-    Transaction findTransactionByAccountNumberSource(String account_number_source);
+    List<Transaction> findTransactionByAccountNumberSource(String account_number_source);
+    @Query(value="SELECT * FROM transaction WHERE account_number_destination=?1", nativeQuery = true)
+    List<Transaction> findTransactionByAccountNumberDestination(String account_number_source);
+    @Query(value="SELECT * FROM transaction WHERE transaction_Id=?1", nativeQuery = true)
+    List<Transaction> findTransactionById(long transaction_Id);
 }
