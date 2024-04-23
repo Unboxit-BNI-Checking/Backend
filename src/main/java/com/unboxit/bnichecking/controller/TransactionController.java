@@ -44,7 +44,7 @@ public class TransactionController {
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionByAccountNumberSource(account_number_source), null));
     }
 
-    @PostMapping("/accounts")
+    @PostMapping("/transaction")
     public ResponseEntity<ApiResponse<Transaction>> createTransaction(@RequestBody CreateTransaction newTransaction){
         if (transactionService.getTransactionByAccountNumberSource(newTransaction.getAccountNumberSource()) != null) {
             ApiResponse<Transaction> response = new ApiResponse<>(false, null, "Account with this account number already exists");
