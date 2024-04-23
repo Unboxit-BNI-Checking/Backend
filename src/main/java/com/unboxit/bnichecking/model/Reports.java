@@ -60,28 +60,20 @@ public class Reports {
         this.chronology = chronology;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public ReportedAccount getReportedAccount() {
-        return reportedAccount;
-    }
-
-    public void setReportedAccount(ReportedAccount reportedAccount) {
-        this.reportedAccount = reportedAccount;
-    }
-
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
     }
 
     public LocalDateTime getDeletedAt() {
@@ -92,11 +84,19 @@ public class Reports {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public Transaction getTransaction() {
+        return transaction;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    public ReportedAccount getReportedAccount() {
+        return reportedAccount;
+    }
+
+    public void setReportedAccount(ReportedAccount reportedAccount) {
+        this.reportedAccount = reportedAccount;
     }
 }
