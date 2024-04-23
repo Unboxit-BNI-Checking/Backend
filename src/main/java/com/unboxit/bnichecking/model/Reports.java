@@ -44,4 +44,59 @@ public class Reports {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private ReportedAccount reportedAccount;
 
+    public long getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(long reportId) {
+        this.reportId = reportId;
+    }
+
+    public String getChronology() {
+        return chronology;
+    }
+
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    public ReportedAccount getReportedAccount() {
+        return reportedAccount;
+    }
+
+    public void setReportedAccount(ReportedAccount reportedAccount) {
+        this.reportedAccount = reportedAccount;
+    }
 }

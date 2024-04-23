@@ -108,11 +108,10 @@ public class TwitterReport {
     public TwitterReport() {
     }
 //
-//    public TwitterReport(long twitterReportId, LocalDateTime postDate, String twitterUsername, String tweetLink, Account reportedAccountNumber) {
-//        this.twitterReportId = twitterReportId;
-//        this.postDate = postDate;
-//        this.twitterUsername = twitterUsername;
-//        this.tweetLink = tweetLink;
-//        this.reportedAccountNumber = reportedAccountNumber;
-//    }
+    public TwitterReport(LocalDateTime postDate, String twitterUsername, String tweetLink, Account reportedAccountNumber) {
+        this.postDate = postDate;
+        this.twitterUsername = twitterUsername;
+        this.tweetLink = tweetLink;
+        this.reportedAccountNumber = reportedAccountNumber;
+    }
 }
