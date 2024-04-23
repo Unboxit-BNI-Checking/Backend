@@ -1,13 +1,13 @@
 package com.unboxit.bnichecking.service;
 
+import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
+import com.unboxit.bnichecking.entity.http.response.GetAllTransaction;
 import com.unboxit.bnichecking.model.Transaction;
 import com.unboxit.bnichecking.repository.TransactionJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,31 +18,44 @@ public class TransactionService {
     public TransactionService(TransactionJpaRepository transactionJpaRepository) {
         this.transactionJpaRepository = transactionJpaRepository;
     }
-    public List<Transaction> getTransaction(){
-        return this.transactionJpaRepository.findAll();
-    }
+    public List<GetAllTransaction> getAllTransactions() {
+        List<GetAllTransaction> results = new ArrayList<>();
+        List<Transaction> transactions = transactionJpaRepository.findAll();
 
-    public Transaction getTransactionById(Long id){
-        return this.transactionJpaRepository.findById(id).get();
-    }
-
-    public Transaction createTransaction(@RequestBody Transaction newTransaction){
-        return this.transactionJpaRepository.save(newTransaction);
-    }
-    public ResponseEntity<String> updateTransaction(@PathVariable Long id, @RequestBody Transaction updatedTransaction){
-        if(this.transactionJpaRepository.findById(id).isEmpty()){
-            return ResponseEntity.status(400).body("Reports not found");
+        for (Transaction transaction : transactions) {
+            GetAllTransaction getAllTransaction = new GetAllTransaction();
+            getAllTransaction.setTransactionId(transaction.getTransactionId());
+            getAllTransaction.setAccountNumberSource(transaction.getAccountNumberSource().getAccountNumber());
+            getAllTransaction.setAccountNumberDestination(transaction.getAccountNumberDestination().getAccountNumber());
+            getAllTransaction.setAmount(transaction.getAmount());
+            getAllTransaction.setNote(transaction.getNote());
+            getAllTransaction.setCreatedAt(transaction.getCreatedAt());
+            results.add(getAllTransaction);
         }
-        updatedTransaction.setTransactionId(id);
-        this.transactionJpaRepository.save(updatedTransaction);
-        return ResponseEntity.ok("Success");
-    }
 
-    public ResponseEntity<String> deleteTransaction(@PathVariable Long id){
-        if(this.transactionJpaRepository.findById(id).isEmpty()){
-            return ResponseEntity.status(400).body("Reports not found");
-        }
-        this.transactionJpaRepository.deleteById(id);
-        return ResponseEntity.ok("Deleted");
+        return results;
+
+    }
+    public List<GetAllTransaction> getTransactionByAccountNumberSource(String accountNumber) {
+        List<GetAllTransaction> results = new ArrayList<>();
+        Transaction transactions = transactionJpaRepository.findTransactionByAccountNumberSource(accountNumber);
+        GetAllTransaction getAllTransaction = new GetAllTransaction();
+        getAllTransaction.setTransactionId(transactions.getTransactionId());
+        getAllTransaction.setAccountNumberSource(transactions.getAccountNumberSource().getAccountNumber());
+        getAllTransaction.setAccountNumberDestination(transactions.getAccountNumberDestination().getAccountNumber());
+        getAllTransaction.setAmount(transactions.getAmount());
+        getAllTransaction.setNote(transactions.getNote());
+        getAllTransaction.setCreatedAt(transactions.getCreatedAt());
+        results.add(getAllTransaction);
+        return results;
+    }
+    public Transaction createTransaction(CreateTransaction newTransaction){
+        Transaction a = new Transaction(
+                newTransaction.getAccountNumberSource(),
+                newTransaction.getAccountNumberDestination(),
+                newTransaction.getAmount(),
+                newTransaction.getNote()
+        );
+        return transactionJpaRepository.save(a);
     }
 }

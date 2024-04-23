@@ -45,6 +45,9 @@ public class Transaction {
     @OneToOne(mappedBy = "transaction")
     private Reports reports;
 
+    public Transaction(String accountNumberSource, String accountNumberDestination, long amount, String note) {
+    }
+
     public long getTransactionId() {
         return transactionId;
     }
