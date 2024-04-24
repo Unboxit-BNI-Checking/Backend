@@ -27,7 +27,7 @@ public class AccountSeeder {
     private String csvFilePath;
 
     @Bean
-    public CommandLineRunner seedDatabase() {
+    public CommandLineRunner accountSeederCommandLineRunner() {
         return args -> {
             if (seedDataEnabled && accountJpaRepository.count() == 0) {
                 List<Account> accounts = readAccountsFromCSV();
