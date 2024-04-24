@@ -12,7 +12,7 @@ public class GetAllAccounts {
 
     @JsonProperty("customer_name")
     private String customerName;
-    private Long balance;
+//    private Long balance;
     private Boolean blocked;
 
     public long getAccountId() {
@@ -39,13 +39,13 @@ public class GetAllAccounts {
         this.customerName = customerName;
     }
 
-    public Long getBalance() {
-        return balance;
-    }
+//    public Long getBalance() {
+//        return balance;
+//    }
 
-    public void setBalance(Long balance) {
-        this.balance = balance;
-    }
+//    public void setBalance(Long balance) {
+//        this.balance = balance;
+//    }
 
     public Boolean getBlocked() {
         return blocked;

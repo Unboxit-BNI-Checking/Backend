@@ -2,9 +2,11 @@ package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.http.request.CreateAccount;
 import com.unboxit.bnichecking.entity.http.response.GetAllAccounts;
+import com.unboxit.bnichecking.entity.http.response.GetMyAccount;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.repository.AccountJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +18,21 @@ public class AccountService {
     @Autowired
     private AccountJpaRepository repository;
 
+    @Value("${account.id}")
+    private Long accountId;
+
+    public GetMyAccount getMyAccount() {
+        Account myAccount = repository.findAccountByAccountId(accountId);
+        return new GetMyAccount(
+                myAccount.getAccountId(),
+                myAccount.getAccountNumber(),
+                myAccount.getCustomerName(),
+                myAccount.getBalance(),
+                myAccount.getBlocked(),
+                myAccount.getCreatedAt(),
+                myAccount.getUpdatedAt(),
+                myAccount.getDeletedAt());
+    }
 
     public Account getAccountByAccountId(Long accountId) {
         return repository.findAccountByAccountId(accountId);
@@ -33,14 +50,31 @@ public class AccountService {
             GetAllAccounts getAllAccounts = new GetAllAccounts();
             getAllAccounts.setAccountId(account.getAccountId());
             getAllAccounts.setAccountNumber(account.getAccountNumber());
-            getAllAccounts.setCustomerName(account.getCustomerName());
-            getAllAccounts.setBalance(account.getBalance());
+            getAllAccounts.setCustomerName(hideCustomerName(account.getCustomerName()));
             getAllAccounts.setBlocked(account.getBlocked());
             results.add(getAllAccounts);
         }
 
         return results;
+    }
 
+    private String hideCustomerName(String name) {
+        if (name != null && name.length() >= 5) {
+            StringBuilder maskedName = new StringBuilder();
+            for (int i = 0; i < name.length(); i++) {
+                char c = name.charAt(i);
+                if (i < 2 || i > name.length()-3){
+                    maskedName.append(c);
+                }else if (Character.isLetter(c)) {
+                    maskedName.append('*');
+                } else {
+                    maskedName.append(c);
+                }
+            }
+            return maskedName.toString();
+        } else {
+            return name;
+        }
     }
 
     public Account createAccount(CreateAccount newAccount){
