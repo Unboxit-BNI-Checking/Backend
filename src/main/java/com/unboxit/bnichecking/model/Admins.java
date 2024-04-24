@@ -32,6 +32,45 @@ public class Admins {
 
     public Admins(String username, String hashedPassword) {
         this.username = username;
+    }
+
+    public List<ReportedAccount> getOwnedReportedAccount() {
+        return ownedReportedAccount;
+    }
+
+    public void setOwnedReportedAccount(List<ReportedAccount> ownedReportedAccount) {
+        this.ownedReportedAccount = ownedReportedAccount;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
 
@@ -43,11 +82,11 @@ public class Admins {
         this.username = username;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
+    public long getAdminId() {
+        return adminId;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setAdminId(long adminId) {
+        this.adminId = adminId;
     }
 }
