@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reportAttachments", indexes = @Index(name = "idx_report_id", columnList = "reportId"))
+@Table(name = "report_attachments", indexes = @Index(name = "idx_report_id", columnList = "reportId"))
 @EntityListeners(AuditingEntityListener.class)
 public class ReportAttachment {
 

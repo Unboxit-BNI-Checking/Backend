@@ -32,6 +32,7 @@ public class Admins {
 
     public Admins(String username, String hashedPassword) {
         this.username = username;
+        this.hashedPassword = hashedPassword;
     }
 
     public List<ReportedAccount> getOwnedReportedAccount() {

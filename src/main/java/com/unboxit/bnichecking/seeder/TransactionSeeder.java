@@ -40,8 +40,8 @@ public class TransactionSeeder {
     public CommandLineRunner transactionSeederCommandLineRunner() {
         return args -> {
             if (seedDataEnabled && transactionJpaRepository.count() == 0) {
-                Account sourceAccount = accountService.getAccountByAccountNumber("1234567890");
-                Account destinationAccount = accountService.getAccountByAccountNumber("2234567890");
+                Account sourceAccount = accountService.getAccountByAccountId(1L);
+                Account destinationAccount = accountService.getAccountByAccountId(2L);
                 Transaction transaction1 = new Transaction(sourceAccount, destinationAccount, 120000L, null);
                 Transaction transaction2 = new Transaction(sourceAccount, destinationAccount, 12000L, "test transfer");
                 Transaction transaction3 = new Transaction(sourceAccount, destinationAccount, 20000L, "test lagi");

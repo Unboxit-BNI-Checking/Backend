@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "twitterReports", indexes = @Index(name = "idx_reported_account_number", columnList = "reported_account_number"))
+@Table(name = "twitter_reports", indexes = @Index(name = "idx_reported_account_number", columnList = "reported_account_number"))
 @EntityListeners(AuditingEntityListener.class)
 public class TwitterReport {
     @Id
