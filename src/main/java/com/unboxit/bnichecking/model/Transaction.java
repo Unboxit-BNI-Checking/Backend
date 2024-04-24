@@ -121,4 +121,12 @@ public class Transaction {
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
+
+    public Reports getReports() {
+        return reports;
+    }
+
+    public void setReports(Reports reports) {
+        this.reports = reports;
+    }
 }

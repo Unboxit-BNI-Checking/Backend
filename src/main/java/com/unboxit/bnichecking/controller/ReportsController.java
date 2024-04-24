@@ -1,5 +1,6 @@
 package com.unboxit.bnichecking.controller;
 
+import com.unboxit.bnichecking.entity.http.response.GetAllReports;
 import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.service.ReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ReportsController {
     }
 
     @GetMapping(value = "/reports", produces = "application/json") //Get Resource
-    public List<Reports> getReports(){
+    public List<GetAllReports> getReports(){
         return reportsService.getReports();
     }
 
@@ -33,13 +34,4 @@ public class ReportsController {
         return reportsService.getReportsById(id);
     }
 
-    @PutMapping(value = "/reports/{id}", produces = "application/json") //Update Resource
-    public ResponseEntity<String> updateReports(@PathVariable Long id, @RequestBody Reports updatedReports){
-        return reportsService.updateReports(id, updatedReports);
-    }
-
-    @DeleteMapping(value = "/reports/{id}", produces = "application/json") //Delete Resource
-    public ResponseEntity<String> deleteReports(@PathVariable Long id){
-        return reportsService.deleteReports(id);
-    }
 }

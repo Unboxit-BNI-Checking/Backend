@@ -27,11 +27,17 @@ public class TransactionController {
         this.accountService = accountService;
     }
 
+    //Get All Transaction
     @GetMapping(value = "/transaction")
     public ResponseEntity<ApiResponse<List<GetAllTransaction>>> getAllTransaction(){
+        if(transactionService.getAllTransactions().isEmpty()){
+            ApiResponse<List<GetAllTransaction>> response = new ApiResponse<>(true, null, "Don't have any Transaction");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getAllTransactions(), null));
     }
 
+    //Get Transaction By Id
     @GetMapping(value = "/transaction/{transaction_Id}")
     public ResponseEntity<ApiResponse<List<GetAllTransaction>>> getTransactionById(@PathVariable long transaction_Id){
         if(transactionService.getTransactionById(transaction_Id).isEmpty()){
@@ -41,6 +47,7 @@ public class TransactionController {
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionById(transaction_Id), null));
     }
 
+    //Get Transaction By Account Number Source
     @GetMapping(value = "/transaction/account/{account_number_source}")
     public ResponseEntity<ApiResponse<List<GetAllTransaction>>> getAllTransactionByAccountNumberSource(@PathVariable String account_number_source){
         if (accountService.getAccountByAccountNumber(account_number_source) == null) {
@@ -54,6 +61,7 @@ public class TransactionController {
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionByAccountNumberSource(account_number_source), null));
     }
 
+    //Post Transaction
     @PostMapping("/transaction")
     public ResponseEntity<ApiResponse<Transaction>> createTransaction(@RequestBody CreateTransaction newTransaction){
         if(newTransaction.getAccountNumberSource() == null || newTransaction.getAccountNumberDestination() == null || newTransaction.getAccountNumberSource().isEmpty() || newTransaction.getAccountNumberDestination().isEmpty()) {
