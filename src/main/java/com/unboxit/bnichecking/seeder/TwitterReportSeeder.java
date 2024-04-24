@@ -37,7 +37,7 @@ public class TwitterReportSeeder {
     public CommandLineRunner twitterReportSeederCommandLineRunner() {
         return args -> {
             if (seedDataEnabled && twitterReportJpaRepository.count() == 0) {
-                Account a1 = accountService.getAccountByAccountNumber("2234567890");
+                Account a1 = accountService.getAccountByAccountId(1L);
                 TwitterReport twitterReport1 = new TwitterReport(LocalDateTime.now(), "username1", "link1", a1, null);
                 TwitterReport twitterReport2 = new TwitterReport(LocalDateTime.now().minusDays(20), "username2", "link2", a1, null);
                 TwitterReport twitterReport3 = new TwitterReport(LocalDateTime.now().minusDays(20), "username2", "link3", a1, null);

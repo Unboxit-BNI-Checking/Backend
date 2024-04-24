@@ -108,8 +108,6 @@ public class TwitterReport {
 
     public TwitterReport() {
     }
-//
-    public TwitterReport(LocalDateTime postDate, String twitterUsername, String tweetLink, Account reportedAccountNumber) {}
 
     public TwitterReport(LocalDateTime postDate, String twitterUsername, String tweetLink, Account reportedAccountNumber, LocalDateTime deletedAt) {
         this.postDate = postDate;
