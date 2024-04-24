@@ -45,17 +45,13 @@ public class Transaction {
     @OneToOne(mappedBy = "transaction")
     private Reports reports;
 
-    public Transaction(){
-
-    }
+    public Transaction(){}
+    
     public Transaction(Account accountNumberSource, Account accountNumberDestination, long amount, String note) {
         this.accountNumberSource = accountNumberSource;
         this.accountNumberDestination = accountNumberDestination;
         this.amount = amount;
         this.note = note;
-    }
-
-    public Transaction(String accountNumberSource, String accountNumberDestination, long amount, String note) {
     }
 
     public long getTransactionId() {

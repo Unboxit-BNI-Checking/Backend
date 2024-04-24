@@ -3,6 +3,7 @@ package com.unboxit.bnichecking.controller;
 import com.unboxit.bnichecking.entity.http.request.CreateAccount;
 import com.unboxit.bnichecking.entity.http.response.ApiResponse;
 import com.unboxit.bnichecking.entity.http.response.GetAllAccounts;
+import com.unboxit.bnichecking.entity.http.response.GetMyAccount;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,12 @@ public class AccountController {
     public ResponseEntity<ApiResponse<List<GetAllAccounts>>> getAllAccount(){
         return ResponseEntity.ok(new ApiResponse<>(true, accountService.getAllAccounts(), null));
     }
+
+    @GetMapping("/accounts/me")
+    public ResponseEntity<ApiResponse<GetMyAccount>> getMyAccount(){
+        return ResponseEntity.ok(new ApiResponse<>(true, accountService.getMyAccount(), null));
+    }
+
 
     @PostMapping("/accounts")
     public ResponseEntity<ApiResponse<Account>> createAccount(@RequestBody CreateAccount newAccount){

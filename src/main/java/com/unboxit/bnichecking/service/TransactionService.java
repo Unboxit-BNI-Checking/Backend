@@ -14,8 +14,12 @@ public class TransactionService {
     @Autowired
     private TransactionJpaRepository transactionJpaRepository;
 
-    public TransactionService(TransactionJpaRepository transactionJpaRepository) {
+    @Autowired
+    private AccountService accountService;
+
+    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService) {
         this.transactionJpaRepository = transactionJpaRepository;
+        this.accountService = accountService;
     }
     public List<GetAllTransaction> getAllTransactions() {
         List<GetAllTransaction> results = new ArrayList<>();
@@ -86,5 +90,16 @@ public class TransactionService {
 
     public Transaction createTransaction(Transaction newTransaction){
         return transactionJpaRepository.save(newTransaction);
+    }
+    
+    public Transaction createTransaction(CreateTransaction newTransaction){
+
+        Transaction a = new Transaction(
+                accountService.getAccountByAccountNumber(newTransaction.getAccountNumberSource()),
+                accountService.getAccountByAccountNumber(newTransaction.getAccountNumberDestination()),
+                newTransaction.getAmount(),
+                newTransaction.getNote()
+        );
+        return transactionJpaRepository.save(a);
     }
 }
