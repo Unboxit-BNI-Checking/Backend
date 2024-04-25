@@ -10,9 +10,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-//@Table(name = "ReportedAccount", indexes = {
-//        @Index(name = "idx_reported_account_number", columnList = "account_number"),
-//})
+@Table(name = "reported_account", indexes = {
+        @Index(name = "idx_reported_account_number", columnList = "account_number"),
+})
 @EntityListeners(AuditingEntityListener.class)
 public class ReportedAccount {
     @Id

@@ -3,6 +3,7 @@ package com.unboxit.bnichecking.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "twitterReports", indexes = @Index(name = "idx_reported_account_number", columnList = "reported_account_number"))
+@Table(name = "twitter_reports", indexes = @Index(name = "idx_tr_reported_account_number", columnList = "reported_account_number"))
 @EntityListeners(AuditingEntityListener.class)
 public class TwitterReport {
     @Id
@@ -107,11 +108,12 @@ public class TwitterReport {
 
     public TwitterReport() {
     }
-//
-    public TwitterReport(LocalDateTime postDate, String twitterUsername, String tweetLink, Account reportedAccountNumber) {
+
+    public TwitterReport(LocalDateTime postDate, String twitterUsername, String tweetLink, Account reportedAccountNumber, LocalDateTime deletedAt) {
         this.postDate = postDate;
         this.twitterUsername = twitterUsername;
         this.tweetLink = tweetLink;
         this.reportedAccountNumber = reportedAccountNumber;
+        this.deletedAt = deletedAt;
     }
 }
