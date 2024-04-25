@@ -73,8 +73,7 @@ public class ReportsService {
             reportsAndTransactionByCustomerName.setCreatedAtTransaction(((Timestamp) result[6]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setChronology((String) result[7]);
             resultList.add(reportsAndTransactionByCustomerName);
-        }System.out.println("----------------");
-        System.out.println(resultList.size());
+        }
         return resultList;
     }
 
