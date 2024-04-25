@@ -12,6 +12,8 @@ public class GetAllAccounts {
 
     @JsonProperty("customer_name")
     private String customerName;
+
+    @JsonProperty("blocked")
     private Boolean blocked;
 
     public long getAccountId() {
