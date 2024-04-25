@@ -43,7 +43,7 @@ public class Account  {
     @OneToMany(mappedBy = "account")
     private List<Favourite> ownedFavourites;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "reportedAccountNumber")
     private List<ReportedAccount> ownedReportedAccount;
 
     @OneToMany(mappedBy = "accountNumberSource")
