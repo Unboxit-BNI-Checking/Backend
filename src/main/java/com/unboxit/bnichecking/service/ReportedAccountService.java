@@ -2,7 +2,6 @@ package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.http.response.GetAllReportedAccount;
 import com.unboxit.bnichecking.entity.http.response.GetAllReports;
-import com.unboxit.bnichecking.entity.http.response.GetAllTransaction;
 import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.model.Transaction;
