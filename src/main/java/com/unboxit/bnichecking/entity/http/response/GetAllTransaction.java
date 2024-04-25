@@ -17,8 +17,7 @@ public class GetAllTransaction {
     private String Note;
     private LocalDateTime createdAt;
 
-    public long getTransactionId() {
-        return transactionId;
+    public long getTransactionId() {return transactionId;
     }
 
     public void setTransactionId(long transactionId) {

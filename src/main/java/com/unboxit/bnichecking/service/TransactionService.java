@@ -40,19 +40,59 @@ public class TransactionService {
         return results;
 
     }
-    public List<GetAllTransaction> getTransactionByAccountNumberSource(String accountNumber) {
+
+    public List<GetAllTransaction> getTransactionById(long transaction_Id) {
         List<GetAllTransaction> results = new ArrayList<>();
-        Transaction transactions = transactionJpaRepository.findTransactionByAccountNumberSource(accountNumber);
-        GetAllTransaction getAllTransaction = new GetAllTransaction();
-        getAllTransaction.setTransactionId(transactions.getTransactionId());
-        getAllTransaction.setAccountNumberSource(transactions.getAccountNumberSource().getAccountNumber());
-        getAllTransaction.setAccountNumberDestination(transactions.getAccountNumberDestination().getAccountNumber());
-        getAllTransaction.setAmount(transactions.getAmount());
-        getAllTransaction.setNote(transactions.getNote());
-        getAllTransaction.setCreatedAt(transactions.getCreatedAt());
-        results.add(getAllTransaction);
+        List<Transaction> transactions = transactionJpaRepository.findTransactionById(transaction_Id);
+        for (Transaction transaction : transactions) {
+            GetAllTransaction getAllTransaction = new GetAllTransaction();
+            getAllTransaction.setTransactionId(transaction.getTransactionId());
+            getAllTransaction.setAccountNumberSource(transaction.getAccountNumberSource().getAccountNumber());
+            getAllTransaction.setAccountNumberDestination(transaction.getAccountNumberDestination().getAccountNumber());
+            getAllTransaction.setAmount(transaction.getAmount());
+            getAllTransaction.setNote(transaction.getNote());
+            getAllTransaction.setCreatedAt(transaction.getCreatedAt());
+            results.add(getAllTransaction);
+        }
         return results;
     }
+
+    public List<GetAllTransaction> getTransactionByAccountNumberSource(String accountNumber) {
+        List<GetAllTransaction> results = new ArrayList<>();
+        List<Transaction> transactions = transactionJpaRepository.findTransactionByAccountNumberSource(accountNumber);
+        for (Transaction transaction : transactions) {
+            GetAllTransaction getAllTransaction = new GetAllTransaction();
+            getAllTransaction.setTransactionId(transaction.getTransactionId());
+            getAllTransaction.setAccountNumberSource(transaction.getAccountNumberSource().getAccountNumber());
+            getAllTransaction.setAccountNumberDestination(transaction.getAccountNumberDestination().getAccountNumber());
+            getAllTransaction.setAmount(transaction.getAmount());
+            getAllTransaction.setNote(transaction.getNote());
+            getAllTransaction.setCreatedAt(transaction.getCreatedAt());
+            results.add(getAllTransaction);
+        }
+        return results;
+    }
+
+    public List<GetAllTransaction> getTransactionByAccountNumberDestination(String accountNumber) {
+        List<GetAllTransaction> results = new ArrayList<>();
+        List<Transaction> transactions = transactionJpaRepository.findTransactionByAccountNumberDestination(accountNumber);
+        for (Transaction transaction : transactions) {
+            GetAllTransaction getAllTransaction = new GetAllTransaction();
+            getAllTransaction.setTransactionId(transaction.getTransactionId());
+            getAllTransaction.setAccountNumberSource(transaction.getAccountNumberSource().getAccountNumber());
+            getAllTransaction.setAccountNumberDestination(transaction.getAccountNumberDestination().getAccountNumber());
+            getAllTransaction.setAmount(transaction.getAmount());
+            getAllTransaction.setNote(transaction.getNote());
+            getAllTransaction.setCreatedAt(transaction.getCreatedAt());
+            results.add(getAllTransaction);
+        }
+        return results;
+    }
+
+    public Transaction createTransaction(Transaction newTransaction){
+        return transactionJpaRepository.save(newTransaction);
+    }
+    
     public Transaction createTransaction(CreateTransaction newTransaction){
 
         Transaction a = new Transaction(
