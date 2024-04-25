@@ -2,15 +2,10 @@ package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
 import com.unboxit.bnichecking.entity.http.response.GetAllReports;
-import com.unboxit.bnichecking.entity.http.response.GetAllTransaction;
-import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.model.Reports;
-import com.unboxit.bnichecking.model.Transaction;
 import com.unboxit.bnichecking.repository.ReportsJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.Timestamp;
