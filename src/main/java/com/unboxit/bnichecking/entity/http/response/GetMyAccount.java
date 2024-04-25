@@ -13,7 +13,11 @@ public class GetMyAccount {
 
     @JsonProperty("customer_name")
     private String customerName;
+
+    @JsonProperty("balance")
     private Long balance;
+
+    @JsonProperty("blocked")
     private Boolean blocked;
 
     @JsonProperty("created_at")
