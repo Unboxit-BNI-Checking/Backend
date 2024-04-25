@@ -87,4 +87,9 @@ public class ReportAttachment {
 
     public ReportAttachment() {
     }
+
+    public ReportAttachment(Reports reportId, String filePath) {
+        this.reportId = reportId;
+        this.filePath = filePath;
+    }
 }
