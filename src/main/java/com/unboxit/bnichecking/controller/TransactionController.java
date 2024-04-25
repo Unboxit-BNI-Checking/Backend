@@ -2,7 +2,8 @@ package com.unboxit.bnichecking.controller;
 
 import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
 import com.unboxit.bnichecking.entity.http.response.ApiResponse;
-import com.unboxit.bnichecking.entity.http.response.GetAllTransaction;
+import com.unboxit.bnichecking.entity.http.response.GetTransaction;
+import com.unboxit.bnichecking.entity.http.response.GetTransaction;
 import com.unboxit.bnichecking.entity.http.response.GetTransactionsByAccountNumberSource;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.TwitterReport;
@@ -29,17 +30,18 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/transaction")
-    public ResponseEntity<ApiResponse<List<GetAllTransaction>>> getAllTransaction(){
+    public ResponseEntity<ApiResponse<List<GetTransaction>>> getAllTransaction(){
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getAllTransactions(), null));
     }
 
     @GetMapping(value = "/transaction/{transaction_Id}")
-    public ResponseEntity<ApiResponse<List<GetAllTransaction>>> getTransactionById(@PathVariable long transaction_Id){
-        if(transactionService.getTransactionById(transaction_Id).isEmpty()){
-            ApiResponse<List<GetAllTransaction>> response = new ApiResponse<>(false, null, "Transaction id is not found");
+    public ResponseEntity<ApiResponse<GetTransaction>> getTransactionById(@PathVariable long transaction_Id){
+        GetTransaction transaction = transactionService.getTransactionById(transaction_Id);
+        if(transaction == null){
+            ApiResponse<GetTransaction> response = new ApiResponse<>(false, null, "Transaction id is not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-        return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionById(transaction_Id), null));
+        return ResponseEntity.ok(new ApiResponse<>(true, transaction, null));
     }
 
     @GetMapping(value = "/transaction/account/{account_number_source}")

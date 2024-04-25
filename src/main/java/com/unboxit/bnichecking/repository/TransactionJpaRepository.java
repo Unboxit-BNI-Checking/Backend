@@ -12,5 +12,5 @@ public interface TransactionJpaRepository extends JpaRepository<Transaction, Lon
 
     @Query(value = "SELECT * FROM transactions WHERE account_number_destination = :accountNumberDestination", nativeQuery = true)
     List<Transaction> findTransactionsByAccountNumberDestination(String accountNumberDestination);
-    List<Transaction> findTransactionByTransactionId(long transaction_Id);
+    Transaction findTransactionByTransactionId(long transaction_Id);
 }

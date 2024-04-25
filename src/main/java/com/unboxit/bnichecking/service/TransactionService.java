@@ -1,7 +1,7 @@
 package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
-import com.unboxit.bnichecking.entity.http.response.GetAllTransaction;
+import com.unboxit.bnichecking.entity.http.response.GetTransaction;
 import com.unboxit.bnichecking.entity.http.response.GetTransactionsByAccountNumberSource;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.Transaction;
@@ -26,18 +26,19 @@ public class TransactionService {
         this.transactionJpaRepository = transactionJpaRepository;
         this.accountService = accountService;
     }
-    public List<GetAllTransaction> getAllTransactions() {
-        List<GetAllTransaction> results = new ArrayList<>();
+    public List<GetTransaction> getAllTransactions() {
+        List<GetTransaction> results = new ArrayList<>();
         List<Transaction> transactions = transactionJpaRepository.findAll();
 
         for (Transaction transaction : transactions) {
-            GetAllTransaction getAllTransaction = new GetAllTransaction();
-            getAllTransaction.setTransactionId(transaction.getTransactionId());
-            getAllTransaction.setAccountNumberSource(transaction.getAccountNumberSource().getAccountNumber());
-            getAllTransaction.setAccountNumberDestination(transaction.getAccountNumberDestination().getAccountNumber());
-            getAllTransaction.setAmount(transaction.getAmount());
-            getAllTransaction.setNote(transaction.getNote());
-            getAllTransaction.setCreatedAt(transaction.getCreatedAt());
+            GetTransaction getAllTransaction = new GetTransaction(
+                transaction.getTransactionId(),
+                transaction.getAccountNumberSource().getAccountNumber(),
+                transaction.getAccountNumberDestination().getAccountNumber(),
+                transaction.getAmount(),
+                transaction.getNote(),
+                transaction.getCreatedAt()
+            );
             results.add(getAllTransaction);
         }
 
@@ -45,20 +46,19 @@ public class TransactionService {
 
     }
 
-    public List<GetAllTransaction> getTransactionById(long transaction_Id) {
-        List<GetAllTransaction> results = new ArrayList<>();
-        List<Transaction> transactions = transactionJpaRepository.findTransactionByTransactionId(transaction_Id);
-        for (Transaction transaction : transactions) {
-            GetAllTransaction getAllTransaction = new GetAllTransaction();
-            getAllTransaction.setTransactionId(transaction.getTransactionId());
-            getAllTransaction.setAccountNumberSource(transaction.getAccountNumberSource().getAccountNumber());
-            getAllTransaction.setAccountNumberDestination(transaction.getAccountNumberDestination().getAccountNumber());
-            getAllTransaction.setAmount(transaction.getAmount());
-            getAllTransaction.setNote(transaction.getNote());
-            getAllTransaction.setCreatedAt(transaction.getCreatedAt());
-            results.add(getAllTransaction);
+    public GetTransaction getTransactionById(long transaction_Id) {
+        Transaction transaction = transactionJpaRepository.findTransactionByTransactionId(transaction_Id);
+        if (transaction == null) {
+            return null;
         }
-        return results;
+        return new GetTransaction(
+                transaction.getTransactionId(),
+                transaction.getAccountNumberSource().getAccountNumber(),
+                transaction.getAccountNumberDestination().getAccountNumber(),
+                transaction.getAmount(),
+                transaction.getNote(),
+                transaction.getCreatedAt()
+        );
     }
 
     public List<GetTransactionsByAccountNumberSource> getTransactionByAccountNumberSource(String accountNumber) {
@@ -85,17 +85,18 @@ public class TransactionService {
         return results;
     }
 
-    public List<GetAllTransaction> getTransactionByAccountNumberDestination(String accountNumber) {
-        List<GetAllTransaction> results = new ArrayList<>();
+    public List<GetTransaction> getTransactionByAccountNumberDestination(String accountNumber) {
+        List<GetTransaction> results = new ArrayList<>();
         List<Transaction> transactions = transactionJpaRepository.findTransactionsByAccountNumberDestination(accountNumber);
         for (Transaction transaction : transactions) {
-            GetAllTransaction getAllTransaction = new GetAllTransaction();
-            getAllTransaction.setTransactionId(transaction.getTransactionId());
-            getAllTransaction.setAccountNumberSource(transaction.getAccountNumberSource().getAccountNumber());
-            getAllTransaction.setAccountNumberDestination(transaction.getAccountNumberDestination().getAccountNumber());
-            getAllTransaction.setAmount(transaction.getAmount());
-            getAllTransaction.setNote(transaction.getNote());
-            getAllTransaction.setCreatedAt(transaction.getCreatedAt());
+            GetTransaction getAllTransaction = new GetTransaction(
+                    transaction.getTransactionId(),
+                    transaction.getAccountNumberSource().getAccountNumber(),
+                    transaction.getAccountNumberDestination().getAccountNumber(),
+                    transaction.getAmount(),
+                    transaction.getNote(),
+                    transaction.getCreatedAt()
+            );
             results.add(getAllTransaction);
         }
         return results;
