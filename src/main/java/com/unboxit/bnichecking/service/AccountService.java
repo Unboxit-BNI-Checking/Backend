@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AccountService {
@@ -58,14 +60,15 @@ public class AccountService {
         return results;
     }
 
+    // TODO: Move to util
     private String hideCustomerName(String name) {
         if (name != null && name.length() >= 5) {
             StringBuilder maskedName = new StringBuilder();
             for (int i = 0; i < name.length(); i++) {
                 char c = name.charAt(i);
-                if (i < 2 || i > name.length()-3){
+                if (i < 2 || i > name.length() - 3) {
                     maskedName.append(c);
-                }else if (Character.isLetter(c)) {
+                } else if (Character.isLetter(c)) {
                     maskedName.append('*');
                 } else {
                     maskedName.append(c);
@@ -77,7 +80,7 @@ public class AccountService {
         }
     }
 
-    public Account createAccount(CreateAccount newAccount){
+    public Account createAccount(CreateAccount newAccount) {
         Account a = new Account(
                 newAccount.getAccountNumber(),
                 newAccount.getCustomerName(),
@@ -87,4 +90,13 @@ public class AccountService {
         return repository.save(a);
     }
 
+    public Map<String, String> getAccountDestinationNameByAccountNumberDestination(List<String> accountNumberDestinations) {
+        Map<String, String> mapAccountDestinationNameByAccountNumberDestination = new HashMap<>();
+        List<Account> accounts = repository.findAccountsByAccountNumbers(accountNumberDestinations);
+        for (Account account : accounts) {
+            mapAccountDestinationNameByAccountNumberDestination.put(account.getAccountNumber(), account.getCustomerName());
+        }
+        return mapAccountDestinationNameByAccountNumberDestination;
+
+    }
 }

@@ -12,9 +12,7 @@ public interface AccountJpaRepository extends JpaRepository<Account, Long> {
 
     Account findAccountByAccountId(Long accountId);
 
-//    @Query(value="SELECT * FROM users WHERE name=?1 AND phone_number = ?2", nativeQuery = true)
-//    List<User> findByUserNameAndUserPhoneNumber(String userName, String userPhoneNumber);
-//
-//    List<User> findByUserPhoneNumber(String userPhoneNumber);
+    @Query(value = "SELECT * FROM accounts a WHERE a.account_number IN :accountNumbers", nativeQuery = true)
+    List<Account> findAccountsByAccountNumbers(List<String> accountNumbers);
 
 }

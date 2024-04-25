@@ -3,6 +3,7 @@ package com.unboxit.bnichecking.controller;
 import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
 import com.unboxit.bnichecking.entity.http.response.ApiResponse;
 import com.unboxit.bnichecking.entity.http.response.GetAllTransaction;
+import com.unboxit.bnichecking.entity.http.response.GetTransactionsByAccountNumberSource;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.TwitterReport;
 import com.unboxit.bnichecking.service.AccountService;
@@ -42,13 +43,13 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/transaction/account/{account_number_source}")
-    public ResponseEntity<ApiResponse<List<GetAllTransaction>>> getAllTransactionByAccountNumberSource(@PathVariable String account_number_source){
+    public ResponseEntity<ApiResponse<List<GetTransactionsByAccountNumberSource>>> getAllTransactionByAccountNumberSource(@PathVariable String account_number_source){
         if (accountService.getAccountByAccountNumber(account_number_source) == null) {
-            ApiResponse<List<GetAllTransaction>> response = new ApiResponse<>(false, null, "Account with this account number not found");
+            ApiResponse<List<GetTransactionsByAccountNumberSource>> response = new ApiResponse<>(false, null, "Account with this account number not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         if (transactionService.getTransactionByAccountNumberSource(account_number_source) == null) {
-            ApiResponse<List<GetAllTransaction>> response = new ApiResponse<>(true, null, "Account with this account number has no transactions");
+            ApiResponse<List<GetTransactionsByAccountNumberSource>> response = new ApiResponse<>(true, null, "Account with this account number has no transactions");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionByAccountNumberSource(account_number_source), null));
@@ -91,3 +92,4 @@ public class TransactionController {
         return ResponseEntity.ok(response);
     }
 }
+
