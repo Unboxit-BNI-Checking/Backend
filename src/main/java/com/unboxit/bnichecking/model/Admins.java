@@ -30,6 +30,9 @@ public class Admins {
     @OneToMany(mappedBy = "admins")
     private List<ReportedAccount> ownedReportedAccount;
 
+    public Admins() {
+    }
+
     public Admins(String username, String hashedPassword) {
         this.username = username;
         this.hashedPassword = hashedPassword;

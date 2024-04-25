@@ -23,16 +23,20 @@ public class AdminService {
     public Boolean checkLoginAdmin(String username, String password){
         Admins admins = repository.findAdminsByUsername(username);
 
-        return true;
-//        if (user != null) {
-//            if (passwordHasherService.checkPassword(loginDTO.getPassword(), user.getPassword())) {
-//                return "Login successful!";
-//            } else {
-//                return "Invalid password!";
-//            }
-//        } else {
-//            return "User not found!";
-//        }
+        if (admins != null) {
+            if (passwordHasherService.checkPassword(password, admins.getHashedPassword())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
+
+    public Admins findAdminByUsername(String username){
+        return repository.findAdminsByUsername(username);
+    }
+
 
 }

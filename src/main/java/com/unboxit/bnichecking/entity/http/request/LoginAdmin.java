@@ -2,10 +2,9 @@ package com.unboxit.bnichecking.entity.http.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CreateAdmin {
+public class LoginAdmin {
     private String username;
-    @JsonProperty("hashed_password")
-    private String hashedPassword;
+    private String password;
 
     public String getUsername() {
         return username;
@@ -15,11 +14,11 @@ public class CreateAdmin {
         this.username = username;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
