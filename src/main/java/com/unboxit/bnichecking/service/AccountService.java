@@ -99,4 +99,8 @@ public class AccountService {
         return mapAccountDestinationNameByAccountNumberDestination;
 
     }
+
+    public void HandleAccountTransaction(String accountNumberSource, String accountNumberDestination, long amount) {
+        repository.transferAmount(accountNumberSource, accountNumberDestination, amount);
+    }
 }

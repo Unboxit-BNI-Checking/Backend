@@ -13,8 +13,14 @@ public class GetTransaction {
 
     @JsonProperty("account_number_destination")
     private String accountNumberDestination;
+
+    @JsonProperty("amount")
     private long amount;
+
+    @JsonProperty("note")
     private String note;
+
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
     public GetTransaction(long transactionId, String accountNumberSource, String accountNumberDestination, long amount, String note, LocalDateTime createdAt) {

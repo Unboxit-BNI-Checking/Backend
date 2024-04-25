@@ -1,6 +1,7 @@
 package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
+import com.unboxit.bnichecking.entity.http.response.CreateTransactionResponse;
 import com.unboxit.bnichecking.entity.http.response.GetTransaction;
 import com.unboxit.bnichecking.entity.http.response.GetTransactionsByAccountNumberSource;
 import com.unboxit.bnichecking.model.Account;
@@ -102,8 +103,26 @@ public class TransactionService {
         return results;
     }
 
-    public Transaction createTransaction(Transaction newTransaction){
-        return transactionJpaRepository.save(newTransaction);
+    public CreateTransactionResponse createTransaction(Transaction newTransaction){
+        newTransaction = transactionJpaRepository.save(newTransaction);
+        Account accountDestination = newTransaction.getAccountNumberDestination();
+        Account accountSource = newTransaction.getAccountNumberSource();
+        accountService.HandleAccountTransaction(accountSource.getAccountNumber(), accountDestination.getAccountNumber(), newTransaction.getAmount());
+        return new CreateTransactionResponse(
+                newTransaction.getTransactionId(),
+                true,
+                accountDestination.getAccountNumber(),
+                accountDestination.getCustomerName(),
+                newTransaction.getCreatedAt(),
+                "",
+                "BNI",
+                0,
+                accountSource.getCustomerName(),
+                accountSource.getAccountNumber(),
+                newTransaction.getAmount(),
+                0,
+                newTransaction.getAmount()
+        );
     }
     
     public Transaction createTransaction(CreateTransaction newTransaction){

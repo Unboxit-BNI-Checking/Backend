@@ -14,6 +14,8 @@ public class GetTransactionsByAccountNumberSource {
 
     @JsonProperty("account_owner_name")
     private String accountOwnerName;
+
+    @JsonProperty("amount")
     private long amount;
 
     @JsonProperty("transaction_type")
