@@ -12,7 +12,6 @@ public class GetAllAccounts {
 
     @JsonProperty("customer_name")
     private String customerName;
-    private Long balance;
     private Boolean blocked;
 
     public long getAccountId() {
@@ -37,14 +36,6 @@ public class GetAllAccounts {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
-    }
-
-    public Long getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Long balance) {
-        this.balance = balance;
     }
 
     public Boolean getBlocked() {

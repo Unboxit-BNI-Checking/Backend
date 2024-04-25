@@ -46,7 +46,7 @@ public class TwitterReportController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        TwitterReport savedTwitterReport = twitterReportService.createTwitterReport(new TwitterReport(newTwitterReport.getPostDate(), newTwitterReport.getTwitterUsername(), newTwitterReport.getTweetLink(),reportedAccount));
+        TwitterReport savedTwitterReport = twitterReportService.createTwitterReport(new TwitterReport(newTwitterReport.getPostDate(), newTwitterReport.getTwitterUsername(), newTwitterReport.getTweetLink(),reportedAccount, null));
         return ResponseEntity.ok(new ApiResponse<>(true, savedTwitterReport, null));
     }
 
