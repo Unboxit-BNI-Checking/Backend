@@ -1,5 +1,7 @@
 package com.unboxit.bnichecking.controller;
 
+import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
+import com.unboxit.bnichecking.entity.http.response.ApiResponse;
 import com.unboxit.bnichecking.entity.http.response.GetAllReports;
 import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.service.ReportsService;
@@ -20,18 +22,18 @@ public class ReportsController {
     }
 
     @GetMapping(value = "/reports", produces = "application/json") //Get Resource
-    public List<GetAllReports> getReports(){
-        return reportsService.getReports();
+    public ResponseEntity<ApiResponse<List<GetAllReports>>> getReports(){
+        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getReports(), null));
+    }
+
+    @GetMapping(value = "/reports/reportsByName/{username}", produces = "application/json") //Get Resource
+    public ResponseEntity<ApiResponse<List<GetReportsAndTransactionByCustomerName>>> getReportsAndTransactionByCustomerName(@PathVariable String username){
+        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getReportsAndTransactionByCustomerNames(username), null));
     }
 
     @PostMapping(value = "/reports", consumes = "application/json", produces = "application/json") //Create Resource
     public Reports createReports(@RequestBody Reports newReports){
         return reportsService.createReports(newReports);
-    }
-
-    @GetMapping(value = "/reports/{id}", produces = "application/json") //Get Resource
-    public Reports getReportsById(@PathVariable Long id){
-        return reportsService.getReportsById(id);
     }
 
 }

@@ -10,6 +10,8 @@ public interface ReportedAccountJpaRepository extends JpaRepository<ReportedAcco
     @Query(value="SELECT * FROM reported_account WHERE reported_account_number=?1", nativeQuery = true)
     List<ReportedAccount> findReportedAccountByReportedAccountNumber(String account_number_source);
     @Query(value="SELECT * FROM reported_account WHERE reported_account_id=?1", nativeQuery = true)
-    List<ReportedAccount> findReportedAccountById(long reported_account_id);
+    ReportedAccount findReportedAccountById(long reported_account_id);
+    @Query(value="SELECT * FROM reported_account WHERE reported_account_id=?1", nativeQuery = true)
+    List<ReportedAccount> findListReportedAccountById(long reported_account_id);
 }
 

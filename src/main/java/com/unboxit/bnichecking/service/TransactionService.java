@@ -1,5 +1,6 @@
 package com.unboxit.bnichecking.service;
 
+import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
 import com.unboxit.bnichecking.entity.http.response.GetAllTransaction;
 import com.unboxit.bnichecking.model.Transaction;
 import com.unboxit.bnichecking.repository.TransactionJpaRepository;
@@ -37,7 +38,6 @@ public class TransactionService {
         }
 
         return results;
-
     }
 
     public List<GetAllTransaction> getTransactionById(long transaction_Id) {

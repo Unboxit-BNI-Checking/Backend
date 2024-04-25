@@ -15,6 +15,17 @@ public class GetAllReports {
     @Column(columnDefinition = "TEXT")
     private String chronology;
 
+    @JsonProperty("reported_account_id")
+    private long reportedAccountId;
+
+    public long getReportedAccountId() {
+        return reportedAccountId;
+    }
+
+    public void setReportedAccountId(long reported_account_id) {
+        this.reportedAccountId = reported_account_id;
+    }
+
     public long getReportId() {
         return reportId;
     }

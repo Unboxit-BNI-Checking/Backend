@@ -48,6 +48,9 @@ public class ReportedAccount {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Admins admins;
 
+    public ReportedAccount(){
+
+    }
     public ReportedAccount(Account reportedAccountNumber, int status) {
         this.reportedAccountNumber = reportedAccountNumber;
         this.status = status;
