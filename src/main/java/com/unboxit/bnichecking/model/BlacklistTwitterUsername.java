@@ -1,9 +1,6 @@
 package com.unboxit.bnichecking.model;
 
-
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -11,54 +8,55 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "report_attachments", indexes = @Index(name = "idx_report_id", columnList = "reportId"))
+@Table(name = "blacklist_twitter_username")
 @EntityListeners(AuditingEntityListener.class)
-public class ReportAttachment {
-
+public class BlacklistTwitterUsername {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long reportAttachmentId;
+    private long blacklistTwitterUsernameId;
+    private String username;
+    @Column(name = "is_blocked", nullable = false)
+    private Boolean isBlocked;
 
-    @ManyToOne
-    @JoinColumn(name="report_id", referencedColumnName="reportId", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Reports reportId;
-
-    @Column(name = "file_path", nullable = false)
-    private String filePath;
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
     @LastModifiedDate
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
-
     @Column(name="deleted_at")
     private LocalDateTime deletedAt;
 
-    public long getReportAttachmentId() {
-        return reportAttachmentId;
+    public BlacklistTwitterUsername() {
     }
 
-    public void setReportAttachmentId(long reportAttachmentId) {
-        this.reportAttachmentId = reportAttachmentId;
+    public BlacklistTwitterUsername(String username, Boolean isBlocked) {
+        this.username = username;
+        this.isBlocked = isBlocked;
     }
 
-    public Reports getReportId() {
-        return reportId;
+    public long getBlacklistTwitterUsernameId() {
+        return blacklistTwitterUsernameId;
     }
 
-    public void setReportId(Reports reportId) {
-        this.reportId = reportId;
+    public void setBlacklistTwitterUsernameId(long blacklistTwitterUsernameId) {
+        this.blacklistTwitterUsernameId = blacklistTwitterUsernameId;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Boolean getIsBlocked() {
+        return isBlocked;
+    }
+
+    public void setIsBlocked(Boolean blocked) {
+        isBlocked = blocked;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -85,11 +83,4 @@ public class ReportAttachment {
         this.deletedAt = deletedAt;
     }
 
-    public ReportAttachment() {
-    }
-
-    public ReportAttachment(Reports reportId, String filePath) {
-        this.reportId = reportId;
-        this.filePath = filePath;
-    }
 }

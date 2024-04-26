@@ -72,6 +72,10 @@ public class ReportsService {
         return resultList;
     }
 
+    public Reports getReportsById(Long id) {
+        return reportsJpaRepository.findById(id).get();
+    }
+
     public Reports createReports(@RequestBody Reports newReports){
         return this.reportsJpaRepository.save(newReports);
     }
