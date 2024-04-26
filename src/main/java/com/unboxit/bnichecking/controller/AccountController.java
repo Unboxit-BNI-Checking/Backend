@@ -26,18 +26,18 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    public ResponseEntity<ApiResponse<List<GetAllAccounts>>> getAllAccount(){
+    public ResponseEntity<ApiResponse<List<GetAllAccounts>>> getAllAccount() {
         return ResponseEntity.ok(new ApiResponse<>(true, accountService.getAllAccounts(), null));
     }
 
     @GetMapping("/accounts/me")
-    public ResponseEntity<ApiResponse<GetMyAccount>> getMyAccount(){
+    public ResponseEntity<ApiResponse<GetMyAccount>> getMyAccount() {
         return ResponseEntity.ok(new ApiResponse<>(true, accountService.getMyAccount(), null));
     }
 
 
     @PostMapping("/accounts")
-    public ResponseEntity<ApiResponse<Account>> createAccount(@RequestBody CreateAccount newAccount){
+    public ResponseEntity<ApiResponse<Account>> createAccount(@RequestBody CreateAccount newAccount) {
         if (newAccount.getAccountNumber().length() != 10) {
             ApiResponse<Account> response = new ApiResponse<>(false, null, "Account number must consists of 10 numbers");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -51,7 +51,6 @@ public class AccountController {
         Account createdAccount = accountService.createAccount(newAccount);
         ApiResponse<Account> response = new ApiResponse<>(true, createdAccount, null);
         return ResponseEntity.ok(response);
-
     }
 
 }

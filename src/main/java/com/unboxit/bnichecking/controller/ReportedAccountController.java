@@ -26,28 +26,28 @@ public class ReportedAccountController {
     }
 
     @GetMapping(value = "/reportedAcc", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getAllTransaction(){
-         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccount(), null));
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getAllTransaction() {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccount(), null));
     }
 
     @GetMapping(value = "/reportedAcc/{reportedAccount_Id}", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getReportedAccountById(@PathVariable long reportedAccount_Id){
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getReportedAccountById(@PathVariable long reportedAccount_Id) {
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getListReportedAccountById(reportedAccount_Id), null));
     }
 
     @GetMapping(value = "/reportedAcc/account/{reported_account_number}", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getReportedAccountByReportedAccountNumber(@PathVariable String reported_account_number){
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getReportedAccountByReportedAccountNumber(@PathVariable String reported_account_number) {
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountByReportedAccountNumber(reported_account_number), null));
     }
 
     @GetMapping(value = "/reportedAcc/reports/{reportedAccount_Id}", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetAllReports>>> getReportsByReportedAccountId(@PathVariable long reportedAccount_Id){
+    public ResponseEntity<ApiResponse<List<GetAllReports>>> getReportsByReportedAccountId(@PathVariable long reportedAccount_Id) {
         ReportedAccount reportedAccount = reportedAccountService.getReportedAccountById(reportedAccount_Id);
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportsById(reportedAccount), null));
     }
 
     @PostMapping(value = "/reportedAcc", consumes = "application/json", produces = "application/json") //Create Resource
-    public ResponseEntity<ApiResponse<ReportedAccount>> createReportedAccount(@RequestBody CreateReportedAccount newReportedAccount){
+    public ResponseEntity<ApiResponse<ReportedAccount>> createReportedAccount(@RequestBody CreateReportedAccount newReportedAccount) {
         ReportedAccount createReportedAccount = reportedAccountService.createReportedAccount(new ReportedAccount(
                 accountService.getAccountByAccountNumber(newReportedAccount.getReportedAccountNumber()),
                 newReportedAccount.getStatus()));

@@ -29,12 +29,12 @@ public class FavouriteController {
     }
 
     @GetMapping("/favourites")
-    public ResponseEntity<ApiResponse<List<GetFavourite>>> getAllFavourite(){
+    public ResponseEntity<ApiResponse<List<GetFavourite>>> getAllFavourite() {
         return ResponseEntity.ok(new ApiResponse<>(true, favouriteService.getAllFavourite(), null));
     }
 
     @PostMapping("/favourites")
-    public ResponseEntity<ApiResponse<Favourite>> createFavourite(@RequestBody CreateFavourite newFavourite){
+    public ResponseEntity<ApiResponse<Favourite>> createFavourite(@RequestBody CreateFavourite newFavourite) {
 
         Account account = accountService.getAccountByAccountId(newFavourite.getAccountId());
         if (account == null) {
@@ -64,7 +64,7 @@ public class FavouriteController {
     }
 
     @GetMapping("/favourites/{account_id}")
-    public List<GetFavourite> getAllFavouriteByAccountId(@PathVariable Long account_id){
+    public List<GetFavourite> getAllFavouriteByAccountId(@PathVariable Long account_id) {
         return favouriteService.getAllFavouriteByAccountId(account_id);
     }
 

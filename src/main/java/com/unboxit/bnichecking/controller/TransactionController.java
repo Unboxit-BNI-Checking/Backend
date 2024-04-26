@@ -29,9 +29,9 @@ public class TransactionController {
 
     //Get All Transaction
     @GetMapping(value = "/transaction")
-    public ResponseEntity<ApiResponse<List<GetTransaction>>> getAllTransaction(){
+    public ResponseEntity<ApiResponse<List<GetTransaction>>> getAllTransaction() {
         List<GetTransaction> transactions = transactionService.getAllTransactions();
-        if(transactions.isEmpty()){
+        if (transactions.isEmpty()) {
             ApiResponse<List<GetTransaction>> response = new ApiResponse<>(true, null, "Don't have any Transaction");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
