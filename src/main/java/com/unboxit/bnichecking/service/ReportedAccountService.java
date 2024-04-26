@@ -90,6 +90,7 @@ public class ReportedAccountService {
 
     public long getStatusByReportedId(long reported_id){
         ReportedAccount a = reportedAccountJpaRepository.findReportedAccountById(reported_id);
+        System.out.println("Ngentot" + a.getStatus());
         return a.getStatus();
     }
 

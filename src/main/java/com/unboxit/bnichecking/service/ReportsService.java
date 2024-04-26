@@ -17,14 +17,10 @@ public class ReportsService {
     @Autowired
     private ReportsJpaRepository reportsJpaRepository;
     private AccountService accountService;
-    private ReportedAccountService reportedAccountService;
 
-    public ReportsService(){
-
-    }
-
-    public ReportsService(ReportsJpaRepository reportsJpaRepository) {
+    public ReportsService(ReportsJpaRepository reportsJpaRepository, AccountService accountService) {
         this.reportsJpaRepository = reportsJpaRepository;
+        this.accountService = accountService;
     }
 
     public List<GetAllReports> getReports(){
@@ -66,7 +62,7 @@ public class ReportsService {
             GetReportsAndTransactionByCustomerName reportsAndTransactionByCustomerName = new GetReportsAndTransactionByCustomerName();
             reportsAndTransactionByCustomerName.setReportsId((long) result[0]);
             reportsAndTransactionByCustomerName.setCreatedAtReports(((Timestamp) result[1]).toLocalDateTime());
-            reportsAndTransactionByCustomerName.setStatus(reportedAccountService.getStatusByReportedId((long) result[2]));
+            reportsAndTransactionByCustomerName.setStatus((long) result[2]);
             reportsAndTransactionByCustomerName.setAccountNumberSource((String) result[3]);
             reportsAndTransactionByCustomerName.setAccountNumberSourceUsername(accountService.getAccountByAccountNumber((String) result[3]).getCustomerName());
             reportsAndTransactionByCustomerName.setAccountNumberDestination((String) result[4]);

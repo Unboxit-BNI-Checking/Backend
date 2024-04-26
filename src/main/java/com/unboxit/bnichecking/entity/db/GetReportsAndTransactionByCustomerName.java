@@ -14,8 +14,6 @@ public class GetReportsAndTransactionByCustomerName {
 
     @Column(columnDefinition = "TEXT")
     private String chronology;
-
-    @JsonProperty("status")
     private long status;
 
     @JsonProperty("account_number_source")

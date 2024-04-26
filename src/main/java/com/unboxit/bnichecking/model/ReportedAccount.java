@@ -21,7 +21,7 @@ public class ReportedAccount {
     private LocalDateTime time_finished;
 
     @Column(name="status", nullable = false)
-    private int status;
+    private long status;
 
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
@@ -87,7 +87,7 @@ public class ReportedAccount {
         this.deletedAt = deletedAt;
     }
 
-    public int getStatus() {
+    public long getStatus() {
         return status;
     }
 

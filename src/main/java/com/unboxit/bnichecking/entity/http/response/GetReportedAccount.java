@@ -14,13 +14,13 @@ public class GetReportedAccount {
     @JsonProperty("time_finished")
     private LocalDateTime time_finished;
 
-    private int status;
+    private long status;
     private LocalDateTime createdAt;
 
     public GetReportedAccount(){
 
     }
-    public GetReportedAccount(long reportedAccountId, String reportedAccountNumber, LocalDateTime timeFinished, int status, LocalDateTime createdAt) {
+    public GetReportedAccount(long reportedAccountId, String reportedAccountNumber, LocalDateTime timeFinished, long status, LocalDateTime createdAt) {
         this.reportedAccountId = reportedAccountId;
         this.reportedAccountNumber = reportedAccountNumber;
         this.time_finished = timeFinished;
@@ -52,11 +52,11 @@ public class GetReportedAccount {
         this.time_finished = time_finished;
     }
 
-    public int getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(long status) {
         this.status = status;
     }
 
