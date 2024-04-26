@@ -38,6 +38,10 @@ public class AccountController {
 
     @PostMapping("/accounts")
     public ResponseEntity<ApiResponse<Account>> createAccount(@RequestBody CreateAccount newAccount){
+        if (newAccount.getAccountNumber().length() != 10) {
+            ApiResponse<Account> response = new ApiResponse<>(false, null, "Account number must consists of 10 numbers");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
 
         if (accountService.getAccountByAccountNumber(newAccount.getAccountNumber()) != null) {
             ApiResponse<Account> response = new ApiResponse<>(false, null, "Account with this account number already exists");
