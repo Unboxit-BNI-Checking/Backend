@@ -13,26 +13,13 @@ public class AdminService {
     @Autowired
     private AdminJpaRepository repository;
 
-    @Autowired
-    private PasswordHasherService passwordHasherService;
-
     public List<Admins> getAllAdmin(){
         return repository.findAll();
     }
 
-    public Boolean checkLoginAdmin(String username, String password){
-        Admins admins = repository.findAdminsByUsername(username);
-
-        return true;
-//        if (user != null) {
-//            if (passwordHasherService.checkPassword(loginDTO.getPassword(), user.getPassword())) {
-//                return "Login successful!";
-//            } else {
-//                return "Invalid password!";
-//            }
-//        } else {
-//            return "User not found!";
-//        }
+    public Admins findAdminByUsername(String username){
+        return repository.findAdminsByUsername(username);
     }
+
 
 }
