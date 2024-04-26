@@ -40,8 +40,12 @@ public class ReportedAccountController {
     }
 
     @GetMapping(value = "/reportedAcc/reports/{reportedAccount_Id}", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetAllReports>>> getReportsByReportedAccountId(@PathVariable long reportedAccount_Id) {
+    public ResponseEntity<ApiResponse<List<GetAllReports>>> getReportsByReportedAccountId(@PathVariable long reportedAccount_Id){
         GetReportedAccount reportedAccount = reportedAccountService.getReportedAccountById(reportedAccount_Id);
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportsById(reportedAccount), null));
+    }
+    @GetMapping(value = "/reportedAcc/cekrekening/{reportedAccount_Number}", produces = "application/json")
+    public ResponseEntity<ApiResponse<GetReportedAccountAndAccountByAccountNumber>> getReportedAccountByReportedAccountId(@PathVariable String reportedAccount_Number) {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountAndAccountByReportedAccountNumber(reportedAccount_Number), null));
     }
 }
