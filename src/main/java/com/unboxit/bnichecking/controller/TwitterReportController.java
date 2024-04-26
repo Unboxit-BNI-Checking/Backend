@@ -29,16 +29,16 @@ public class TwitterReportController {
         this.twitterReportService = twitterReportService;
         this.accountService = accountService;
     }
-    @GetMapping("/twitterReports")
-    public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReportByQueris(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate,
-                                                                                        @RequestParam(required = false, defaultValue = "false") boolean includeDeleted,
-                                                                                        @RequestParam(required = false) String twitterUsername){
+    @GetMapping("/twitter-reports")
+    public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReportByQueris(@RequestParam(name = "from_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate,
+                                                                                        @RequestParam(name = "include_deleted", required = false, defaultValue = "false") boolean includeDeleted,
+                                                                                        @RequestParam(name = "twitter_username", required = false) String twitterUsername){
 
 
         return ResponseEntity.ok(new ApiResponse<>(true, twitterReportService.getAllTwitterReportByQueries(fromDate, twitterUsername, includeDeleted),null));
     }
 
-    @PostMapping("/twitterReports")
+    @PostMapping("/twitter-reports")
     public ResponseEntity<ApiResponse<TwitterReport>> createTwitterReport(@RequestBody CreateTwitterReport newTwitterReport){
         Account reportedAccount = accountService.getAccountByAccountNumber(newTwitterReport.getReportedAccountNumber());
         if(reportedAccount == null){
@@ -50,7 +50,7 @@ public class TwitterReportController {
         return ResponseEntity.ok(new ApiResponse<>(true, savedTwitterReport, null));
     }
 
-    @GetMapping("/twitterReports/{reported_account_number}")
+    @GetMapping("/twitter-reports/{reported_account_number}")
     public List<TwitterReport> getAllTwitterReportByAccountNumber(@PathVariable String reported_account_number){
         return twitterReportService.getAllTwitterReportByAccountNumber(reported_account_number);
     }
