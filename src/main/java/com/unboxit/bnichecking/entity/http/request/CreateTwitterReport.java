@@ -1,11 +1,13 @@
 package com.unboxit.bnichecking.entity.http.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 public class CreateTwitterReport {
     @JsonProperty("post_date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime postDate;
 
     @JsonProperty("twitter_username")
