@@ -65,6 +65,7 @@ public class TransactionController {
 
     //Post Transaction
     // TODO: refactor response to include account number status
+    // TODD: give logic about favourite account
     @PostMapping("/transaction")
     public ResponseEntity<ApiResponse<CreateTransactionResponse>> createTransaction(@RequestBody CreateTransaction newTransaction) {
         if (newTransaction.getAccountNumberSource() == null || newTransaction.getAccountNumberDestination() == null || newTransaction.getAccountNumberSource().isEmpty() || newTransaction.getAccountNumberDestination().isEmpty()) {
