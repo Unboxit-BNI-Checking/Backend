@@ -1,7 +1,9 @@
 package com.unboxit.bnichecking.service;
 
-import com.unboxit.bnichecking.entity.http.response.GetAllReportedAccount;
+import com.unboxit.bnichecking.entity.http.response.GetReportedAccount;
 import com.unboxit.bnichecking.entity.http.response.GetAllReports;
+import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
+import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.repository.ReportedAccountJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +16,20 @@ import java.util.List;
 public class ReportedAccountService {
     @Autowired
     private ReportedAccountJpaRepository reportedAccountJpaRepository;
+    private AccountService accountService;
     private ReportsService reportsService;
 
-    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, ReportsService reportsService) {
+    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService) {
         this.reportedAccountJpaRepository = reportedAccountJpaRepository;
+        this.accountService = accountService;
         this.reportsService = reportsService;
     }
-    public List<GetAllReportedAccount> getReportedAccount(){
-        List<GetAllReportedAccount> results = new ArrayList<>();
+    public List<GetReportedAccount> getReportedAccount(){
+        List<GetReportedAccount> results = new ArrayList<>();
         List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findAll();
 
         for (ReportedAccount reported : reportedAccounts) {
-            GetAllReportedAccount getAllReportedAccount = new GetAllReportedAccount();
+            GetReportedAccount getAllReportedAccount = new GetReportedAccount();
             getAllReportedAccount.setReportedAccountId(reported.getReportedAccountId());
             getAllReportedAccount.setReportedAccountNumber(reported.getReportedAccountNumber().getAccountNumber());
             getAllReportedAccount.setStatus(reported.getStatus());
@@ -37,11 +41,11 @@ public class ReportedAccountService {
         return results;
     }
 
-    public List<GetAllReportedAccount> getReportedAccountByReportedAccountNumber(String accountNumber) {
-        List<GetAllReportedAccount> results = new ArrayList<>();
-        List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findReportedAccountByReportedAccountNumber(accountNumber);
+    public List<GetReportedAccount> getReportedAccountByReportedAccountNumber(String accountNumber) {
+        List<GetReportedAccount> results = new ArrayList<>();
+        List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findReportedAccountsByReportedAccountNumber(accountNumber);
         for (ReportedAccount reported : reportedAccounts) {
-            GetAllReportedAccount getAllReportedAccount = new GetAllReportedAccount();
+            GetReportedAccount getAllReportedAccount = new GetReportedAccount();
             getAllReportedAccount.setReportedAccountId(reported.getReportedAccountId());
             getAllReportedAccount.setReportedAccountNumber(reported.getReportedAccountNumber().getAccountNumber());
             getAllReportedAccount.setStatus(reported.getStatus());
@@ -52,32 +56,48 @@ public class ReportedAccountService {
         return results;
     }
 
-    public List<GetAllReportedAccount> getListReportedAccountById(long reportedAccount_Id){
-        List<GetAllReportedAccount> results = new ArrayList<>();
-        List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findListReportedAccountById(reportedAccount_Id);
-        for (ReportedAccount reportedAccount : reportedAccounts) {
-            GetAllReportedAccount getAllReportedAccount = new GetAllReportedAccount();
-            getAllReportedAccount.setReportedAccountId(reportedAccount.getReportedAccountId());
-            getAllReportedAccount.setReportedAccountNumber(reportedAccount.getReportedAccountNumber().getAccountNumber());
-            getAllReportedAccount.setStatus(reportedAccount.getStatus());
-            getAllReportedAccount.setTime_finished(reportedAccount.getTime_finished());
-            getAllReportedAccount.setCreatedAt(reportedAccount.getCreatedAt());
-            results.add(getAllReportedAccount);
-        }
-        return results;
-    }
-
-    public ReportedAccount getReportedAccountById(long reportedAccount_Id){
+    public GetReportedAccount getReportedAccountById(long reportedAccount_Id){
         ReportedAccount reportedAccounts = reportedAccountJpaRepository.findReportedAccountById(reportedAccount_Id);
-        return reportedAccounts;
+        return new GetReportedAccount(
+                reportedAccounts.getReportedAccountId(),
+                reportedAccounts.getReportedAccountNumber().getAccountNumber(),
+                reportedAccounts.getTime_finished(),
+                reportedAccounts.getStatus(),
+                reportedAccounts.getCreatedAt()
+        );
     }
 
-    public List<GetAllReports> getReportsById(ReportedAccount reportedAccount_Id){
+    public List<GetAllReports> getReportsById(GetReportedAccount reportedAccount_Id){
         List<GetAllReports> Reports = reportsService.getReportsByReportedAccountId(reportedAccount_Id.getReportedAccountId());
         return Reports;
     }
 
-    public ReportedAccount createReportedAccount(ReportedAccount newReportedAccount){
-        return reportedAccountJpaRepository.save(newReportedAccount);
+    public GetReportedAccountAndAccountByAccountNumber getReportedAccountAndAccountByReportedAccountNumber(String accountNumber) {
+        Account accounts = accountService.getAccountByAccountNumber(accountNumber);
+        List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findReportedAccountsByReportedAccountNumber(accountNumber);
+        List<GetAllReports> Reports = new ArrayList<>();
+        for (ReportedAccount reported : reportedAccounts) {
+            Reports.addAll(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()));
+        }
+        GetReportedAccountAndAccountByAccountNumber results = new GetReportedAccountAndAccountByAccountNumber(
+                accountNumber,
+                accounts.getCustomerName(),
+                maxStatus(reportedAccounts),
+                Reports.size()
+        );
+        return results;
+    }
+
+    public long getStatusByReportedId(long reported_id){
+        ReportedAccount a = reportedAccountJpaRepository.findReportedAccountById(reported_id);
+        return a.getStatus();
+    }
+
+    private long maxStatus(List<ReportedAccount> reportedAccounts){
+        long maxStatus = Long.MIN_VALUE;
+        for (ReportedAccount reported : reportedAccounts) {
+            maxStatus = Math.max(maxStatus, reported.getStatus());
+        }
+        return maxStatus;
     }
 }

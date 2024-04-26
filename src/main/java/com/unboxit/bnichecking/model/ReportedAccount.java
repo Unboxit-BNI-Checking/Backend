@@ -1,6 +1,5 @@
 package com.unboxit.bnichecking.model;
 
-import com.unboxit.bnichecking.entity.http.response.GetAllReportedAccount;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

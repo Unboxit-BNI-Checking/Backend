@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +16,15 @@ import java.util.List;
 public class ReportsService {
     @Autowired
     private ReportsJpaRepository reportsJpaRepository;
+    private AccountService accountService;
+    private ReportedAccountService reportedAccountService;
 
-    public ReportsService(ReportsJpaRepository reportsRepository) {
-        this.reportsJpaRepository = reportsRepository;
+    public ReportsService(){
+
+    }
+
+    public ReportsService(ReportsJpaRepository reportsJpaRepository) {
+        this.reportsJpaRepository = reportsJpaRepository;
     }
 
     public List<GetAllReports> getReports(){
@@ -61,9 +66,11 @@ public class ReportsService {
             GetReportsAndTransactionByCustomerName reportsAndTransactionByCustomerName = new GetReportsAndTransactionByCustomerName();
             reportsAndTransactionByCustomerName.setReportsId((long) result[0]);
             reportsAndTransactionByCustomerName.setCreatedAtReports(((Timestamp) result[1]).toLocalDateTime());
-            reportsAndTransactionByCustomerName.setReportedAccountId((long) result[2]);
+            reportsAndTransactionByCustomerName.setStatus(reportedAccountService.getStatusByReportedId((long) result[2]));
             reportsAndTransactionByCustomerName.setAccountNumberSource((String) result[3]);
+            reportsAndTransactionByCustomerName.setAccountNumberSourceUsername(accountService.getAccountByAccountNumber((String) result[3]).getCustomerName());
             reportsAndTransactionByCustomerName.setAccountNumberDestination((String) result[4]);
+            reportsAndTransactionByCustomerName.setAccountNumberDestinationUsername(accountService.getAccountByAccountNumber((String) result[4]).getCustomerName());
             reportsAndTransactionByCustomerName.setAmount((long) result[5]);
             reportsAndTransactionByCustomerName.setCreatedAtTransaction(((Timestamp) result[6]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setChronology((String) result[7]);
