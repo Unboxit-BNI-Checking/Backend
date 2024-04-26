@@ -3,6 +3,7 @@ package com.unboxit.bnichecking.entity.http.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CreateFavourite {
+    @JsonProperty("name")
     private String name;
 
     @JsonProperty("account_id")
