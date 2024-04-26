@@ -14,20 +14,40 @@ public class GetReportsAndTransactionByCustomerName {
 
     @Column(columnDefinition = "TEXT")
     private String chronology;
-
-    @JsonProperty("reported_account_id")
-    private long reportedAccountId;
+    private long status;
 
     @JsonProperty("account_number_source")
     private String accountNumberSource;
 
+    @JsonProperty("account_number_source_username")
+    private String accountNumberSourceUsername;
+
     @JsonProperty("account_number_destination")
     private String accountNumberDestination;
+
+    @JsonProperty("account_number_destination_username")
+    private String accountNumberDestinationUsername;
 
     private long amount;
 
     @JsonProperty("created_at_transaction")
     private LocalDateTime createdAtTransaction;
+
+    public String getAccountNumberSourceUsername() {
+        return accountNumberSourceUsername;
+    }
+
+    public void setAccountNumberSourceUsername(String accountNumberSourceUsername) {
+        this.accountNumberSourceUsername = accountNumberSourceUsername;
+    }
+
+    public String getAccountNumberDestinationUsername() {
+        return accountNumberDestinationUsername;
+    }
+
+    public void setAccountNumberDestinationUsername(String accountNumberDestinationUsername) {
+        this.accountNumberDestinationUsername = accountNumberDestinationUsername;
+    }
 
     public long getReportsId() {
         return reportsId;
@@ -53,12 +73,12 @@ public class GetReportsAndTransactionByCustomerName {
         this.chronology = chronology;
     }
 
-    public long getReportedAccountId() {
-        return reportedAccountId;
+    public long getStatus() {
+        return status;
     }
 
-    public void setReportedAccountId(long status) {
-        this.reportedAccountId = status;
+    public void setStatus(long status) {
+        this.status = status;
     }
 
     public String getAccountNumberSource() {

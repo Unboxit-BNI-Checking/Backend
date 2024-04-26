@@ -1,6 +1,5 @@
 package com.unboxit.bnichecking.model;
 
-import com.unboxit.bnichecking.entity.http.response.GetAllReportedAccount;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -22,7 +21,7 @@ public class ReportedAccount {
     private LocalDateTime time_finished;
 
     @Column(name="status", nullable = false)
-    private int status;
+    private long status;
 
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
@@ -88,7 +87,7 @@ public class ReportedAccount {
         this.deletedAt = deletedAt;
     }
 
-    public int getStatus() {
+    public long getStatus() {
         return status;
     }
 

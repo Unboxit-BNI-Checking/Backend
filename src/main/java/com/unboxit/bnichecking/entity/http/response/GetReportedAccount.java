@@ -1,16 +1,10 @@
 package com.unboxit.bnichecking.entity.http.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unboxit.bnichecking.model.Admins;
-import com.unboxit.bnichecking.model.Reports;
-import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-public class GetAllReportedAccount {
+public class GetReportedAccount {
     @JsonProperty("reported_account_id")
     private long reportedAccountId;
 
@@ -20,8 +14,19 @@ public class GetAllReportedAccount {
     @JsonProperty("time_finished")
     private LocalDateTime time_finished;
 
-    private int status;
+    private long status;
     private LocalDateTime createdAt;
+
+    public GetReportedAccount(){
+
+    }
+    public GetReportedAccount(long reportedAccountId, String reportedAccountNumber, LocalDateTime timeFinished, long status, LocalDateTime createdAt) {
+        this.reportedAccountId = reportedAccountId;
+        this.reportedAccountNumber = reportedAccountNumber;
+        this.time_finished = timeFinished;
+        this.status = status;
+        this.createdAt = createdAt;
+    }
 
     public long getReportedAccountId() {
         return reportedAccountId;
@@ -47,11 +52,11 @@ public class GetAllReportedAccount {
         this.time_finished = time_finished;
     }
 
-    public int getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(long status) {
         this.status = status;
     }
 
