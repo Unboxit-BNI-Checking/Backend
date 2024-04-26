@@ -44,7 +44,6 @@ public class TransactionService {
         }
 
         return results;
-
     }
 
     public GetTransaction getTransactionById(long transaction_Id) {

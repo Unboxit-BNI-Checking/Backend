@@ -1,5 +1,6 @@
 package com.unboxit.bnichecking.model;
 
+import com.unboxit.bnichecking.entity.http.response.GetAllReportedAccount;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -10,16 +11,14 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-@Table(name = "reported_account", indexes = {
-        @Index(name = "idx_reported_account_number", columnList = "account_number"),
-})
+@Table(name = "reported_account", indexes = {@Index(name = "idx_reported_account_number", columnList = "reported_account_number"),})
 @EntityListeners(AuditingEntityListener.class)
 public class ReportedAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long reportedAccountId;
 
-    @Column(name="time_finished", nullable = false)
+    @Column(name="time_finished")
     private LocalDateTime time_finished;
 
     @Column(name="status", nullable = false)
@@ -37,9 +36,9 @@ public class ReportedAccount {
     private LocalDateTime deletedAt;
 
     @ManyToOne
-    @JoinColumn(name = "account_number", referencedColumnName="account_number")
+    @JoinColumn(name = "reported_account_number", referencedColumnName="account_number")
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Account account;
+    private Account reportedAccountNumber;
 
     @OneToMany(mappedBy = "reportedAccount")
     private List<Reports> ownedReports;
@@ -48,6 +47,14 @@ public class ReportedAccount {
     @JoinColumn(name = "admin_id", nullable = true)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Admins admins;
+
+    public ReportedAccount(){
+
+    }
+    public ReportedAccount(Account reportedAccountNumber, int status) {
+        this.reportedAccountNumber = reportedAccountNumber;
+        this.status = status;
+    }
 
     public LocalDateTime getTime_finished() {
         return time_finished;
@@ -97,12 +104,12 @@ public class ReportedAccount {
         this.reportedAccountId = reportedAccountId;
     }
 
-    public Account getAccount() {
-        return account;
+    public Account getReportedAccountNumber() {
+        return reportedAccountNumber;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setReportedAccountNumber(Account reportedAccountNumber) {
+        this.reportedAccountNumber = reportedAccountNumber;
     }
 
     public List<Reports> getOwnedReports() {
@@ -120,4 +127,5 @@ public class ReportedAccount {
     public void setAdmins(Admins admins) {
         this.admins = admins;
     }
+
 }

@@ -27,11 +27,18 @@ public class TransactionController {
         this.accountService = accountService;
     }
 
+    //Get All Transaction
     @GetMapping(value = "/transaction")
     public ResponseEntity<ApiResponse<List<GetTransaction>>> getAllTransaction() {
-        return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getAllTransactions(), null));
+        List<GetTransaction> transactions = transactionService.getAllTransactions();
+        if (transactions.isEmpty()) {
+            ApiResponse<List<GetTransaction>> response = new ApiResponse<>(true, null, "Don't have any Transaction");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+        return ResponseEntity.ok(new ApiResponse<>(true, transactions, null));
     }
 
+    //Get Transaction By Id
     @GetMapping(value = "/transaction/{transaction_Id}")
     public ResponseEntity<ApiResponse<GetTransaction>> getTransactionById(@PathVariable long transaction_Id) {
         GetTransaction transaction = transactionService.getTransactionById(transaction_Id);
@@ -42,6 +49,7 @@ public class TransactionController {
         return ResponseEntity.ok(new ApiResponse<>(true, transaction, null));
     }
 
+    //Get Transaction By Account Number Source
     @GetMapping(value = "/transaction/account/{account_number_source}")
     public ResponseEntity<ApiResponse<List<GetTransactionsByAccountNumberSource>>> getAllTransactionByAccountNumberSource(@PathVariable String account_number_source) {
         if (accountService.getAccountByAccountNumber(account_number_source) == null) {
@@ -55,6 +63,7 @@ public class TransactionController {
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionByAccountNumberSource(account_number_source), null));
     }
 
+    //Post Transaction
     // TODO: refactor response to include account number status
     @PostMapping("/transaction")
     public ResponseEntity<ApiResponse<CreateTransactionResponse>> createTransaction(@RequestBody CreateTransaction newTransaction) {
