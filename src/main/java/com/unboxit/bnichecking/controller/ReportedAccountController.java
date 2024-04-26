@@ -1,6 +1,11 @@
 package com.unboxit.bnichecking.controller;
 
+import com.unboxit.bnichecking.entity.http.request.CreateReportedAccount;
+import com.unboxit.bnichecking.entity.http.response.ApiResponse;
+import com.unboxit.bnichecking.entity.http.response.GetAllReportedAccount;
+import com.unboxit.bnichecking.entity.http.response.GetAllReports;
 import com.unboxit.bnichecking.model.ReportedAccount;
+import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,34 +17,41 @@ import java.util.List;
 @RequestMapping("/api")
 public class ReportedAccountController {
     private final ReportedAccountService reportedAccountService;
+    private final AccountService accountService;
 
     @Autowired
-    public ReportedAccountController(ReportedAccountService reportedAccountService) {
+    public ReportedAccountController(ReportedAccountService reportedAccountService, AccountService accountService) {
         this.reportedAccountService = reportedAccountService;
+        this.accountService = accountService;
     }
 
-    @GetMapping(value = "/reportedAcc", produces = "application/json") //Get Resource
-    public List<ReportedAccount> getReportedAccount(){
-        return reportedAccountService.getReportedAccount();
+    @GetMapping(value = "/reportedAcc", produces = "application/json")
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getAllTransaction(){
+         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccount(), null));
+    }
+
+    @GetMapping(value = "/reportedAcc/{reportedAccount_Id}", produces = "application/json")
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getReportedAccountById(@PathVariable long reportedAccount_Id){
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getListReportedAccountById(reportedAccount_Id), null));
+    }
+
+    @GetMapping(value = "/reportedAcc/account/{reported_account_number}", produces = "application/json")
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getReportedAccountByReportedAccountNumber(@PathVariable String reported_account_number){
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountByReportedAccountNumber(reported_account_number), null));
+    }
+
+    @GetMapping(value = "/reportedAcc/reports/{reportedAccount_Id}", produces = "application/json")
+    public ResponseEntity<ApiResponse<List<GetAllReports>>> getReportsByReportedAccountId(@PathVariable long reportedAccount_Id){
+        ReportedAccount reportedAccount = reportedAccountService.getReportedAccountById(reportedAccount_Id);
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportsById(reportedAccount), null));
     }
 
     @PostMapping(value = "/reportedAcc", consumes = "application/json", produces = "application/json") //Create Resource
-    public ReportedAccount createReportedAccount(@RequestBody ReportedAccount newReportedAccount){
-        return reportedAccountService.createReportedAccount(newReportedAccount);
-    }
-
-    @GetMapping(value = "/reportedAcc/{id}", produces = "application/json") //Get Resource
-    public ReportedAccount getReportedAccountById(@PathVariable Long id){
-        return reportedAccountService.getReportedAccountById(id);
-    }
-
-    @PutMapping(value = "/reportedAcc/{id}", produces = "application/json") //Update Resource
-    public ResponseEntity<String> updateReportedAccount(@PathVariable Long id, @RequestBody ReportedAccount updatedReportedAccount){
-        return reportedAccountService.updateReportedAccount(id, updatedReportedAccount);
-    }
-
-    @DeleteMapping(value = "/reportedAcc/{id}", produces = "application/json") //Delete Resource
-    public ResponseEntity<String> deleteReportedAccount(@PathVariable Long id){
-        return reportedAccountService.deleteReportedAccount(id);
+    public ResponseEntity<ApiResponse<ReportedAccount>> createReportedAccount(@RequestBody CreateReportedAccount newReportedAccount){
+        ReportedAccount createReportedAccount = reportedAccountService.createReportedAccount(new ReportedAccount(
+                accountService.getAccountByAccountNumber(newReportedAccount.getReportedAccountNumber()),
+                newReportedAccount.getStatus()));
+        ApiResponse<ReportedAccount> response = new ApiResponse<>(true, createReportedAccount, null);
+        return ResponseEntity.ok(response);
     }
 }
