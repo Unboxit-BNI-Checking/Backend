@@ -88,12 +88,6 @@ public class ReportedAccountService {
         return results;
     }
 
-    public long getStatusByReportedId(long reported_id){
-        ReportedAccount a = reportedAccountJpaRepository.findReportedAccountById(reported_id);
-        System.out.println("Ngentot" + a.getStatus());
-        return a.getStatus();
-    }
-
     private long maxStatus(List<ReportedAccount> reportedAccounts){
         long maxStatus = Long.MIN_VALUE;
         for (ReportedAccount reported : reportedAccounts) {

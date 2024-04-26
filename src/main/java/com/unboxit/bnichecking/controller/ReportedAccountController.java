@@ -1,7 +1,9 @@
 package com.unboxit.bnichecking.controller;
 
+import com.unboxit.bnichecking.entity.http.request.CreateReportedAccount;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
 import com.unboxit.bnichecking.entity.http.response.*;
+import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,16 +41,7 @@ public class ReportedAccountController {
 
     @GetMapping(value = "/reportedAcc/reports/{reportedAccount_Id}", produces = "application/json")
     public ResponseEntity<ApiResponse<List<GetAllReports>>> getReportsByReportedAccountId(@PathVariable long reportedAccount_Id) {
-        ReportedAccount reportedAccount = reportedAccountService.getReportedAccountById(reportedAccount_Id);
+        GetReportedAccount reportedAccount = reportedAccountService.getReportedAccountById(reportedAccount_Id);
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportsById(reportedAccount), null));
-    }
-
-    @PostMapping(value = "/reportedAcc", consumes = "application/json", produces = "application/json") //Create Resource
-    public ResponseEntity<ApiResponse<ReportedAccount>> createReportedAccount(@RequestBody CreateReportedAccount newReportedAccount) {
-        ReportedAccount createReportedAccount = reportedAccountService.createReportedAccount(new ReportedAccount(
-                accountService.getAccountByAccountNumber(newReportedAccount.getReportedAccountNumber()),
-                newReportedAccount.getStatus()));
-        ApiResponse<ReportedAccount> response = new ApiResponse<>(true, createReportedAccount, null);
-        return ResponseEntity.ok(response);
     }
 }
