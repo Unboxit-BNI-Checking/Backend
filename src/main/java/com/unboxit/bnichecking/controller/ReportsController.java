@@ -22,17 +22,17 @@ public class ReportsController {
     }
 
     @GetMapping(value = "/reports", produces = "application/json") //Get Resource
-    public ResponseEntity<ApiResponse<List<GetAllReports>>> getReports(){
+    public ResponseEntity<ApiResponse<List<GetAllReports>>> getReports() {
         return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getReports(), null));
     }
 
     @GetMapping(value = "/reports/reportsByName/{username}", produces = "application/json") //Get Resource
-    public ResponseEntity<ApiResponse<List<GetReportsAndTransactionByCustomerName>>> getReportsAndTransactionByCustomerName(@PathVariable String username){
+    public ResponseEntity<ApiResponse<List<GetReportsAndTransactionByCustomerName>>> getReportsAndTransactionByCustomerName(@PathVariable String username) {
         return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getReportsAndTransactionByCustomerNames(username), null));
     }
 
     @PostMapping(value = "/reports", consumes = "application/json", produces = "application/json") //Create Resource
-    public Reports createReports(@RequestBody Reports newReports){
+    public Reports createReports(@RequestBody Reports newReports) {
         return reportsService.createReports(newReports);
     }
 

@@ -21,14 +21,14 @@ public class AdminController {
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
-    
+
     @GetMapping("/admins")
-    public ResponseEntity<ApiResponse<List<Admins>>> getAllAdmin(){
+    public ResponseEntity<ApiResponse<List<Admins>>> getAllAdmin() {
         return ResponseEntity.ok(new ApiResponse<>(true, adminService.getAllAdmin(), null));
     }
 
     @GetMapping("/admins/login")
-    public ResponseEntity<ApiResponse<List<Admins>>> loginAdmin(){
+    public ResponseEntity<ApiResponse<List<Admins>>> loginAdmin() {
         return ResponseEntity.ok(new ApiResponse<>(true, adminService.getAllAdmin(), null));
     }
 }
