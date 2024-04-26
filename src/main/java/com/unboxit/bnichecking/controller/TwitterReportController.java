@@ -31,7 +31,7 @@ public class TwitterReportController {
     }
 
     @GetMapping("/twitter-reports")
-    public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReportByQueris(@RequestParam(name = "from_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate,
+    public ResponseEntity<ApiResponse<List<TwitterReport>>> getAllTwitterReportByQueries(@RequestParam(name = "from_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate,
                                                                                         @RequestParam(name = "include_deleted", required = false, defaultValue = "false") boolean includeDeleted,
                                                                                         @RequestParam(name = "twitter_username", required = false) String twitterUsername) {
 
