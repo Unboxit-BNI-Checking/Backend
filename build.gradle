@@ -31,9 +31,12 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-crypto'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
 //	testImplementation 'org.springframework.security:spring-security-test'
 
 	runtimeOnly group: 'com.h2database', name: 'h2', version: '2.2.224'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 }
 
 tasks.named('test') {
