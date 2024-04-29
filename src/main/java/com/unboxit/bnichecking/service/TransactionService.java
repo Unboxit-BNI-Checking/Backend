@@ -65,13 +65,12 @@ public class TransactionService {
         List<GetTransactionsByAccountNumberSource> results = new ArrayList<>();
         List<Transaction> transactions = transactionJpaRepository.findTransactionsByAccountNumberSource(accountNumber);
         List<String> accountNumberDestinations = new ArrayList<>();;
-        String accountNumberSource = transactions.getFirst().getAccountNumberSource().getAccountNumber();
 
         for (Transaction transaction : transactions) {
             accountNumberDestinations.add(transaction.getAccountNumberDestination().getAccountNumber());
         }
         Map<String, String> mapAccountDestinationNameByAccountNumberDestination = accountService.getAccountDestinationNameByAccountNumberDestination(accountNumberDestinations);
-        Map<String, String> mapAccountSourceNameByAccountNumberSource = accountService.getAccountSourceNameByAccountNumberSource(accountNumberSource);
+        Map<String, String> mapAccountSourceNameByAccountNumberSource = accountService.getAccountSourceNameByAccountNumberSource(accountNumber);
 
         for (Transaction transaction : transactions) {
             String currDestinationAccountNumber = transaction.getAccountNumberDestination().getAccountNumber();
