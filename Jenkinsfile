@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         db_password = credentials('bf887856-38ad-4410-93b7-b5121f0094b6')
+        docker_login_password = credentials('b6d657b1-feea-4ff0-91f6-f71c9602f0cc')
     }
 
     stages {
@@ -23,7 +24,7 @@ pipeline {
         stage('Login docker using unboxit account') {
             steps {
                 echo 'Pulling the image'
-                sh 'docker login ghcr.io -u jonathanrichard13 -p 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'
+                sh "docker login ghcr.io -u jonathanrichard13 -p '${docker_login_password.toString()}'"
             }
         }
 
