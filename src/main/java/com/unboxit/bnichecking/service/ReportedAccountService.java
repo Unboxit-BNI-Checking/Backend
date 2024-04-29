@@ -5,6 +5,7 @@ import com.unboxit.bnichecking.entity.http.response.GetAllReports;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.ReportedAccount;
+import com.unboxit.bnichecking.model.TwitterReport;
 import com.unboxit.bnichecking.repository.ReportedAccountJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,13 @@ public class ReportedAccountService {
     private ReportedAccountJpaRepository reportedAccountJpaRepository;
     private AccountService accountService;
     private ReportsService reportsService;
+    private TwitterReportService twitterReportService;
 
-    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService) {
+    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService, TwitterReportService twitterReportService) {
         this.reportedAccountJpaRepository = reportedAccountJpaRepository;
         this.accountService = accountService;
         this.reportsService = reportsService;
+        this.twitterReportService = twitterReportService;
     }
     public List<GetReportedAccount> getReportedAccount(){
         List<GetReportedAccount> results = new ArrayList<>();
@@ -79,11 +82,13 @@ public class ReportedAccountService {
         for (ReportedAccount reported : reportedAccounts) {
             Reports.addAll(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()));
         }
+        List<TwitterReport> twitterReports = twitterReportService.getAllTwitterReportByAccountNumber(accountNumber);
         GetReportedAccountAndAccountByAccountNumber results = new GetReportedAccountAndAccountByAccountNumber(
                 accountNumber,
                 accounts.getCustomerName(),
                 getStatus(reportedAccounts),
-                Reports.size()
+                Reports.size(),
+                twitterReports.size()
         );
         return results;
     }

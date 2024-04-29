@@ -4,15 +4,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CreateReportAttachment {
     @JsonProperty("report_id")
-    private String reportId;
+    private long reportId;
     @JsonProperty("file_path")
     private String filePath;
 
-    public String getReportId() {
+    public CreateReportAttachment(long reportId, String filePath) {
+        this.reportId = reportId;
+        this.filePath = filePath;
+    }
+
+    public CreateReportAttachment() {
+
+    }
+
+    public long getReportId() {
         return reportId;
     }
 
-    public void setReportId(String reportId) {
+    public void setReportId(long reportId) {
         this.reportId = reportId;
     }
 

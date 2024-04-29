@@ -21,6 +21,9 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
                     "IN (SELECT account_number FROM accounts a WHERE a.customer_name like CONCAT('%', ?1, '%'))", nativeQuery = true)
     List<Object[]> findReportsAndTransactionByAccountName(String accountName);
 
+    @Query(value="SELECT report_id FROM reports WHERE transaction_id = :transaction_id and reported_account_id = :reported_account_id and chronology = :chronology and created_at = :create_at", nativeQuery = true)
+    Long findReportIdByNewReport(@Param("transaction_id") Long transaction_id, @Param("reported_account_id") Long reported_account_id, @Param("chronology") String chronology, @Param("create_at") LocalDateTime create_at);
+
     @Modifying
     @Transactional
     @Query(value = "insert into reported_account (reported_account_number, status, created_at) values (:reported_account_number, :status, :create_at)", nativeQuery = true)
@@ -28,7 +31,7 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "insert into reports (transaction_id, reported_account_id, chronology, created_at) values (:transaction_id, :reported_account_id, :chronology, :create_at)", nativeQuery = true)
+    @Query(value = "insert into reports (transaction_id, reported_account_id, chronology, created_at) values (:transaction_id, :reported_account_id, :chronology, :create_at);", nativeQuery = true)
     void insertReports(@Param("transaction_id") Long transaction_id, @Param("reported_account_id") Long reported_account_id, @Param("chronology") String chronology, @Param("create_at") LocalDateTime create_at);
 }
 

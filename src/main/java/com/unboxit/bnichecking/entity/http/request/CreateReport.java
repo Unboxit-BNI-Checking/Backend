@@ -8,10 +8,13 @@ public class CreateReport {
     private long transactionId;
     @Column(columnDefinition = "TEXT")
     private String chrolonogy;
+    @JsonProperty("file_path")
+    private String filePath;
 
-    public CreateReport(long transactionId, String chrolonogy) {
+    public CreateReport(long transactionId, String chrolonogy, String filePath) {
         this.transactionId = transactionId;
         this.chrolonogy = chrolonogy;
+        this.filePath = filePath;
     }
 
     public CreateReport() {
@@ -30,5 +33,13 @@ public class CreateReport {
 
     public void setChrolonogy(String chrolonogy) {
         this.chrolonogy = chrolonogy;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

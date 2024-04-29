@@ -1,6 +1,7 @@
 package com.unboxit.bnichecking.entity.http.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unboxit.bnichecking.model.Reports;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,18 @@ public class GetAllReportAttachments {
     private LocalDateTime deletedAt;
 
     public GetAllReportAttachments() {
+    }
+
+    public GetAllReportAttachments(long report, String filePath) {
+        this.reportId = report;
+        this.filePath = filePath;
+    }
+
+    public GetAllReportAttachments(long reportAttachmentId, long reportId, String filePath, LocalDateTime createdAt) {
+        this.reportAttachmentId = reportAttachmentId;
+        this.reportId = reportId;
+        this.filePath = filePath;
+        this.createdAt = createdAt;
     }
 
     public long getReportAttachmentId() {

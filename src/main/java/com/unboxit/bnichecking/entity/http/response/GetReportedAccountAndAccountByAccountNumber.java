@@ -16,7 +16,10 @@ public class GetReportedAccountAndAccountByAccountNumber {
     @JsonProperty("reports_count")
     private long reportsCount;
 
-    public GetReportedAccountAndAccountByAccountNumber(String reportedAccountNumber, String customerName, long status, long size) {
+    @JsonProperty("reports_twitter_count")
+    private long reportsTwitterCount;
+
+    public GetReportedAccountAndAccountByAccountNumber(String reportedAccountNumber, String customerName, long status, long reports, long reportsTwitter) {
         this.accountNumber = reportedAccountNumber;
         this.accountOwnerName = customerName;
         if(status == 1){
@@ -24,7 +27,8 @@ public class GetReportedAccountAndAccountByAccountNumber {
         } else if(status == 2){
             this.status = "Gak Aman Bos";
         }
-        this.reportsCount = size;
+        this.reportsCount = reports;
+        this.reportsTwitterCount = reportsTwitter;
     }
 
 //    @JsonProperty("twitters_count")
@@ -60,5 +64,13 @@ public class GetReportedAccountAndAccountByAccountNumber {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public long getReportsTwitterCount() {
+        return reportsTwitterCount;
+    }
+
+    public void setReportsTwitterCount(long reportsTwitterCount) {
+        this.reportsTwitterCount = reportsTwitterCount;
     }
 }
