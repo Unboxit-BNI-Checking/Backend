@@ -34,12 +34,7 @@ public class ReportsController {
         return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getReportsAndTransactionByCustomerNames(username), null));
     }
 
-    @PostMapping(value = "/reports", consumes = "application/json", produces = "application/json") //Create Resource
-    public ResponseEntity<ApiResponse<CreateReportResponse>> createReports(@RequestBody CreateReport newReports) {
-        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.createReports(newReports), null));
-    }
-
-    @PostMapping(value = "/reports/upload") //Create Resource
+    @PostMapping(value = "/reports") //Create Resource
     public ResponseEntity<ApiResponse<CreateReportResponse>> createReportsAndReportsAttachment(@RequestParam("transaction_id") Long TransactionId, @RequestParam("chronology") String chronology, @RequestParam("file") List<MultipartFile> files) throws IOException {
         return ResponseEntity.ok(new ApiResponse<>(true, reportsService.createReportsAndAttachment(TransactionId, chronology, files), null));
     }
