@@ -100,6 +100,14 @@ public class AccountService {
 
     }
 
+    public Map<String, String> getAccountSourceNameByAccountNumberSource(String accountNumberSource) {
+        Map<String, String> mapAccountSourceNameByAccountNumberSource= new HashMap<>();
+        Account account = repository.findAccountByAccountNumber(accountNumberSource);
+        mapAccountSourceNameByAccountNumberSource.put(account.getAccountNumber(), account.getCustomerName());
+        return mapAccountSourceNameByAccountNumberSource;
+
+    }
+
     public void HandleAccountTransaction(String accountNumberSource, String accountNumberDestination, long amount) {
         repository.transferAmount(accountNumberSource, accountNumberDestination, amount);
     }

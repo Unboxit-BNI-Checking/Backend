@@ -1,7 +1,9 @@
 package com.unboxit.bnichecking.controller;
 
 import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
+import com.unboxit.bnichecking.entity.http.request.CreateReport;
 import com.unboxit.bnichecking.entity.http.response.ApiResponse;
+import com.unboxit.bnichecking.entity.http.response.CreateReportResponse;
 import com.unboxit.bnichecking.entity.http.response.GetAllReports;
 import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.service.ReportsService;
@@ -32,8 +34,8 @@ public class ReportsController {
     }
 
     @PostMapping(value = "/reports", consumes = "application/json", produces = "application/json") //Create Resource
-    public Reports createReports(@RequestBody Reports newReports) {
-        return reportsService.createReports(newReports);
+    public ResponseEntity<ApiResponse<CreateReportResponse>> createReports(@RequestBody CreateReport newReports) {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.createReports(newReports), null));
     }
 
 }

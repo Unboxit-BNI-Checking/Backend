@@ -41,7 +41,7 @@ public class ReportedAccountService {
         return results;
     }
 
-    public List<GetReportedAccount> getReportedAccountByReportedAccountNumber(String accountNumber) {
+    public List<GetReportedAccount> getReportedAccountsByReportedAccountNumber(String accountNumber) {
         List<GetReportedAccount> results = new ArrayList<>();
         List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findReportedAccountsByReportedAccountNumber(accountNumber);
         for (ReportedAccount reported : reportedAccounts) {
@@ -82,17 +82,19 @@ public class ReportedAccountService {
         GetReportedAccountAndAccountByAccountNumber results = new GetReportedAccountAndAccountByAccountNumber(
                 accountNumber,
                 accounts.getCustomerName(),
-                maxStatus(reportedAccounts),
+                getStatus(reportedAccounts),
                 Reports.size()
         );
         return results;
     }
 
-    private long maxStatus(List<ReportedAccount> reportedAccounts){
-        long maxStatus = Long.MIN_VALUE;
+    private long getStatus(List<ReportedAccount> reportedAccounts){
+        long getStatus = Long.MIN_VALUE;
         for (ReportedAccount reported : reportedAccounts) {
-            maxStatus = Math.max(maxStatus, reported.getStatus());
+            if(getStatus < reported.getStatus() && reported.getStatus() < 3){
+                getStatus = reported.getStatus();
+            }
         }
-        return maxStatus;
+        return getStatus;
     }
 }

@@ -65,18 +65,24 @@ public class TransactionService {
         List<GetTransactionsByAccountNumberSource> results = new ArrayList<>();
         List<Transaction> transactions = transactionJpaRepository.findTransactionsByAccountNumberSource(accountNumber);
         List<String> accountNumberDestinations = new ArrayList<>();;
+        String accountNumberSource = transactions.getFirst().getAccountNumberSource().getAccountNumber();
 
         for (Transaction transaction : transactions) {
             accountNumberDestinations.add(transaction.getAccountNumberDestination().getAccountNumber());
         }
         Map<String, String> mapAccountDestinationNameByAccountNumberDestination = accountService.getAccountDestinationNameByAccountNumberDestination(accountNumberDestinations);
+        Map<String, String> mapAccountSourceNameByAccountNumberSource = accountService.getAccountSourceNameByAccountNumberSource(accountNumberSource);
 
         for (Transaction transaction : transactions) {
-            String currAccountNumber = transaction.getAccountNumberDestination().getAccountNumber();
+            String currDestinationAccountNumber = transaction.getAccountNumberDestination().getAccountNumber();
+            String currSourceAccountNumber = transaction.getAccountNumberSource().getAccountNumber();
+
             results.add(new GetTransactionsByAccountNumberSource(
                     transaction.getTransactionId(),
-                    currAccountNumber,
-                    mapAccountDestinationNameByAccountNumberDestination.get(currAccountNumber),
+                    currDestinationAccountNumber,
+                    mapAccountDestinationNameByAccountNumberDestination.get(currDestinationAccountNumber),
+                    currSourceAccountNumber,
+                    mapAccountSourceNameByAccountNumberSource.get(currSourceAccountNumber),
                     transaction.getAmount(),
                     "Transfer BNI",
                     transaction.getCreatedAt()
@@ -122,16 +128,5 @@ public class TransactionService {
                 0,
                 newTransaction.getAmount()
         );
-    }
-    
-    public Transaction createTransaction(CreateTransaction newTransaction){
-
-        Transaction a = new Transaction(
-                accountService.getAccountByAccountNumber(newTransaction.getAccountNumberSource()),
-                accountService.getAccountByAccountNumber(newTransaction.getAccountNumberDestination()),
-                newTransaction.getAmount(),
-                newTransaction.getNote()
-        );
-        return transactionJpaRepository.save(a);
     }
 }

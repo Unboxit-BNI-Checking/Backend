@@ -12,8 +12,14 @@ public class GetTransactionsByAccountNumberSource {
     @JsonProperty("account_number_destination")
     private String accountNumberDestination;
 
-    @JsonProperty("account_owner_name")
-    private String accountOwnerName;
+    @JsonProperty("account_destination_owner_name")
+    private String accountDestinationOwnerName;
+
+    @JsonProperty("account_number_source")
+    private String accountNumberSource;
+
+    @JsonProperty("account_source_owner_name")
+    private String accountSourceOwnerName;
 
     @JsonProperty("amount")
     private long amount;
@@ -24,10 +30,12 @@ public class GetTransactionsByAccountNumberSource {
     @JsonProperty("transaction_time")
     private LocalDateTime createdAt;
 
-    public GetTransactionsByAccountNumberSource(long transactionId, String accountNumberDestination, String accountOwnerName, long amount, String transactionType, LocalDateTime createdAt) {
+    public GetTransactionsByAccountNumberSource(long transactionId, String accountNumberDestination, String accountDestinationOwnerName, String accountNumberSource, String accountSourceOwnerName, long amount, String transactionType, LocalDateTime createdAt) {
         this.transactionId = transactionId;
         this.accountNumberDestination = accountNumberDestination;
-        this.accountOwnerName = accountOwnerName;
+        this.accountDestinationOwnerName = accountDestinationOwnerName;
+        this.accountNumberSource = accountNumberSource;
+        this.accountSourceOwnerName = accountSourceOwnerName;
         this.amount = amount;
         this.transactionType = transactionType;
         this.createdAt = createdAt;

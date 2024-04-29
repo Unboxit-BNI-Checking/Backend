@@ -1,9 +1,7 @@
 package com.unboxit.bnichecking.controller;
 
-import com.unboxit.bnichecking.entity.http.request.CreateReportedAccount;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
 import com.unboxit.bnichecking.entity.http.response.*;
-import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,7 @@ public class ReportedAccountController {
 
     @GetMapping(value = "/reportedAcc/account/{reported_account_number}", produces = "application/json")
     public ResponseEntity<ApiResponse<List<GetReportedAccount>>> getReportedAccountByReportedAccountNumber(@PathVariable String reported_account_number){
-        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountByReportedAccountNumber(reported_account_number), null));
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountsByReportedAccountNumber(reported_account_number), null));
     }
 
     @GetMapping(value = "/reportedAcc/reports/{reportedAccount_Id}", produces = "application/json")
