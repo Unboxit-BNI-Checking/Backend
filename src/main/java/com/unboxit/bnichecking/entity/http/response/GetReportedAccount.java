@@ -14,7 +14,9 @@ public class GetReportedAccount {
     @JsonProperty("time_finished")
     private LocalDateTime time_finished;
 
+    @JsonProperty("status")
     private long status;
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
     public GetReportedAccount(){

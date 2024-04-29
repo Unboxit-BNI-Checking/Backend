@@ -1,6 +1,5 @@
 package com.unboxit.bnichecking.service;
 
-import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
 import com.unboxit.bnichecking.entity.http.response.CreateTransactionResponse;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccount;
 import com.unboxit.bnichecking.entity.http.response.GetTransaction;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

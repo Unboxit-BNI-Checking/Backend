@@ -3,7 +3,6 @@ package com.unboxit.bnichecking.controller;
 import com.unboxit.bnichecking.entity.http.request.CreateBlacklistTwitterUsername;
 import com.unboxit.bnichecking.entity.http.response.ApiResponse;
 import com.unboxit.bnichecking.model.BlacklistTwitterUsername;
-import com.unboxit.bnichecking.model.TwitterReport;
 import com.unboxit.bnichecking.service.BlacklistTwitterUsernameService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

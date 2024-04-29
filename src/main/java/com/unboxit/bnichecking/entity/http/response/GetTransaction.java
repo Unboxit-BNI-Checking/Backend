@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 public class GetTransaction {
-    @JsonProperty("transaction_Id")
+    @JsonProperty("transaction_id")
     private long transactionId;
 
     @JsonProperty("account_number_source")

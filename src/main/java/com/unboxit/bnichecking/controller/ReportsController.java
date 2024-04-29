@@ -5,7 +5,6 @@ import com.unboxit.bnichecking.entity.http.request.CreateReport;
 import com.unboxit.bnichecking.entity.http.response.ApiResponse;
 import com.unboxit.bnichecking.entity.http.response.CreateReportResponse;
 import com.unboxit.bnichecking.entity.http.response.GetAllReports;
-import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.service.ReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

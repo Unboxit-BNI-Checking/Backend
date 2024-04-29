@@ -2,7 +2,6 @@ package com.unboxit.bnichecking.entity.http.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unboxit.bnichecking.entity.db.FavouriteDB;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 

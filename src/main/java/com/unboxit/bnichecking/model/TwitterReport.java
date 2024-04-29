@@ -1,9 +1,9 @@
 package com.unboxit.bnichecking.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,16 +16,21 @@ import java.time.LocalDateTime;
 public class TwitterReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("twitter_report_id")
     private long twitterReportId;
 
     @Column(name = "post_date", nullable = false)
+    @JsonProperty("post_date")
     private LocalDateTime postDate;
 
     @Column(name = "twitter_username", nullable = false)
+    @JsonProperty("twitter_username")
     private String twitterUsername;
 
     @Column(name = "tweet_link", nullable = false)
+    @JsonProperty("tweet_link")
     private String tweetLink;
+
     @ManyToOne
     @JoinColumn(name="reported_account_number", referencedColumnName="account_number", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -33,13 +38,16 @@ public class TwitterReport {
 
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name="updated_at")
+    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
     @Column(name="deleted_at")
+    @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
 
     public long getTwitterReportId() {

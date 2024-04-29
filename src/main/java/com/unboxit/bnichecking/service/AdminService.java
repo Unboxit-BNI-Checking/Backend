@@ -2,7 +2,6 @@ package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.model.Admins;
 import com.unboxit.bnichecking.repository.AdminJpaRepository;
-import com.unboxit.bnichecking.util.PasswordHasherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,5 @@
 package com.unboxit.bnichecking.repository;
 
-import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.Admins;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class GetTransactionsByAccountNumberSource {
 
-    @JsonProperty("transaction_Id")
+    @JsonProperty("transaction_id")
     private long transactionId;
 
     @JsonProperty("account_number_destination")

@@ -3,8 +3,6 @@ package com.unboxit.bnichecking.entity.http.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 
-import java.time.LocalDateTime;
-
 public class GetAllReports {
     @JsonProperty("report_id")
     private long reportId;

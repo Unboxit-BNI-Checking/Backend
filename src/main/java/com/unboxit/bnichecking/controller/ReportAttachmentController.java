@@ -1,6 +1,5 @@
 package com.unboxit.bnichecking.controller;
 
-import com.unboxit.bnichecking.entity.http.request.CreateReportAttachment;
 import com.unboxit.bnichecking.entity.http.response.ApiResponse;
 import com.unboxit.bnichecking.entity.http.response.GetAllReportAttachments;
 import com.unboxit.bnichecking.model.ReportAttachment;
