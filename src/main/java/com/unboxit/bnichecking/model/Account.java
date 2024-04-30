@@ -1,6 +1,7 @@
 package com.unboxit.bnichecking.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,29 +16,37 @@ import java.util.List;
 public class Account  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("account_id")
     private long accountId;
 
     @Column(name="account_number", nullable = false, unique = true, length = 10)
+    @JsonProperty("account_number")
     private String accountNumber;
 
     @Column(name="customer_name", nullable = false)
+    @JsonProperty("account_name")
     private String customerName;
 
     @Column(nullable = false)
+    @JsonProperty("balance")
     private Long balance;
 
     @Column(name="blocked", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+    @JsonProperty("blocked")
     private Boolean blocked;
 
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name="updated_at")
+    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
     @Column(name="deleted_at")
+    @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
 
     @OneToMany(mappedBy = "account")

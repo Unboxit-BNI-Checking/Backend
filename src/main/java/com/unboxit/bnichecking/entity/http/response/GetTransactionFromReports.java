@@ -3,7 +3,7 @@ package com.unboxit.bnichecking.entity.http.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GetTransactionFromReports {
-    @JsonProperty("transaction_Id")
+    @JsonProperty("transaction_id")
     private Long transactionId;
 
     @JsonProperty("account_number_destination")

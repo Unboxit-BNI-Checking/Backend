@@ -1,5 +1,6 @@
 package com.unboxit.bnichecking.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,18 +14,24 @@ import java.time.LocalDateTime;
 public class BlacklistTwitterUsername {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("blacklist_twitter_username_id")
     private long blacklistTwitterUsernameId;
+    @JsonProperty("username")
     private String username;
     @Column(name = "is_blocked", nullable = false)
+    @JsonProperty("is_blocked")
     private Boolean isBlocked;
 
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
     @LastModifiedDate
     @Column(name="updated_at")
+    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
     @Column(name="deleted_at")
+    @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
 
     public BlacklistTwitterUsername() {

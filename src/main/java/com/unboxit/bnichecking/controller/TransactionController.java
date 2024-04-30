@@ -4,7 +4,6 @@ import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.entity.http.response.GetTransaction;
 import com.unboxit.bnichecking.model.Account;
-import com.unboxit.bnichecking.model.TwitterReport;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;

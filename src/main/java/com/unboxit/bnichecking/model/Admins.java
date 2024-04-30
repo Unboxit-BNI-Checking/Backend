@@ -1,5 +1,6 @@
 package com.unboxit.bnichecking.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,20 +15,27 @@ import java.util.List;
 public class Admins {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("admin_id")
     private long adminId;
     @Column(nullable = false)
+    @JsonProperty("username")
     private String username;
     @Column(name = "hashed_password", nullable = false)
+    @JsonProperty("hashed_password")
     private String hashedPassword;
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
     @LastModifiedDate
     @Column(name="updated_at")
+    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
     @Column(name="deleted_at")
+    @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
     @OneToMany(mappedBy = "admins")
+    @JsonProperty("owned_reported_account")
     private List<ReportedAccount> ownedReportedAccount;
 
     public Admins() {

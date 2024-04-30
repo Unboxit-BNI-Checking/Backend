@@ -24,6 +24,18 @@ public class GetAllReportAttachments {
     public GetAllReportAttachments() {
     }
 
+    public GetAllReportAttachments(long report, String filePath) {
+        this.reportId = report;
+        this.filePath = filePath;
+    }
+
+    public GetAllReportAttachments(long reportAttachmentId, long reportId, String filePath, LocalDateTime createdAt) {
+        this.reportAttachmentId = reportAttachmentId;
+        this.reportId = reportId;
+        this.filePath = filePath;
+        this.createdAt = createdAt;
+    }
+
     public long getReportAttachmentId() {
         return reportAttachmentId;
     }

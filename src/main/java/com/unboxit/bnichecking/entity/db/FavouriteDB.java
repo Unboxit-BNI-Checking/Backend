@@ -1,6 +1,5 @@
 package com.unboxit.bnichecking.entity.db;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public interface FavouriteDB {

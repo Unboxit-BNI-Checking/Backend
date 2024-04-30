@@ -1,7 +1,7 @@
 package com.unboxit.bnichecking.service;
 
-import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
 import com.unboxit.bnichecking.entity.http.response.CreateTransactionResponse;
+import com.unboxit.bnichecking.entity.http.response.GetReportedAccount;
 import com.unboxit.bnichecking.entity.http.response.GetTransaction;
 import com.unboxit.bnichecking.entity.http.response.GetTransactionsByAccountNumberSource;
 import com.unboxit.bnichecking.model.Account;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +21,12 @@ public class TransactionService {
 
     @Autowired
     private AccountService accountService;
+    private ReportedAccountService reportedAccountService;
 
-    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService) {
+    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService) {
         this.transactionJpaRepository = transactionJpaRepository;
         this.accountService = accountService;
+        this.reportedAccountService = reportedAccountService;
     }
     public List<GetTransaction> getAllTransactions() {
         List<GetTransaction> results = new ArrayList<>();
@@ -112,6 +113,17 @@ public class TransactionService {
         Account accountDestination = newTransaction.getAccountNumberDestination();
         Account accountSource = newTransaction.getAccountNumberSource();
         accountService.HandleAccountTransaction(accountSource.getAccountNumber(), accountDestination.getAccountNumber(), newTransaction.getAmount());
+        List<GetReportedAccount> reportedAccounts = reportedAccountService.getReportedAccountsByReportedAccountNumber(newTransaction.getAccountNumberDestination().getAccountNumber());
+        List<Long> statusAccount = new ArrayList<>();
+        int statusNumberDestination;
+        for (GetReportedAccount reportedAccount : reportedAccounts) {
+            statusAccount.add(reportedAccount.getStatus());
+        }
+        if(statusAccount.contains(2)){
+            statusNumberDestination = 2;
+        } else {
+            statusNumberDestination = 1;
+        }
         return new CreateTransactionResponse(
                 newTransaction.getTransactionId(),
                 true,
@@ -120,7 +132,7 @@ public class TransactionService {
                 newTransaction.getCreatedAt(),
                 "",
                 "BNI",
-                0,
+                statusNumberDestination,
                 accountSource.getCustomerName(),
                 accountSource.getAccountNumber(),
                 newTransaction.getAmount(),

@@ -36,14 +36,14 @@ public class ReportAttachmentController {
     }
 
     @PostMapping("/reportAttachment/upload")
-    public ResponseEntity<ApiResponse<List<ReportAttachment>>> uploadFile(@RequestParam("reportId") Long reportId, @RequestParam("file") List<MultipartFile> files) throws IOException {
+    public ResponseEntity<ApiResponse<List<GetAllReportAttachments>>> uploadFile(@RequestParam("reportId") Long reportId, @RequestParam("file") List<MultipartFile> files) throws IOException {
         Reports report= reportsService.getReportsById(reportId);
         if (report == null) {
-            ApiResponse<List<ReportAttachment>> response = new ApiResponse<>(false, null, "Report id is invalid");
+            ApiResponse<List<GetAllReportAttachments>> response = new ApiResponse<>(false, null, "Report id is invalid");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        List<ReportAttachment> savedAttachments = new ArrayList<>();
+        List<ReportAttachment> saveAttachment = new ArrayList<>();
 
         for (MultipartFile file : files) {
             byte[] bytes = file.getBytes();
@@ -58,10 +58,13 @@ public class ReportAttachmentController {
             // Write the file bytes to the new file
             // This saves the uploaded file to the specified location
             Files.write(newFile.toPath(), bytes);
-            ReportAttachment saveAttachmet = reportAttachmentService.createReportAttachment(new ReportAttachment(report, filePath));
-            savedAttachments.add(saveAttachmet);
+            saveAttachment.add(reportAttachmentService.createReportAttachment(new ReportAttachment(report, filePath)));
         }
-        return ResponseEntity.ok(new ApiResponse<>(true, savedAttachments, null));
+        List<GetAllReportAttachments> result = new ArrayList<>();
+        for(ReportAttachment a : saveAttachment){
+            result.add(new GetAllReportAttachments(a.getReportAttachmentId(), a.getReportId().getReportId(), a.getFilePath(), a.getCreatedAt()));
+        }
+        return ResponseEntity.ok(new ApiResponse<>(true, result, null));
     }
 
     @GetMapping("/reportAttachment/report/{report_id}")
