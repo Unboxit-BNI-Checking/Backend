@@ -37,7 +37,7 @@ public class AdminController {
     }
 
     @PostMapping("/admins/login")
-    public ResponseEntity<ApiResponse<LoginAdminResponse>> loginAdmn (@RequestBody LoginAdmin loginAdmin){
+    public ResponseEntity<ApiResponse<LoginAdminResponse>> loginAdmin (@RequestBody LoginAdmin loginAdmin){
         if(loginAdmin.getUsername()!=null && loginAdmin.getPassword()!=null){
             Admins admins = adminService.findAdminByUsername(loginAdmin.getUsername());
             if(admins !=null){

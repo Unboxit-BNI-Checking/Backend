@@ -1,3 +1,3 @@
-account_number,customer_name,balance,blocked
-1234567890,john doe,123000,false
-2234567890,suzie,10000,false
+account_number,user_id,balance,blocked
+1234567890,1,123000,false
+2234567890,1,10000,false

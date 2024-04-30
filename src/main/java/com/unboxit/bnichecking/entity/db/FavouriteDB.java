@@ -8,7 +8,7 @@ public interface FavouriteDB {
 
     String getName();
 
-    long getAccountId();
+    long getUserId();
 
     String getFavouriteAccountNumber();
 

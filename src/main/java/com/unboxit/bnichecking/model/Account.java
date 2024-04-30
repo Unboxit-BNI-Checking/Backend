@@ -3,6 +3,8 @@ package com.unboxit.bnichecking.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,10 +24,6 @@ public class Account  {
     @Column(name="account_number", nullable = false, unique = true, length = 10)
     @JsonProperty("account_number")
     private String accountNumber;
-
-    @Column(name="customer_name", nullable = false)
-    @JsonProperty("account_name")
-    private String customerName;
 
     @Column(nullable = false)
     @JsonProperty("balance")
@@ -49,7 +47,7 @@ public class Account  {
     @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "favouriteAccount")
     private List<Favourite> ownedFavourites;
 
     @OneToMany(mappedBy = "reportedAccountNumber")
@@ -61,13 +59,19 @@ public class Account  {
     @OneToMany(mappedBy = "accountNumberDestination")
     private List<Transaction> transactionsAsDestination;
 
+    @ManyToOne
+    @JoinColumn(name="user_id", referencedColumnName="userId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonProperty("user_id")
+    private User userId;
+
     public Account() {}
 
-    public Account(String accountNumber, String customerName, Long balance, Boolean blocked) {
+    public Account(String accountNumber, Long balance, Boolean blocked, User userId) {
         this.accountNumber = accountNumber;
-        this.customerName = customerName;
         this.balance = balance;
         this.blocked = blocked;
+        this.userId = userId;
     }
 
     public long getAccountId() {
@@ -80,14 +84,6 @@ public class Account  {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
     }
 
     public Long getBalance() {
@@ -130,23 +126,11 @@ public class Account  {
         this.deletedAt = deletedAt;
     }
 
-//    public List<Favourite> getOwnedFavourites() {
-//        return ownedFavourites;
-//    }
-//
-//    public void setOwnedFavourites(List<Favourite> ownedFavourites) {
-//        this.ownedFavourites = ownedFavourites;
-//    }
+    public User getUserId() {
+        return userId;
+    }
 
-
-
-//    public Account() {}
-
-//    public Account(@NonNull String userName, String userAddress, String userPhoneNumber, String userBio) {
-//        this.userName = userName;
-//        this.userAddress = userAddress;
-//        this.userPhoneNumber = userPhoneNumber;
-//        this.userBio = userBio;
-//    }
-
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
 }

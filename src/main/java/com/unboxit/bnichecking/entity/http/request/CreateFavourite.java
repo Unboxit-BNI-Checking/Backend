@@ -6,8 +6,8 @@ public class CreateFavourite {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("account_id")
-    private long accountId;
+    @JsonProperty("user_id")
+    private long userId;
 
     @JsonProperty("favourite_account_number")
     private String favouriteAccountNumber;
@@ -20,12 +20,12 @@ public class CreateFavourite {
         this.name = name;
     }
 
-    public Long getAccountId() {
-        return accountId;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getFavouriteAccountNumber() {
