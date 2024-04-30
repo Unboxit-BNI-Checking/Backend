@@ -29,7 +29,7 @@ public class AccountService {
         return new GetMyAccount(
                 myAccount.getAccountId(),
                 myAccount.getAccountNumber(),
-                myAccount.getUserId().getCustomerName(),
+                myAccount.getUser().getCustomerName(),
                 myAccount.getBalance(),
                 myAccount.getBlocked(),
                 myAccount.getCreatedAt(),
@@ -53,7 +53,7 @@ public class AccountService {
             GetAllAccounts getAllAccounts = new GetAllAccounts();
             getAllAccounts.setAccountId(account.getAccountId());
             getAllAccounts.setAccountNumber(account.getAccountNumber());
-            getAllAccounts.setCustomerName(hideCustomerName(account.getUserId().getCustomerName()));
+            getAllAccounts.setCustomerName(hideCustomerName(account.getUser().getCustomerName()));
             getAllAccounts.setBlocked(account.getBlocked());
             results.add(getAllAccounts);
         }
@@ -86,7 +86,7 @@ public class AccountService {
                 newAccount.getAccountNumber(),
                 newAccount.getBalance(),
                 newAccount.getBlocked(),
-                userService.getUserByUserId(newAccount.getUserId())
+                userService.getUserByUserId(newAccount.getUser())
         );
         return repository.save(a);
     }
@@ -95,7 +95,7 @@ public class AccountService {
         Map<String, String> mapAccountDestinationNameByAccountNumberDestination = new HashMap<>();
         List<Account> accounts = repository.findAccountsByAccountNumbers(accountNumberDestinations);
         for (Account account : accounts) {
-            mapAccountDestinationNameByAccountNumberDestination.put(account.getAccountNumber(), account.getUserId().getCustomerName());
+            mapAccountDestinationNameByAccountNumberDestination.put(account.getAccountNumber(), account.getUser()).getCustomerName());
         }
         return mapAccountDestinationNameByAccountNumberDestination;
 
@@ -104,7 +104,7 @@ public class AccountService {
     public Map<String, String> getAccountSourceNameByAccountNumberSource(String accountNumberSource) {
         Map<String, String> mapAccountSourceNameByAccountNumberSource= new HashMap<>();
         Account account = repository.findAccountByAccountNumber(accountNumberSource);
-        mapAccountSourceNameByAccountNumberSource.put(account.getAccountNumber(), account.getUserId().getCustomerName());
+        mapAccountSourceNameByAccountNumberSource.put(account.getAccountNumber(), account.getUser().getCustomerName());
         return mapAccountSourceNameByAccountNumberSource;
 
     }

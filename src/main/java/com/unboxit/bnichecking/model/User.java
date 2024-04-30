@@ -102,11 +102,12 @@ public class User {
         this.deletedAt = deletedAt;
     }
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String CustomerName, String Username, String hashedPassword, String hashedMpin){
-        this.customerName = CustomerName;
-        this.username =Username;
+    public User(String customerName, String username, String hashedPassword, String hashedMpin) {
+        this.customerName = customerName;
+        this.username = username;
         this.hashedPassword = hashedPassword;
         this.hashedMpin = hashedMpin;
     }

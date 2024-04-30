@@ -84,7 +84,7 @@ public class ReportedAccountService {
         List<TwitterReport> twitterReports = twitterReportService.getAllTwitterReportByAccountNumber(accountNumber);
         GetReportedAccountAndAccountByAccountNumber results = new GetReportedAccountAndAccountByAccountNumber(
                 accountNumber,
-                accounts.getUserId().getCustomerName(),
+                accounts.getUser().getCustomerName(),
                 getStatus(reportedAccounts),
                 Reports.size(),
                 twitterReports.size()

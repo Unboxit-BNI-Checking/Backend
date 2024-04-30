@@ -9,14 +9,21 @@ import java.util.List;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserJpaRepository userJpaRepository;
 
-    public List<User> getAllUsers(){
-        return userJpaRepository.findAll();
+    @Autowired
+    private UserJpaRepository repository;
+    public User getUserByUserId(Long userId) {
+        return repository.findUserByUserId(userId);
     }
 
-    public User getUserByUserId(long user_id){
-        return userJpaRepository.findUserByUserId(user_id);
+    public User createUser(User newUser){
+        return repository.save(newUser);
+    }
+    public List<User> getAllUser(){
+        return repository.findAll();
+    }
+
+    public User findUserByUsername(String username){
+        return repository.findUserByUsername(username);
     }
 }

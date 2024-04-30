@@ -21,9 +21,15 @@ public class Account  {
     @JsonProperty("account_id")
     private long accountId;
 
-    @Column(name="account_number", nullable = false, unique = true, length = 10)
+    @Column(name="account_number", nullable = true, unique = true, length = 10)
     @JsonProperty("account_number")
     private String accountNumber;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonProperty("user_id")
+    private User user;
 
     @Column(nullable = false)
     @JsonProperty("balance")
@@ -59,16 +65,11 @@ public class Account  {
     @OneToMany(mappedBy = "accountNumberDestination")
     private List<Transaction> transactionsAsDestination;
 
-    @ManyToOne
-    @JoinColumn(name="user_id", referencedColumnName="userId", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonProperty("user_id")
-    private User userId;
-
     public Account() {}
 
-    public Account(String accountNumber, Long balance, Boolean blocked, User userId) {
+    public Account(String accountNumber, User user, Long balance, Boolean blocked) {
         this.accountNumber = accountNumber;
+        this.user = user;
         this.balance = balance;
         this.blocked = blocked;
         this.userId = userId;
@@ -85,9 +86,16 @@ public class Account  {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
-
     public Long getBalance() {
         return balance;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setBalance(Long balance) {
