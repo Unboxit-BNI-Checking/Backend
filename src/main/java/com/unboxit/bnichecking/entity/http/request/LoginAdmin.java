@@ -21,4 +21,7 @@ public class LoginAdmin {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public LoginAdmin() {
+    }
 }
