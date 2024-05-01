@@ -28,7 +28,7 @@ public class AccountService {
         return new GetMyAccount(
                 myAccount.getAccountId(),
                 myAccount.getAccountNumber(),
-                myAccount.getUser().getUserId(),
+                myAccount.getCustomerName(),
                 myAccount.getBalance(),
                 myAccount.getBlocked(),
                 myAccount.getCreatedAt(),
@@ -52,7 +52,7 @@ public class AccountService {
             GetAllAccounts getAllAccounts = new GetAllAccounts();
             getAllAccounts.setAccountId(account.getAccountId());
             getAllAccounts.setAccountNumber(account.getAccountNumber());
-            getAllAccounts.setCustomerId(account.getUser().getUserId());
+            getAllAccounts.setCustomerName(hideCustomerName(account.getCustomerName()));
             getAllAccounts.setBlocked(account.getBlocked());
             results.add(getAllAccounts);
         }
@@ -80,21 +80,21 @@ public class AccountService {
         }
     }
 
-    public Account createAccount(Account newAccount) {
-//        Account a = new Account(
-//                newAccount.getAccountNumber(),
-//                newAccount.getUserId(),
-//                newAccount.getBalance(),
-//                newAccount.getBlocked()
-//        );
-        return repository.save(newAccount);
+    public Account createAccount(CreateAccount newAccount) {
+        Account a = new Account(
+                newAccount.getAccountNumber(),
+                newAccount.getCustomerName(),
+                newAccount.getBalance(),
+                newAccount.getBlocked()
+        );
+        return repository.save(a);
     }
 
     public Map<String, String> getAccountDestinationNameByAccountNumberDestination(List<String> accountNumberDestinations) {
         Map<String, String> mapAccountDestinationNameByAccountNumberDestination = new HashMap<>();
         List<Account> accounts = repository.findAccountsByAccountNumbers(accountNumberDestinations);
         for (Account account : accounts) {
-            mapAccountDestinationNameByAccountNumberDestination.put(account.getAccountNumber(), account.getUser().getCustomerName());
+            mapAccountDestinationNameByAccountNumberDestination.put(account.getAccountNumber(), account.getCustomerName());
         }
         return mapAccountDestinationNameByAccountNumberDestination;
 
@@ -103,7 +103,7 @@ public class AccountService {
     public Map<String, String> getAccountSourceNameByAccountNumberSource(String accountNumberSource) {
         Map<String, String> mapAccountSourceNameByAccountNumberSource= new HashMap<>();
         Account account = repository.findAccountByAccountNumber(accountNumberSource);
-        mapAccountSourceNameByAccountNumberSource.put(account.getAccountNumber(), account.getUser().getCustomerName());
+        mapAccountSourceNameByAccountNumberSource.put(account.getAccountNumber(), account.getCustomerName());
         return mapAccountSourceNameByAccountNumberSource;
 
     }

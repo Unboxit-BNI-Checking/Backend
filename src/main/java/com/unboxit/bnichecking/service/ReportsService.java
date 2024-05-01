@@ -79,9 +79,9 @@ public class ReportsService {
             reportsAndTransactionByCustomerName.setCreatedAtReports(((Timestamp) result[1]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setStatus((long) result[2]);
             reportsAndTransactionByCustomerName.setAccountNumberSource((String) result[3]);
-            reportsAndTransactionByCustomerName.setAccountNumberSourceUsername(accountService.getAccountByAccountNumber((String) result[3]).getUser().getCustomerName());
+            reportsAndTransactionByCustomerName.setAccountNumberSourceUsername(accountService.getAccountByAccountNumber((String) result[3]).getCustomerName());
             reportsAndTransactionByCustomerName.setAccountNumberDestination((String) result[4]);
-            reportsAndTransactionByCustomerName.setAccountNumberDestinationUsername(accountService.getAccountByAccountNumber((String) result[4]).getUser().getCustomerName());
+            reportsAndTransactionByCustomerName.setAccountNumberDestinationUsername(accountService.getAccountByAccountNumber((String) result[4]).getCustomerName());
             reportsAndTransactionByCustomerName.setAmount((long) result[5]);
             reportsAndTransactionByCustomerName.setCreatedAtTransaction(((Timestamp) result[6]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setChronology((String) result[7]);

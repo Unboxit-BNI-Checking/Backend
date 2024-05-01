@@ -7,8 +7,8 @@ public class CreateAccount {
     @JsonProperty("account_number")
     private String accountNumber;
 
-    @JsonProperty("user_id")
-    private long userId;
+    @JsonProperty("customer_name")
+    private String customerName;
     private Long balance;
 
     @JsonProperty(required = false)
@@ -22,12 +22,12 @@ public class CreateAccount {
         this.accountNumber = accountNumber;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public Long getBalance() {
