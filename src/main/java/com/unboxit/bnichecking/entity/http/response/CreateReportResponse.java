@@ -11,14 +11,14 @@ public class CreateReportResponse {
     @JsonProperty("reported_account_id")
     private long reportedAccountId;
     @Column(columnDefinition = "TEXT")
-    private String chrolonogy;
+    private String chronology;
     @JsonProperty("create_at")
     private LocalDateTime createAt;
 
-    public CreateReportResponse(long transactionId, long reportedAccountId, String chrolonogy, LocalDateTime createAt) {
+    public CreateReportResponse(long transactionId, long reportedAccountId, String chronology, LocalDateTime createAt) {
         this.transactionId = transactionId;
         this.reportedAccountId = reportedAccountId;
-        this.chrolonogy = chrolonogy;
+        this.chronology = chronology;
         this.createAt = createAt;
     }
 
@@ -50,11 +50,11 @@ public class CreateReportResponse {
         this.reportedAccountId = reportedAccountId;
     }
 
-    public String getChrolonogy() {
-        return chrolonogy;
+    public String getChronology() {
+        return chronology;
     }
 
-    public void setChrolonogy(String chrolonogy) {
-        this.chrolonogy = chrolonogy;
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
     }
 }

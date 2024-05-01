@@ -1,21 +1,14 @@
 package com.unboxit.bnichecking.controller;
 
-import com.unboxit.bnichecking.entity.http.request.LoginAdmin;
 import com.unboxit.bnichecking.entity.http.request.LoginUser;
 import com.unboxit.bnichecking.entity.http.response.ApiResponse;
-import com.unboxit.bnichecking.entity.http.response.GetAllUser;
-import com.unboxit.bnichecking.entity.http.response.LoginAdminResponse;
+import com.unboxit.bnichecking.entity.http.response.GetAccountNumberByUserId;
 import com.unboxit.bnichecking.entity.http.response.LoginUserResponse;
+import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.User;
 import com.unboxit.bnichecking.service.UserService;
 
 import com.unboxit.bnichecking.entity.http.request.CreateUser;
-import com.unboxit.bnichecking.entity.http.request.LoginUser;
-import com.unboxit.bnichecking.entity.http.response.ApiResponse;
-import com.unboxit.bnichecking.entity.http.response.GetFavourite;
-import com.unboxit.bnichecking.entity.http.response.LoginUserResponse;
-import com.unboxit.bnichecking.model.User;
-import com.unboxit.bnichecking.service.UserService;
 import com.unboxit.bnichecking.util.PasswordHasherService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,19 +27,26 @@ import java.util.Objects;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
+    private PasswordHasherService passwordHasherService;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordHasherService passwordHasherService) {
         this.userService = userService;
+        this.passwordHasherService = passwordHasherService;
     }
 
     @GetMapping(value = "/users", produces = "application/json") //Get Resource
     public ResponseEntity<ApiResponse<List<User>>> getAllUser() {
-        return ResponseEntity.ok(new ApiResponse<>(true, userService.getAllUsers(), null));
+        return ResponseEntity.ok(new ApiResponse<>(true, userService.getAllUser(), null));
     }
 
     @GetMapping(value = "/users/{user_id}", produces = "application/json") //Get Resource
     public ResponseEntity<ApiResponse<User>> getUserByUserId(@PathVariable long user_id) {
         return ResponseEntity.ok(new ApiResponse<>(true, userService.getUserByUserId(user_id), null));
+    }
+
+    @GetMapping(value = "/users/accountNumber/{user_id}", produces = "application/json") //Get Resource
+    public ResponseEntity<ApiResponse<GetAccountNumberByUserId>> getAccountNumberByUserId(@PathVariable long user_id) {
+        return ResponseEntity.ok(new ApiResponse<>(true, userService.getAccountNumberByUserId(user_id), null));
     }
     
     @PostMapping("/users/login")
@@ -63,7 +63,7 @@ public class UserController {
                             .issuedAt(Date.from(Instant.now()))
                             .expiration(Date.from(Instant.now().plus(365, ChronoUnit.DAYS)))
                             .compact();
-                    System.out.println(tokenUser);
+                    System.out.println("dwadniawdnwa"+tokenUser);
                     return ResponseEntity.ok(new ApiResponse<>(true,new LoginUserResponse(tokenUser),null));
                 }else {
                     ApiResponse<LoginUserResponse> response = new ApiResponse<>(false, null, "Username or Mpin incorrect");

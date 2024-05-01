@@ -29,7 +29,7 @@ public class Account  {
     @JoinColumn(name="user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty("user_id")
-    private User user;
+    private User userId;
 
     @Column(nullable = false)
     @JsonProperty("balance")
@@ -69,10 +69,9 @@ public class Account  {
 
     public Account(String accountNumber, User user, Long balance, Boolean blocked) {
         this.accountNumber = accountNumber;
-        this.user = user;
+        this.userId = user;
         this.balance = balance;
         this.blocked = blocked;
-        this.userId = userId;
     }
 
     public long getAccountId() {
@@ -90,12 +89,12 @@ public class Account  {
         return balance;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(User user) {
+        this.userId = user;
     }
 
     public void setBalance(Long balance) {
@@ -132,13 +131,5 @@ public class Account  {
 
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
     }
 }

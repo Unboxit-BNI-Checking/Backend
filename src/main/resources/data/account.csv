@@ -1,3 +1,4 @@
 account_number,user_id,balance,blocked
 1234567890,1,123000,false
-2234567890,1,10000,false
+2234567890,2,10000,false
+3334567890,2,20000,false

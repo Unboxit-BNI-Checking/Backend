@@ -58,8 +58,8 @@ public class DBSeeder {
     public CommandLineRunner accountSeederCommandLineRunner() {
         return args -> {
             if (seedDataEnabled && userJpaRepository.count() == 0) {
-                User user1 = new User("Sofi Shahira Khoirun Nisa", "Sofishr7", "140701", "140701");
-                User user2 = new User("Renata Rizki Rafi Athallah", "rizkirafi", "061099", "061099");
+                User user1 = new User("Sofi Shahira Khoirun Nisa", "Sofishr7", passwordHasherService.hashPassword("111111"), passwordHasherService.hashPassword("111111"));
+                User user2 = new User("Renata Rizki Rafi Athallah", "rizkirafi", passwordHasherService.hashPassword("222222"), passwordHasherService.hashPassword("222222"));
 
                 userJpaRepository.saveAll(Arrays.asList(user1, user2));
             }
@@ -115,10 +115,10 @@ public class DBSeeder {
                     String[] data = line.split(",");
                     if (data.length == 4) {
                         String accountNumber = data[0];
-                        User userId = userService.getUserByUserId(Long.parseLong(data[1]));
+                        User user = userService.getUserByUserId(Long.parseLong(data[1]));
                         Long balance = Long.parseLong(data[2]);
                         boolean isActive = Boolean.parseBoolean(data[3]);
-                        Account account = new Account(accountNumber, balance, isActive, userId);
+                        Account account = new Account(accountNumber, user, balance, isActive);
                         accounts.add(account);
                     } else {
                         System.err.println("Invalid data format in CSV file: " + line);

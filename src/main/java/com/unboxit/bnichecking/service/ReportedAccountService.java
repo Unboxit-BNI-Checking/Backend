@@ -58,6 +58,11 @@ public class ReportedAccountService {
         return results;
     }
 
+    public long getReportedAccountByReportedAccountNumber(String accountNumber) {
+        List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findReportedAccountsByReportedAccountNumber(accountNumber);
+        return getStatus(reportedAccounts);
+    }
+
     public GetReportedAccount getReportedAccountById(long reportedAccount_Id){
         ReportedAccount reportedAccounts = reportedAccountJpaRepository.findReportedAccountById(reportedAccount_Id);
         return new GetReportedAccount(
@@ -84,7 +89,7 @@ public class ReportedAccountService {
         List<TwitterReport> twitterReports = twitterReportService.getAllTwitterReportByAccountNumber(accountNumber);
         GetReportedAccountAndAccountByAccountNumber results = new GetReportedAccountAndAccountByAccountNumber(
                 accountNumber,
-                accounts.getUser().getCustomerName(),
+                accounts.getUserId().getCustomerName(),
                 getStatus(reportedAccounts),
                 Reports.size(),
                 twitterReports.size()
@@ -93,11 +98,14 @@ public class ReportedAccountService {
     }
 
     private long getStatus(List<ReportedAccount> reportedAccounts){
-        long getStatus = Long.MIN_VALUE;
+        long getStatus = 0;
         for (ReportedAccount reported : reportedAccounts) {
             if(getStatus < reported.getStatus() && reported.getStatus() < 3){
                 getStatus = reported.getStatus();
             }
+        }
+        if(getStatus == 0){
+            getStatus = 1;
         }
         return getStatus;
     }
