@@ -10,6 +10,7 @@ import com.unboxit.bnichecking.repository.ReportedAccountJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,5 +109,24 @@ public class ReportedAccountService {
             getStatus = 1;
         }
         return getStatus;
+    }
+
+    public GetReportedAccount updateReportedAccountStatus(Long reportedAccountId, int newStatus) {
+        ReportedAccount reportedAccount = reportedAccountJpaRepository.findReportedAccountById(reportedAccountId);
+        if (reportedAccount != null) {
+            reportedAccount.setStatus(newStatus);
+            if(reportedAccount.getStatus() > 2){
+                reportedAccount.setTime_finished(LocalDateTime.now());
+            }
+            reportedAccountJpaRepository.save(reportedAccount);
+            return new GetReportedAccount(
+                    reportedAccount.getReportedAccountId(),
+                    reportedAccount.getReportedAccountNumber().getAccountNumber(),
+                    reportedAccount.getTime_finished(),
+                    reportedAccount.getStatus(),
+                    reportedAccount.getCreatedAt()
+            );
+        }
+        return null;
     }
 }

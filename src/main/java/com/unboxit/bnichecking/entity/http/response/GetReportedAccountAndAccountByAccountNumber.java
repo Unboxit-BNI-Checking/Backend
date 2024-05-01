@@ -27,9 +27,6 @@ public class GetReportedAccountAndAccountByAccountNumber {
         this.reportsTwitterCount = reportsTwitter;
     }
 
-//    @JsonProperty("twitters_count")
-//    private long twittersCount;
-
     public long getReportsCount() {
         return reportsCount;
     }

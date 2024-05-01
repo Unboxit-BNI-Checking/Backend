@@ -3,6 +3,7 @@ package com.unboxit.bnichecking.controller;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.Account;
+import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -64,5 +66,11 @@ public class ReportedAccountController {
         }
 
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountAndAccountByReportedAccountNumber(reportedAccount_Number), null));
+    }
+
+    @PatchMapping(value = "/reportedAcc/reports/{id}/status", produces = "application/json")
+    public ResponseEntity<ApiResponse<GetReportedAccount>> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> requestBody) {
+        Integer newStatus = requestBody.get("status");
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.updateReportedAccountStatus(id, newStatus), null));
     }
 }
