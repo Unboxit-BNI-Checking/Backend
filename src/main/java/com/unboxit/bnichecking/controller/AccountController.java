@@ -5,7 +5,10 @@ import com.unboxit.bnichecking.entity.http.response.ApiResponse;
 import com.unboxit.bnichecking.entity.http.response.GetAllAccounts;
 import com.unboxit.bnichecking.entity.http.response.GetMyAccount;
 import com.unboxit.bnichecking.model.Account;
+import com.unboxit.bnichecking.model.Favourite;
+import com.unboxit.bnichecking.model.User;
 import com.unboxit.bnichecking.service.AccountService;
+import com.unboxit.bnichecking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +20,12 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
+    private final UserService userService;
 
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, UserService userService) {
         this.accountService = accountService;
+        this.userService = userService;
     }
 
     @GetMapping("/accounts")
@@ -36,6 +41,12 @@ public class AccountController {
 
     @PostMapping("/accounts")
     public ResponseEntity<ApiResponse<Account>> createAccount(@RequestBody CreateAccount newAccount) {
+        User user = userService.getUserByUserId(newAccount.getUserId());
+        if (user == null) {
+            ApiResponse<Account> response = new ApiResponse<>(false, null, "User id is invalid");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
         if (newAccount.getAccountNumber().length() != 10) {
             ApiResponse<Account> response = new ApiResponse<>(false, null, "Account number must consists of 10 numbers");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -46,7 +57,7 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        Account createdAccount = accountService.createAccount(newAccount);
+        Account createdAccount = accountService.createAccount(new Account(newAccount.getAccountNumber(), user, newAccount.getBalance(), newAccount.getBlocked()));
         ApiResponse<Account> response = new ApiResponse<>(true, createdAccount, null);
         return ResponseEntity.ok(response);
     }

@@ -11,7 +11,7 @@ public class GetReportedAccountAndAccountByAccountNumber {
     private String accountOwnerName;
 
     @JsonProperty("status")
-    private String status;
+    private long status;
 
     @JsonProperty("reports_count")
     private long reportsCount;
@@ -22,11 +22,7 @@ public class GetReportedAccountAndAccountByAccountNumber {
     public GetReportedAccountAndAccountByAccountNumber(String reportedAccountNumber, String customerName, long status, long reports, long reportsTwitter) {
         this.accountNumber = reportedAccountNumber;
         this.accountOwnerName = customerName;
-        if(status == 1){
-            this.status = "Aman Bos";
-        } else if(status == 2){
-            this.status = "Gak Aman Bos";
-        }
+        this.status = status;
         this.reportsCount = reports;
         this.reportsTwitterCount = reportsTwitter;
     }
@@ -42,11 +38,11 @@ public class GetReportedAccountAndAccountByAccountNumber {
         this.reportsCount = reportsCount;
     }
 
-    public String getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 

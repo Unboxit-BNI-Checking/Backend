@@ -62,8 +62,12 @@ public class TransactionController {
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionByAccountNumberSource(account_number_source), null));
     }
 
+        @GetMapping(value = "/transaction/validation/{account_number_source}/{account_number_destination}")
+        public ResponseEntity<ApiResponse<GetTransactionValidationByAccountNumber>> getTransactionValidationByAccountNumbers(@PathVariable("account_number_source") String accountNumberSource,  @PathVariable("account_number_destination") String accountNumberDestination) {
+        return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionValidationByAccountNumber(accountNumberSource, accountNumberDestination), null));
+    }
+
     //Post Transaction
-    // TODO: refactor response to include account number status
     @PostMapping("/transaction")
     public ResponseEntity<ApiResponse<CreateTransactionResponse>> createTransaction(@RequestBody CreateTransaction newTransaction) {
         if (newTransaction.getAccountNumberSource() == null || newTransaction.getAccountNumberDestination() == null || newTransaction.getAccountNumberSource().isEmpty() || newTransaction.getAccountNumberDestination().isEmpty()) {
