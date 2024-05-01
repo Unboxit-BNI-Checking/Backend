@@ -109,5 +109,47 @@ public class TransactionController {
                 newTransaction.getNote()));
         return ResponseEntity.ok(new ApiResponse<>(true, response, null));
     }
+
+    @PostMapping("/transaction/validate")
+    public ResponseEntity<ApiResponse<ValidateTransactionResponse>> validateTransaction(@RequestBody CreateTransaction newTransaction) {
+        if (newTransaction.getAccountNumberSource() == null || newTransaction.getAccountNumberDestination() == null || newTransaction.getAccountNumberSource().isEmpty() || newTransaction.getAccountNumberDestination().isEmpty()) {
+            ApiResponse<ValidateTransactionResponse> response = new ApiResponse<>(false, null, "Account number source and destination can't be empty");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        if (newTransaction.getAccountNumberSource().length() != 10 || newTransaction.getAccountNumberDestination().length() != 10) {
+            ApiResponse<ValidateTransactionResponse> response = new ApiResponse<>(false, null, "Account number must consist of 10 numbers");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        Account accountSource = accountService.getAccountByAccountNumber(newTransaction.getAccountNumberSource());
+        Account accountDestination = accountService.getAccountByAccountNumber(newTransaction.getAccountNumberDestination());
+        if (accountSource == null) {
+            ApiResponse<ValidateTransactionResponse> response = new ApiResponse<>(false, null, "Account with this account_number_source not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
+        if (accountDestination == null) {
+            ApiResponse<ValidateTransactionResponse> response = new ApiResponse<>(false, null, "Account with this account_number_destination not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
+        if (newTransaction.getAmount() <= 0) {
+            ApiResponse<ValidateTransactionResponse> response = new ApiResponse<>(false, null, "Enter the transaction amount correctly");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        if ((accountSource.getBalance() - newTransaction.getAmount()) < 5000) {
+            ApiResponse<ValidateTransactionResponse> response = new ApiResponse<>(false, null, "Your balance is not enough to make transactions (balance can't drop below 5000)");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        ValidateTransactionResponse response = transactionService.validateTransaction(new Transaction(
+                accountSource,
+                accountDestination,
+                newTransaction.getAmount(),
+                newTransaction.getNote()));
+        return ResponseEntity.ok(new ApiResponse<>(true, response, null));
+    }
 }
 
