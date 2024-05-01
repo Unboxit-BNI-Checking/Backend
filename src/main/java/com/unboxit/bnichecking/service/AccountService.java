@@ -26,15 +26,7 @@ public class AccountService {
 
     public GetMyAccount getMyAccount() {
         Account myAccount = repository.findAccountByAccountId(accountId);
-        return new GetMyAccount(
-                myAccount.getAccountId(),
-                myAccount.getAccountNumber(),
-                myAccount.getUserId().getUserId(),
-                myAccount.getBalance(),
-                myAccount.getBlocked(),
-                myAccount.getCreatedAt(),
-                myAccount.getUpdatedAt(),
-                myAccount.getDeletedAt());
+        return new GetMyAccount(myAccount);
     }
 
     public Account getAccountByAccountId(Long accountId) {

@@ -10,9 +10,9 @@ public class GetAccountNumberByUserId {
     private Long userId;
 
     @JsonProperty("account")
-    private List<GetAllAccounts> account;
+    private List<GetMyAccount> account;
 
-    public GetAccountNumberByUserId(long userId, List<GetAllAccounts> accounts) {
+    public GetAccountNumberByUserId(long userId, List<GetMyAccount> accounts) {
         this.userId = userId;
         this.account = accounts;
     }
@@ -25,11 +25,11 @@ public class GetAccountNumberByUserId {
         this.userId = userId;
     }
 
-    public List<GetAllAccounts> getAccount() {
+    public List<GetMyAccount> getAccount() {
         return account;
     }
 
-    public void setAccount(List<GetAllAccounts> account) {
+    public void setAccount(List<GetMyAccount> account) {
         this.account = account;
     }
 }
