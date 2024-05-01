@@ -146,6 +146,7 @@ public class TransactionService {
                 statusNumberDestination,
                 accountSource.getUserId().getCustomerName(),
                 accountSource.getAccountNumber(),
+                newTransaction.getNote(),
                 newTransaction.getAmount(),
                 0,
                 newTransaction.getAmount()
@@ -174,6 +175,7 @@ public class TransactionService {
                 accountSource.getUserId().getCustomerName(),
                 accountSource.getAccountNumber(),
                 newTransaction.getAmount(),
+                newTransaction.getNote(),
                 0,
                 newTransaction.getAmount()
         );

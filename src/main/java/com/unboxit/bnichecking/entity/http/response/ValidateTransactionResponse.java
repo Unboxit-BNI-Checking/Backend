@@ -26,13 +26,16 @@ public class ValidateTransactionResponse {
     @JsonProperty("amount")
     private long amount;
 
+    @JsonProperty("note")
+    private String note;
+
     @JsonProperty("fee")
     private long fee = 0;
 
     @JsonProperty("total_amount")
     private long totalAmount;
 
-    public ValidateTransactionResponse(String accountNumberDestination, String accountNameDestination, String bankDestination, int accountNumberDestinationStatus, String accountNameSource, String accountNumberSource, long amount, long fee, long totalAmount) {
+    public ValidateTransactionResponse(String accountNumberDestination, String accountNameDestination, String bankDestination, int accountNumberDestinationStatus, String accountNameSource, String accountNumberSource, long amount, String note, long fee, long totalAmount) {
         this.accountNumberDestination = accountNumberDestination;
         this.accountNameDestination = accountNameDestination;
         this.bankDestination = bankDestination;
@@ -40,6 +43,7 @@ public class ValidateTransactionResponse {
         this.accountNameSource = accountNameSource;
         this.accountNumberSource = accountNumberSource;
         this.amount = amount;
+        this.note = note;
         this.fee = fee;
         this.totalAmount = totalAmount;
     }
