@@ -46,18 +46,26 @@ public class TransactionService {
         return results;
     }
 
-    public GetTransaction getTransactionById(long transaction_Id) {
+    public CreateTransactionResponse getTransactionById(long transaction_Id) {
         Transaction transaction = transactionJpaRepository.findTransactionByTransactionId(transaction_Id);
         if (transaction == null) {
             return null;
         }
-        return new GetTransaction(
+        return new CreateTransactionResponse(
                 transaction.getTransactionId(),
-                transaction.getAccountNumberSource().getAccountNumber(),
+                true,
                 transaction.getAccountNumberDestination().getAccountNumber(),
-                transaction.getAmount(),
+                transaction.getAccountNumberDestination().getUserId().getCustomerName(),
+                transaction.getCreatedAt(),
+                "",
+                "BNI",
+                0,
+                transaction.getAccountNumberSource().getUserId().getCustomerName(),
+                transaction.getAccountNumberSource().getAccountNumber(),
                 transaction.getNote(),
-                transaction.getCreatedAt()
+                transaction.getAmount(),
+                0,
+                transaction.getAmount()
         );
     }
 

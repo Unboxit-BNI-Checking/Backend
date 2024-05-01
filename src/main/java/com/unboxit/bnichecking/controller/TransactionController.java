@@ -39,10 +39,10 @@ public class TransactionController {
 
     //Get Transaction By Id
     @GetMapping(value = "/transaction/{transaction_Id}")
-    public ResponseEntity<ApiResponse<GetTransaction>> getTransactionById(@PathVariable long transaction_Id) {
-        GetTransaction transaction = transactionService.getTransactionById(transaction_Id);
+    public ResponseEntity<ApiResponse<CreateTransactionResponse>> getTransactionById(@PathVariable long transaction_Id) {
+        CreateTransactionResponse transaction = transactionService.getTransactionById(transaction_Id);
         if (transaction == null) {
-            ApiResponse<GetTransaction> response = new ApiResponse<>(false, null, "Transaction id is not found");
+            ApiResponse<CreateTransactionResponse> response = new ApiResponse<>(false, null, "Transaction id is not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         return ResponseEntity.ok(new ApiResponse<>(true, transaction, null));
