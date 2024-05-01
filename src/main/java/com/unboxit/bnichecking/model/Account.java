@@ -3,6 +3,8 @@ package com.unboxit.bnichecking.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,13 +21,14 @@ public class Account  {
     @JsonProperty("account_id")
     private long accountId;
 
-    @Column(name="account_number", nullable = false, unique = true, length = 10)
+    @Column(name="account_number", nullable = true, unique = true, length = 10)
     @JsonProperty("account_number")
     private String accountNumber;
 
-    @Column(name="customer_name", nullable = false)
-    @JsonProperty("account_name")
-    private String customerName;
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
     @Column(nullable = false)
     @JsonProperty("balance")
@@ -63,9 +66,9 @@ public class Account  {
 
     public Account() {}
 
-    public Account(String accountNumber, String customerName, Long balance, Boolean blocked) {
+    public Account(String accountNumber, User user, Long balance, Boolean blocked) {
         this.accountNumber = accountNumber;
-        this.customerName = customerName;
+        this.user = user;
         this.balance = balance;
         this.blocked = blocked;
     }
@@ -81,17 +84,16 @@ public class Account  {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
     public Long getBalance() {
         return balance;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setBalance(Long balance) {
@@ -130,6 +132,41 @@ public class Account  {
         this.deletedAt = deletedAt;
     }
 
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+    public List<Favourite> getOwnedFavourites() {
+        return ownedFavourites;
+    }
+
+    public void setOwnedFavourites(List<Favourite> ownedFavourites) {
+        this.ownedFavourites = ownedFavourites;
+    }
+
+    public List<ReportedAccount> getOwnedReportedAccount() {
+        return ownedReportedAccount;
+    }
+
+    public void setOwnedReportedAccount(List<ReportedAccount> ownedReportedAccount) {
+        this.ownedReportedAccount = ownedReportedAccount;
+    }
+
+    public List<Transaction> getTransactionsAsSource() {
+        return transactionsAsSource;
+    }
+
+    public void setTransactionsAsSource(List<Transaction> transactionsAsSource) {
+        this.transactionsAsSource = transactionsAsSource;
+    }
+
+    public List<Transaction> getTransactionsAsDestination() {
+        return transactionsAsDestination;
+    }
+
+    public void setTransactionsAsDestination(List<Transaction> transactionsAsDestination) {
+        this.transactionsAsDestination = transactionsAsDestination;
+    }
 //    public List<Favourite> getOwnedFavourites() {
 //        return ownedFavourites;
 //    }

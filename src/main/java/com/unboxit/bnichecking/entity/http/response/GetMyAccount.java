@@ -11,8 +11,8 @@ public class GetMyAccount {
     @JsonProperty("account_number")
     private String accountNumber;
 
-    @JsonProperty("customer_name")
-    private String customerName;
+    @JsonProperty("user_id")
+    private long userId;
 
     @JsonProperty("balance")
     private Long balance;
@@ -30,10 +30,10 @@ public class GetMyAccount {
     private LocalDateTime deletedAt;
 
 
-    public GetMyAccount(Long accountId, String accountNumber, String customerName, Long balance, Boolean blocked, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
+    public GetMyAccount(long accountId, String accountNumber, long userId, Long balance, Boolean blocked, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.accountId = accountId;
         this.accountNumber = accountNumber;
-        this.customerName = customerName;
+        this.userId = userId;
         this.balance = balance;
         this.blocked = blocked;
         this.createdAt = createdAt;
@@ -57,12 +57,12 @@ public class GetMyAccount {
         this.accountNumber = accountNumber;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public Long getBalance() {
