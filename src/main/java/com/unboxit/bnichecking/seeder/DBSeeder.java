@@ -1,21 +1,15 @@
 package com.unboxit.bnichecking.seeder;
 
-import com.unboxit.bnichecking.model.Account;
-import com.unboxit.bnichecking.model.Admins;
-import com.unboxit.bnichecking.model.Transaction;
-import com.unboxit.bnichecking.model.TwitterReport;
-import com.unboxit.bnichecking.repository.AccountJpaRepository;
-import com.unboxit.bnichecking.repository.AdminJpaRepository;
-import com.unboxit.bnichecking.repository.TransactionJpaRepository;
-import com.unboxit.bnichecking.repository.TwitterReportJpaRepository;
+import com.unboxit.bnichecking.model.*;
+import com.unboxit.bnichecking.repository.*;
 import com.unboxit.bnichecking.service.AccountService;
+import com.unboxit.bnichecking.service.UserService;
 import com.unboxit.bnichecking.util.PasswordHasherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -46,6 +40,12 @@ public class DBSeeder {
     @Autowired
     private TwitterReportJpaRepository twitterReportJpaRepository;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserJpaRepository userJpaRepository;
+
 
 
     @Value("${seed.data.enabled:true}")
@@ -57,9 +57,20 @@ public class DBSeeder {
     @Bean
     public CommandLineRunner accountSeederCommandLineRunner() {
         return args -> {
-            if (seedDataEnabled && accountJpaRepository.count() == 0) {
-                List<Account> accounts = readAccountsFromCSV();
-                accountJpaRepository.saveAll(accounts);
+            if (seedDataEnabled && userJpaRepository.count() == 0) {
+                User user1 = new User("Sofi Shahira Khoirun Nisa", "Sofishr7", passwordHasherService.hashPassword("111111"), passwordHasherService.hashPassword("111111"));
+                User user2 = new User("Renata Rizki Rafi Athallah", "rizkirafi", passwordHasherService.hashPassword("222222"), passwordHasherService.hashPassword("222222"));
+
+                userJpaRepository.saveAll(Arrays.asList(user1, user2));
+
+                if (seedDataEnabled && accountJpaRepository.count() == 0) {
+    //                List<Account> accounts = readAccountsFromCSV();
+                    Account account1 = new Account("1234567890", user1, 123000L, false);
+                    Account account2 = new Account("2234567890", user2, 12300L, false);
+                    Account account3 = new Account("3234567890", user2, 12300L, false);
+
+                    accountJpaRepository.saveAll(Arrays.asList(account1, account2, account3));
+                }
             }
 
             if (seedDataEnabled && adminJpaRepository.count() == 0) {
@@ -87,7 +98,6 @@ public class DBSeeder {
                 TwitterReport twitterReport4 = new TwitterReport(LocalDateTime.now().minusDays(20), "username2", "link4", a1, null);
 
                 twitterReportJpaRepository.saveAll(Arrays.asList(twitterReport1, twitterReport2, twitterReport3, twitterReport4));
-
             }
 
         };
@@ -110,10 +120,10 @@ public class DBSeeder {
                     String[] data = line.split(",");
                     if (data.length == 4) {
                         String accountNumber = data[0];
-                        String name = data[1];
+                        User user = userService.getUserByUserId(Long.parseLong(data[1]));
                         Long balance = Long.parseLong(data[2]);
                         boolean isActive = Boolean.parseBoolean(data[3]);
-                        Account account = new Account(accountNumber, name, balance, isActive);
+                        Account account = new Account(accountNumber, user, balance, isActive);
                         accounts.add(account);
                     } else {
                         System.err.println("Invalid data format in CSV file: " + line);

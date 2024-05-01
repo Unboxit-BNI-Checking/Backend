@@ -30,9 +30,9 @@ public class FavouriteService {
         return repository.save(favourite);
     }
 
-    public List<GetFavourite> getAllFavouriteByAccountId(Long account_id){
+    public List<GetFavourite> getAllFavouriteByUserId(Long user_id){
         List<GetFavourite> results = new ArrayList<>();
-        List<FavouriteDB> favouriteDBs = repository.findByAccountId(account_id);
+        List<FavouriteDB> favouriteDBs = repository.findByUserId(user_id);
 
         for (FavouriteDB favouriteDB: favouriteDBs) {
             results.add(new GetFavourite(favouriteDB));

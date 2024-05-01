@@ -1,6 +1,8 @@
 package com.unboxit.bnichecking.entity.http.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unboxit.bnichecking.model.Account;
+import com.unboxit.bnichecking.model.User;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +12,9 @@ public class GetMyAccount {
 
     @JsonProperty("account_number")
     private String accountNumber;
+
+    @JsonProperty("user_id")
+    private long userId;
 
     @JsonProperty("customer_name")
     private String customerName;
@@ -29,16 +34,17 @@ public class GetMyAccount {
     @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
 
-
-    public GetMyAccount(Long accountId, String accountNumber, String customerName, Long balance, Boolean blocked, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
-        this.accountId = accountId;
-        this.accountNumber = accountNumber;
-        this.customerName = customerName;
-        this.balance = balance;
-        this.blocked = blocked;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+    public GetMyAccount(Account account) {
+        User user = account.getUserId();
+        this.accountId = account.getAccountId();
+        this.accountNumber = account.getAccountNumber();
+        this.userId = user.getUserId();
+        this.customerName = user.getCustomerName();
+        this.balance = account.getBalance();
+        this.blocked = account.getBlocked();
+        this.createdAt = account.getCreatedAt();
+        this.updatedAt = account.getUpdatedAt();
+        this.deletedAt = account.getDeletedAt();
     }
 
     public long getAccountId() {
@@ -55,6 +61,14 @@ public class GetMyAccount {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getCustomerName() {

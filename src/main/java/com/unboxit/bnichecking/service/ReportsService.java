@@ -79,9 +79,9 @@ public class ReportsService {
             reportsAndTransactionByCustomerName.setCreatedAtReports(((Timestamp) result[1]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setStatus((long) result[2]);
             reportsAndTransactionByCustomerName.setAccountNumberSource((String) result[3]);
-            reportsAndTransactionByCustomerName.setAccountNumberSourceUsername(accountService.getAccountByAccountNumber((String) result[3]).getCustomerName());
+            reportsAndTransactionByCustomerName.setAccountNumberSourceUsername(accountService.getAccountByAccountNumber((String) result[3]).getUserId().getCustomerName());
             reportsAndTransactionByCustomerName.setAccountNumberDestination((String) result[4]);
-            reportsAndTransactionByCustomerName.setAccountNumberDestinationUsername(accountService.getAccountByAccountNumber((String) result[4]).getCustomerName());
+            reportsAndTransactionByCustomerName.setAccountNumberDestinationUsername(accountService.getAccountByAccountNumber((String) result[4]).getUserId().getCustomerName());
             reportsAndTransactionByCustomerName.setAmount((long) result[5]);
             reportsAndTransactionByCustomerName.setCreatedAtTransaction(((Timestamp) result[6]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setChronology((String) result[7]);
@@ -96,7 +96,7 @@ public class ReportsService {
 
     public CreateReportResponse createReportsAndAttachment(Long TransactionId, String chronology, List<MultipartFile> files) throws IOException {
         CreateReportResponse result = new CreateReportResponse();
-        result.setChrolonogy(chronology);
+        result.setChronology(chronology);
 
         Query query = entityManager.createNativeQuery("SELECT transaction_id, account_number_destination FROM transactions WHERE transaction_id = ?");
         Query query2 = entityManager.createNativeQuery("SELECT reported_account_id, reported_account_number, status, created_at FROM reported_account WHERE reported_account_number = ?");
@@ -132,8 +132,8 @@ public class ReportsService {
                         result.setReportedAccountId(((Number) row[0]).longValue());
                     }
                     result.setCreateAt(LocalDateTime.now());
-                    reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChrolonogy(), result.getCreateAt());
-                    Long newReportsId = reportsJpaRepository.findReportIdByNewReport(result.getTransactionId(), result.getReportedAccountId(), result.getChrolonogy(), result.getCreateAt());
+                    reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
+                    Long newReportsId = reportsJpaRepository.findReportIdByNewReport(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
                     Reports report = getReportsById(newReportsId);
 
                     for (MultipartFile file : files) {
@@ -159,7 +159,7 @@ public class ReportsService {
                 createAndInsertReportedAccountUpload(transaction, listStatus, result, query3, query2, files);
             }
         }
-        return null;
+        return result;
     }
 
     private CreateReportResponse createAndInsertReportedAccountUpload(GetTransactionFromReports transaction, List<Long> listStatus, CreateReportResponse result, Query query3, Query query2, List<MultipartFile> files) throws IOException {
@@ -182,9 +182,8 @@ public class ReportsService {
             }
         }
         result.setCreateAt(LocalDateTime.now());
-        reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChrolonogy(), LocalDateTime.now());
-        reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChrolonogy(), result.getCreateAt());
-        Long newReportsId = reportsJpaRepository.findReportIdByNewReport(result.getTransactionId(), result.getReportedAccountId(), result.getChrolonogy(), result.getCreateAt());
+        reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
+        Long newReportsId = reportsJpaRepository.findReportIdByNewReport(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
         Reports report = getReportsById(newReportsId);
 
         for (MultipartFile file : files) {

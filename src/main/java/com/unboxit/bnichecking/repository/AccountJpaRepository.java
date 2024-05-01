@@ -17,6 +17,9 @@ public interface AccountJpaRepository extends JpaRepository<Account, Long> {
     @Query(value = "SELECT * FROM accounts a WHERE a.account_number IN :accountNumbers", nativeQuery = true)
     List<Account> findAccountsByAccountNumbers(List<String> accountNumbers);
 
+    @Query(value = "SELECT * FROM accounts a WHERE a.user_id = :userId", nativeQuery = true)
+    List<Account> findAccountsByUserId(long userId);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE accounts SET balance = balance - :amount WHERE account_number = :accountNumberSource", nativeQuery = true)

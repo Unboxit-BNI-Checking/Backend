@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "favourites", indexes = @Index(name = "idx_account_id", columnList = "account_id"))
+@Table(name = "favourites", indexes = @Index(name = "idx_user_id", columnList = "user_id"))
 @EntityListeners(AuditingEntityListener.class)
 public class Favourite {
     @Id
@@ -30,10 +30,10 @@ public class Favourite {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name="account_id", nullable = false)
+    @JoinColumn(name="user_id", referencedColumnName="userId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonProperty("account_id")
-    private Account account;
+    @JsonProperty("user_id")
+    private User userId;
 
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
@@ -53,10 +53,46 @@ public class Favourite {
     public Favourite() {
     }
 
-    public Favourite(Account favouriteAccount, String name, Account account) {
+    public Favourite(Account favouriteAccount, String name, User user) {
         this.favouriteAccount = favouriteAccount;
         this.name = name;
-        this.account = account;
+        this.userId = user;
+    }
+
+    public void setFavouriteId(long favouriteId) {
+        this.favouriteId = favouriteId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public long getFavouriteId() {
@@ -79,12 +115,12 @@ public class Favourite {
         this.name = name;
     }
 
-    public Account getAccount() {
-        return account;
+    public User getAccount() {
+        return userId;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccount(User userId) {
+        this.userId = userId;
     }
 
 }

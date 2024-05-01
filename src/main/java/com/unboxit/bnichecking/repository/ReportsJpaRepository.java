@@ -18,7 +18,7 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
                     "INNER JOIN reported_account ra ON ra.reported_account_id = r.reported_account_id \n" +
                     "INNER JOIN transactions t ON r.transaction_id = t.transaction_id \n" +
                     "WHERE t.account_number_source \n" +
-                    "IN (SELECT account_number FROM accounts a WHERE a.customer_name like CONCAT('%', ?1, '%'))", nativeQuery = true)
+                    "IN (SELECT a.account_number FROM accounts a INNER JOIN users u ON a.user_id = u.user_id WHERE u.customer_name like CONCAT('%', ?1, '%'))", nativeQuery = true)
     List<Object[]> findReportsAndTransactionByAccountName(String accountName);
 
     @Query(value="SELECT report_id FROM reports WHERE transaction_id = :transaction_id and reported_account_id = :reported_account_id and chronology = :chronology and created_at = :create_at", nativeQuery = true)

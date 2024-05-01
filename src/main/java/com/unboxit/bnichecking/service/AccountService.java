@@ -19,25 +19,22 @@ public class AccountService {
 
     @Autowired
     private AccountJpaRepository repository;
+    private UserService userService;
 
     @Value("${account.id}")
     private Long accountId;
 
     public GetMyAccount getMyAccount() {
         Account myAccount = repository.findAccountByAccountId(accountId);
-        return new GetMyAccount(
-                myAccount.getAccountId(),
-                myAccount.getAccountNumber(),
-                myAccount.getCustomerName(),
-                myAccount.getBalance(),
-                myAccount.getBlocked(),
-                myAccount.getCreatedAt(),
-                myAccount.getUpdatedAt(),
-                myAccount.getDeletedAt());
+        return new GetMyAccount(myAccount);
     }
 
     public Account getAccountByAccountId(Long accountId) {
         return repository.findAccountByAccountId(accountId);
+    }
+
+    public List<Account> getAccountByUserId(long userId) {
+        return repository.findAccountsByUserId(userId);
     }
 
     public Account getAccountByAccountNumber(String accountNumber) {
@@ -52,7 +49,7 @@ public class AccountService {
             GetAllAccounts getAllAccounts = new GetAllAccounts();
             getAllAccounts.setAccountId(account.getAccountId());
             getAllAccounts.setAccountNumber(account.getAccountNumber());
-            getAllAccounts.setCustomerName(hideCustomerName(account.getCustomerName()));
+            getAllAccounts.setCustomerName(hideCustomerName(account.getUserId().getCustomerName()));
             getAllAccounts.setBlocked(account.getBlocked());
             results.add(getAllAccounts);
         }
@@ -80,10 +77,10 @@ public class AccountService {
         }
     }
 
-    public Account createAccount(CreateAccount newAccount) {
+    public Account createAccount(Account newAccount) {
         Account a = new Account(
                 newAccount.getAccountNumber(),
-                newAccount.getCustomerName(),
+                userService.getUserByUserId(newAccount.getAccountId()),
                 newAccount.getBalance(),
                 newAccount.getBlocked()
         );
@@ -94,7 +91,7 @@ public class AccountService {
         Map<String, String> mapAccountDestinationNameByAccountNumberDestination = new HashMap<>();
         List<Account> accounts = repository.findAccountsByAccountNumbers(accountNumberDestinations);
         for (Account account : accounts) {
-            mapAccountDestinationNameByAccountNumberDestination.put(account.getAccountNumber(), account.getCustomerName());
+            mapAccountDestinationNameByAccountNumberDestination.put(account.getAccountNumber(), account.getUserId().getCustomerName());
         }
         return mapAccountDestinationNameByAccountNumberDestination;
 
@@ -103,7 +100,7 @@ public class AccountService {
     public Map<String, String> getAccountSourceNameByAccountNumberSource(String accountNumberSource) {
         Map<String, String> mapAccountSourceNameByAccountNumberSource= new HashMap<>();
         Account account = repository.findAccountByAccountNumber(accountNumberSource);
-        mapAccountSourceNameByAccountNumberSource.put(account.getAccountNumber(), account.getCustomerName());
+        mapAccountSourceNameByAccountNumberSource.put(account.getAccountNumber(), account.getUserId().getCustomerName());
         return mapAccountSourceNameByAccountNumberSource;
 
     }

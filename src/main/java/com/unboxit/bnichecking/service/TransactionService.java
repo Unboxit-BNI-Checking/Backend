@@ -1,9 +1,6 @@
 package com.unboxit.bnichecking.service;
 
-import com.unboxit.bnichecking.entity.http.response.CreateTransactionResponse;
-import com.unboxit.bnichecking.entity.http.response.GetReportedAccount;
-import com.unboxit.bnichecking.entity.http.response.GetTransaction;
-import com.unboxit.bnichecking.entity.http.response.GetTransactionsByAccountNumberSource;
+import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.Transaction;
 import com.unboxit.bnichecking.repository.TransactionJpaRepository;
@@ -22,11 +19,13 @@ public class TransactionService {
     @Autowired
     private AccountService accountService;
     private ReportedAccountService reportedAccountService;
+    private UserService userService;
 
-    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService) {
+    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService, UserService userService) {
         this.transactionJpaRepository = transactionJpaRepository;
         this.accountService = accountService;
         this.reportedAccountService = reportedAccountService;
+        this.userService = userService;
     }
     public List<GetTransaction> getAllTransactions() {
         List<GetTransaction> results = new ArrayList<>();
@@ -108,6 +107,18 @@ public class TransactionService {
         return results;
     }
 
+    public GetTransactionValidationByAccountNumber getTransactionValidationByAccountNumber(String accountNumberSource, String accountNumberDestination) {
+        accountService.getAccountByAccountNumber(accountNumberSource).getUserId().getCustomerName();
+        Account accountDestination = accountService.getAccountByAccountNumber(accountNumberDestination);
+        return new GetTransactionValidationByAccountNumber(
+                accountService.getAccountByAccountNumber(accountNumberDestination).getAccountNumber(),
+                accountService.getAccountByAccountNumber(accountNumberDestination).getUserId().getCustomerName(),
+                accountService.getAccountByAccountNumber(accountNumberSource).getAccountNumber(),
+                accountService.getAccountByAccountNumber(accountNumberSource).getUserId().getCustomerName(),
+                reportedAccountService.getReportedAccountByReportedAccountNumber(accountNumberDestination)
+        );
+    }
+
     public CreateTransactionResponse createTransaction(Transaction newTransaction){
         newTransaction = transactionJpaRepository.save(newTransaction);
         Account accountDestination = newTransaction.getAccountNumberDestination();
@@ -128,12 +139,39 @@ public class TransactionService {
                 newTransaction.getTransactionId(),
                 true,
                 accountDestination.getAccountNumber(),
-                accountDestination.getCustomerName(),
+                accountDestination.getUserId().getCustomerName(),
                 newTransaction.getCreatedAt(),
                 "",
                 "BNI",
                 statusNumberDestination,
-                accountSource.getCustomerName(),
+                accountSource.getUserId().getCustomerName(),
+                accountSource.getAccountNumber(),
+                newTransaction.getAmount(),
+                0,
+                newTransaction.getAmount()
+        );
+    }
+
+    public ValidateTransactionResponse validateTransaction(Transaction newTransaction){
+        Account accountDestination = newTransaction.getAccountNumberDestination();
+        Account accountSource = newTransaction.getAccountNumberSource();
+        List<GetReportedAccount> reportedAccounts = reportedAccountService.getReportedAccountsByReportedAccountNumber(newTransaction.getAccountNumberDestination().getAccountNumber());
+        List<Long> statusAccount = new ArrayList<>();
+        int statusNumberDestination;
+        for (GetReportedAccount reportedAccount : reportedAccounts) {
+            statusAccount.add(reportedAccount.getStatus());
+        }
+        if(statusAccount.contains(2)){
+            statusNumberDestination = 2;
+        } else {
+            statusNumberDestination = 1;
+        }
+        return new ValidateTransactionResponse(
+                accountDestination.getAccountNumber(),
+                accountDestination.getUserId().getCustomerName(),
+                "BNI",
+                statusNumberDestination,
+                accountSource.getUserId().getCustomerName(),
                 accountSource.getAccountNumber(),
                 newTransaction.getAmount(),
                 0,
