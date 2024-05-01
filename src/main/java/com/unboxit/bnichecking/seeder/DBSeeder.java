@@ -62,10 +62,15 @@ public class DBSeeder {
                 User user2 = new User("Renata Rizki Rafi Athallah", "rizkirafi", passwordHasherService.hashPassword("222222"), passwordHasherService.hashPassword("222222"));
 
                 userJpaRepository.saveAll(Arrays.asList(user1, user2));
-            }
-            if (seedDataEnabled && accountJpaRepository.count() == 0) {
-                List<Account> accounts = readAccountsFromCSV();
-                accountJpaRepository.saveAll(accounts);
+
+                if (seedDataEnabled && accountJpaRepository.count() == 0) {
+    //                List<Account> accounts = readAccountsFromCSV();
+                    Account account1 = new Account("1234567890", user1, 123000L, false);
+                    Account account2 = new Account("2234567890", user2, 12300L, false);
+                    Account account3 = new Account("3234567890", user2, 12300L, false);
+
+                    accountJpaRepository.saveAll(Arrays.asList(account1, account2, account3));
+                }
             }
 
             if (seedDataEnabled && adminJpaRepository.count() == 0) {
