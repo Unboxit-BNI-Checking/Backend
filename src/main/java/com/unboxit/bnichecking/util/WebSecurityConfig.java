@@ -40,14 +40,6 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/admins/login").permitAll())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/users/login").permitAll())
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/error").permitAll())
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/error/**").permitAll())
-                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/api/report").permitAll())
-//                .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/**").authenticated())
                 .httpBasic(Customizer.withDefaults()).csrf((csrf)-> csrf.disable())
                 .sessionManagement((session)-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

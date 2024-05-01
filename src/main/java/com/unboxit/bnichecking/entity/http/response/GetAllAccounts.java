@@ -10,8 +10,8 @@ public class GetAllAccounts {
     @JsonProperty("account_number")
     private String accountNumber;
 
-    @JsonProperty("customer_id")
-    private Long customerId;
+    @JsonProperty("customer_name")
+    private String customerName;
 
     @JsonProperty("blocked")
     private Boolean blocked;
@@ -32,12 +32,12 @@ public class GetAllAccounts {
         this.accountNumber = accountNumber;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public Boolean getBlocked() {
