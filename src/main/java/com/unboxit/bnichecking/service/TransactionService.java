@@ -151,4 +151,31 @@ public class TransactionService {
                 newTransaction.getAmount()
         );
     }
+
+    public ValidateTransactionResponse validateTransaction(Transaction newTransaction){
+        Account accountDestination = newTransaction.getAccountNumberDestination();
+        Account accountSource = newTransaction.getAccountNumberSource();
+        List<GetReportedAccount> reportedAccounts = reportedAccountService.getReportedAccountsByReportedAccountNumber(newTransaction.getAccountNumberDestination().getAccountNumber());
+        List<Long> statusAccount = new ArrayList<>();
+        int statusNumberDestination;
+        for (GetReportedAccount reportedAccount : reportedAccounts) {
+            statusAccount.add(reportedAccount.getStatus());
+        }
+        if(statusAccount.contains(2)){
+            statusNumberDestination = 2;
+        } else {
+            statusNumberDestination = 1;
+        }
+        return new ValidateTransactionResponse(
+                accountDestination.getAccountNumber(),
+                accountDestination.getUserId().getCustomerName(),
+                "BNI",
+                statusNumberDestination,
+                accountSource.getUserId().getCustomerName(),
+                accountSource.getAccountNumber(),
+                newTransaction.getAmount(),
+                0,
+                newTransaction.getAmount()
+        );
+    }
 }
