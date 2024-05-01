@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public interface FavouriteDB {
 
-    long getFavouriteId();
+    Long getFavouriteId();
 
     String getName();
 
