@@ -20,4 +20,6 @@ public interface TwitterReportJpaRepository extends JpaRepository<TwitterReport,
             @Param("fromDate") Timestamp fromDate,
             @Param("twitterUsername") String twitterUsername,
             @Param("includeDeleted") Boolean includeDeleted);
+
+
 }

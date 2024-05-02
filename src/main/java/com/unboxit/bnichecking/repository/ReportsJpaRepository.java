@@ -33,5 +33,12 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
     @Transactional
     @Query(value = "insert into reports (transaction_id, reported_account_id, chronology, created_at) values (:transaction_id, :reported_account_id, :chronology, :create_at);", nativeQuery = true)
     void insertReports(@Param("transaction_id") Long transaction_id, @Param("reported_account_id") Long reported_account_id, @Param("chronology") String chronology, @Param("create_at") LocalDateTime create_at);
+
+    @Query(value = "select count(r.*) from reports r inner join reported_account ra on r.reported_account_id =ra.reported_account_id where ra.status =:status",nativeQuery = true)
+    long countReportedByStatus(@Param("status") Long status);
+
+    @Query(value = "SELECT EXTRACT(MONTH from ra.time_finished) as bulan, COUNT(ra.reported_account_id) \n" +
+            "FROM reported_account ra  where  EXTRACT(year from ra.time_finished)=EXTRACT(MONTH from now()) GROUP BY EXTRACT(MONTH from ra.time_finished)", nativeQuery = true)
+    List<Object[]> getTotalReportByMonth();
 }
 
