@@ -9,7 +9,6 @@ import com.unboxit.bnichecking.util.AttachmentService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.web.multipart.MultipartFile;
@@ -92,6 +91,8 @@ public class ReportsService {
             reportsAndTransactionByCustomerName.setAmount((long) result[5]);
             reportsAndTransactionByCustomerName.setCreatedAtTransaction(((Timestamp) result[6]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setChronology((String) result[7]);
+            List<GetAllReportAttachments> reportAttachment = reportAttachmentService.findReportAttachmentByReportId(reportsAndTransactionByCustomerName.getReportsId());
+            reportsAndTransactionByCustomerName.setAttachment(reportAttachment.get(0).getFilePath());
             resultList.add(reportsAndTransactionByCustomerName);
         }
         return resultList;

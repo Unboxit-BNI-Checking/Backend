@@ -33,6 +33,9 @@ public class GetReportsAndTransactionByCustomerName {
     @JsonProperty("created_at_transaction")
     private LocalDateTime createdAtTransaction;
 
+    @JsonProperty("attachment")
+    private String attachment;
+
     public String getAccountNumberSourceUsername() {
         return accountNumberSourceUsername;
     }
@@ -111,5 +114,13 @@ public class GetReportsAndTransactionByCustomerName {
 
     public void setCreatedAtTransaction(LocalDateTime createdAtTransaction) {
         this.createdAtTransaction = createdAtTransaction;
+    }
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
     }
 }
