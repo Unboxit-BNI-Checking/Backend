@@ -174,6 +174,8 @@ public class ReportedAccountService {
             results.add(reportedAccount);
         }
         return results;
+    }
+
     public long getAverageWaktuPenyelesaianInDays() {
         long avg = 0;
         if(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports()!=null){

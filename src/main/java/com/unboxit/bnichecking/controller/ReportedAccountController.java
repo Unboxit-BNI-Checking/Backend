@@ -82,6 +82,7 @@ public class ReportedAccountController {
     @GetMapping(value = "/reportedAcc/website/reports/{reported_id}", produces = "application/json")
     public ResponseEntity<ApiResponse<List<GetAllReportedAccountDetailReports>>> getAllReportedAccountAndReportsDetail(@PathVariable long reported_id){
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAllReportedAccountDetailReports(reported_id), null));
+    }
     @GetMapping("/reportedAcc/average-completion-time")
     public ResponseEntity<ApiResponse<Long>> getAverageCompletionTime() {
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAverageWaktuPenyelesaianInDays(), null));
