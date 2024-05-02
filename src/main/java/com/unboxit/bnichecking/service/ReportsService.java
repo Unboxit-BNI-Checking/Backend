@@ -181,19 +181,8 @@ public class ReportsService {
         Reports report = getReportsById(newReportsId);
 
         for (MultipartFile file : files) {
-            byte[] bytes = file.getBytes();
-
-            String newFileName= newReportsId.toString() +"_"+file.getOriginalFilename();
-
-            String filePath = "src/main/resources/ReportAttachments/"+newFileName;
-
-            // Create a new file at the specified path
-            File newFile = new File(filePath);
-
-            // Write the file bytes to the new file
-            // This saves the uploaded file to the specified location
-            Files.write(newFile.toPath(), bytes);
-            reportAttachmentService.createReportAttachment(new ReportAttachment(report, filePath));
+            String url = attachmentService.saveAttachment(file);
+            reportAttachmentService.createReportAttachment(new ReportAttachment(report, url));
         }
         return result;
     }

@@ -3,6 +3,7 @@ package com.unboxit.bnichecking.service;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.Transaction;
+import com.unboxit.bnichecking.model.User;
 import com.unboxit.bnichecking.repository.TransactionJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,14 @@ public class TransactionService {
     private AccountService accountService;
     private ReportedAccountService reportedAccountService;
     private UserService userService;
+    private FavouriteService favouriteService;
 
-    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService, UserService userService) {
+    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService, UserService userService, FavouriteService favouriteService) {
         this.transactionJpaRepository = transactionJpaRepository;
         this.accountService = accountService;
         this.reportedAccountService = reportedAccountService;
         this.userService = userService;
+        this.favouriteService = favouriteService;
     }
     public List<GetTransaction> getAllTransactions() {
         List<GetTransaction> results = new ArrayList<>();
@@ -164,6 +167,7 @@ public class TransactionService {
     public ValidateTransactionResponse validateTransaction(Transaction newTransaction){
         Account accountDestination = newTransaction.getAccountNumberDestination();
         Account accountSource = newTransaction.getAccountNumberSource();
+        User userSource = newTransaction.getAccountNumberSource().getUserId();
         List<GetReportedAccount> reportedAccounts = reportedAccountService.getReportedAccountsByReportedAccountNumber(newTransaction.getAccountNumberDestination().getAccountNumber());
         List<Long> statusAccount = new ArrayList<>();
         int statusNumberDestination;
@@ -182,6 +186,7 @@ public class TransactionService {
                 statusNumberDestination,
                 accountSource.getUserId().getCustomerName(),
                 accountSource.getAccountNumber(),
+                favouriteService.checkAccountNumberFavouritedByUserId(userSource.getUserId(), accountDestination.getAccountNumber()),
                 newTransaction.getAmount(),
                 newTransaction.getNote(),
                 0,
