@@ -1,0 +1,5 @@
+gcp:
+  config:
+    file: unboxit.json
+  project:
+    id: godaddy-420701

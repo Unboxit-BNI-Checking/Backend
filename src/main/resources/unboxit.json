@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "godaddy-420701",
+  "private_key_id": "15a3b0a6f5a72b74b5a7d16b8357028b523b76f0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDKTj9xgz6sRkMU\nQPTwErmgevbcE4EA0RSCGNQxCkoXGy69oExjgVB8senKKqPM7s6EltvPw7lB6ByC\n4j6Hp0NcIetSxXTg+2qqcG0Q+fEkDqUmTdEUEQbpPytbXNa9eJpaXqq8e4Oqwvk/\nZ/Gyq/O71ihDrxxlPi6rXvfv/062+tUpHIXF08PoCP+WKYGlyRd3kMOtBL1sYIGC\nOSKdNkz2m3xFbkUqGQkVMocaTQLpKSADNy3Ua7hctHwQ31OuMc/K1TOftHBGZLyJ\nn2qoJX3I9oiw1jzjygTM58cBFRdH+7N40UGAchg46q7nOS0/lzKnKpEeW62Jo1t2\n3axb259ZAgMBAAECggEAChxyEE7SdZLHbH44n70X2Pz8VJCG/I72mu/5vv+4J0J9\nCg42cyy15J2RxUBvUmFHIhpWHyK1oiUjM6lyHZ6O/85UMB1dU5dNQ/p9gQE0+6vd\ntjXicsHNGiBFnvnbY7ng4Q5lMylrMcAv6+raiicM9gDkn0ljvm2msHr9IlocyYlW\nGP9qFAmPBRUsjjCilZoKkZhjSKBKmED10lbm+KZtuSBCYav1aw6+tfrPk57RUlx+\nChvEMD3DfPu3Plfm1eBQqw8zpUdnOsdbNBvaRcGwV+qiDE9sT1aCICNe1FXyY+Pq\nINvd058/pO+mVw1F6n90Vfdyh1+NOO3p/WbeaSt7PwKBgQDmYe7b0jBbzsdy8L9M\n/orh8/6GlcsaeygwY/pBPjLomycUc7gptUj9nb0mvJvbuOs+CM7ObnJyBtQGxmAq\naMEKmTMeYsyCRYwHPHgcXONsup9vIiF+QrZO9Z8gltZEcrbmHurkK6qEscL7q2a8\niLzouktMbX9Tbk6zgeABsf+IcwKBgQDgzRQF0+9yrYC6TMVkbVvRHKSnYb2z8AsZ\nBI3LK7YvDPLIgOkY1jisuVeiN8Fp/3KlUjss3rB+WqDcS8Zi7bzaCEJ7bavnvJIO\neujUUq+YLfTIR5YZHQvvyD0z5n3quPPUwS70/mlMoEJeayz8jaKxmvtJoPMggdxX\nWnzNUptiAwKBgFL1KtyvCEjW4c0K0ef4tKv+f0WZROSJOoSKS8AYlJ5b2CuuK7+h\nDuJ8XXNIcVsicFsLMuT0snNK8ChsYI6E4BZf6h9j9j5mqrCkXp/f9ujdHrIW+TaM\n8TbnjWBf0FIfeKrOsUhuTN2xYQPcyYbUOioXgyvHNhUl4GMVPkN+BATvAoGBAL5e\njSU+S9lWetvJpaOdRJL6aalhiS+3CP7fr2AtnTONCJCpMjyZNRd4QXEbPEySSbkc\nwQYHc3kdMHo+JTujzjjpo7s4rcoqE5n1lfQwLYl26YMttDuCMJiXftTTzTAX/kze\nZ/CK/gso7+tbYZZiLzOuZjz88sdFkZ3cADI0UWeXAoGARuy309pBV3BU/SKZS7mC\nP4lnZncrobSnpyWPGq2gnYA7EdLe4vAa5GrG3Yce8P7UtE6GU00skZp8La10PNaf\nGlmmMDNucbamPMah6hgjldioGNq2RbyiwP9AV7sxTDEcoTvuJ7eIkvqbFS8U9yx/\ngnHgRneo9IishqOzZPo4Ht4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "unboxit-report-attachments-ser@godaddy-420701.iam.gserviceaccount.com",
+  "client_id": "103302474707270357807",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/unboxit-report-attachments-ser%40godaddy-420701.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

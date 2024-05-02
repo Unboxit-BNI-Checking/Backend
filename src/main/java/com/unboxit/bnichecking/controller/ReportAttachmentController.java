@@ -6,6 +6,7 @@ import com.unboxit.bnichecking.model.ReportAttachment;
 import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.service.ReportAttachmentService;
 import com.unboxit.bnichecking.service.ReportsService;
+import com.unboxit.bnichecking.util.AttachmentService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -29,10 +30,12 @@ public class ReportAttachmentController {
 
     private final ReportAttachmentService reportAttachmentService;
     private final ReportsService reportsService;
+    private final AttachmentService attachmentService;
 
-    public ReportAttachmentController(ReportAttachmentService reportAttachmentService, ReportsService reportsService) {
+    public ReportAttachmentController(ReportAttachmentService reportAttachmentService, ReportsService reportsService, AttachmentService attachmentService) {
         this.reportAttachmentService = reportAttachmentService;
         this.reportsService = reportsService;
+        this.attachmentService = attachmentService;
     }
 
     @PostMapping("/reportAttachment/upload")
@@ -46,19 +49,8 @@ public class ReportAttachmentController {
         List<ReportAttachment> saveAttachment = new ArrayList<>();
 
         for (MultipartFile file : files) {
-            byte[] bytes = file.getBytes();
-
-            String newFileName= reportId.toString() +"_"+file.getOriginalFilename();
-
-            String filePath = "src/main/resources/ReportAttachments/"+newFileName;
-
-            // Create a new file at the specified path
-            File newFile = new File(filePath);
-
-            // Write the file bytes to the new file
-            // This saves the uploaded file to the specified location
-            Files.write(newFile.toPath(), bytes);
-            saveAttachment.add(reportAttachmentService.createReportAttachment(new ReportAttachment(report, filePath)));
+            String url = attachmentService.saveAttachment(file);
+            saveAttachment.add(reportAttachmentService.createReportAttachment(new ReportAttachment(report, url)));
         }
         List<GetAllReportAttachments> result = new ArrayList<>();
         for(ReportAttachment a : saveAttachment){
