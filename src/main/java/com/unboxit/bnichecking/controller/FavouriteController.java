@@ -9,6 +9,7 @@ import com.unboxit.bnichecking.model.User;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.FavouriteService;
 import com.unboxit.bnichecking.service.UserService;
+import com.unboxit.bnichecking.util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +38,8 @@ public class FavouriteController {
     }
 
     @PostMapping("/favourites")
-    public ResponseEntity<ApiResponse<Favourite>> createFavourite(@RequestBody CreateFavourite newFavourite) {
-
-        User user = userService.getUserByUserId(newFavourite.getUserId());
+    public ResponseEntity<ApiResponse<Favourite>> createFavourite(@RequestBody CreateFavourite newFavourite, @RequestHeader(name = "Authorization") String header) {
+        User user = userService.getUserByUserId(JwtAuthFilter.getUserIdFromToken(header.substring(7)));
         if (user == null) {
             ApiResponse<Favourite> response = new ApiResponse<>(false, null, "Account id is invalid");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -55,7 +55,7 @@ public class FavouriteController {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 //        }
 
-        List<GetFavourite> existingFavorites = favouriteService.getAllFavouriteByUserId(newFavourite.getUserId());
+        List<GetFavourite> existingFavorites = favouriteService.getAllFavouriteByUserId(JwtAuthFilter.getUserIdFromToken(header.substring(7)));
         for (GetFavourite existingFavorite : existingFavorites) {
             if (existingFavorite.getFavouriteAccountNumber().equals(newFavourite.getFavouriteAccountNumber())) {
                 ApiResponse<Favourite> response = new ApiResponse<>(false, null, "This account is already registered as a favourite");
@@ -67,9 +67,9 @@ public class FavouriteController {
         return ResponseEntity.ok(new ApiResponse<>(true, savedFavorite, null));
     }
 
-    @GetMapping("/favourites/{account_id}")
-    public List<GetFavourite> getAllFavouriteByAccountId(@PathVariable Long account_id) {
-        return favouriteService.getAllFavouriteByUserId(account_id);
+    @GetMapping("/favourites/user_id")
+    public List<GetFavourite> getAllFavouriteByAccountId(@RequestHeader(name = "Authorization") String header) {
+        return favouriteService.getAllFavouriteByUserId(JwtAuthFilter.getUserIdFromToken(header.substring(7)));
     }
 
 }

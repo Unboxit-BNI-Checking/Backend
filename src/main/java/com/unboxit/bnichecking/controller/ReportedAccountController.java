@@ -3,14 +3,17 @@ package com.unboxit.bnichecking.controller;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.Account;
+import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
+import com.unboxit.bnichecking.util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -25,7 +28,7 @@ public class ReportedAccountController {
     }
 
     @GetMapping(value = "/reportedAcc", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetReportedAccount>>> getAllTransaction(){
+    public ResponseEntity<ApiResponse<List<GetReportedAccount>>> getAllReportedAccount(){
          return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccount(), null));
     }
 
@@ -64,5 +67,32 @@ public class ReportedAccountController {
         }
 
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountAndAccountByReportedAccountNumber(reportedAccount_Number), null));
+    }
+
+    @PatchMapping(value = "/reportedAcc/reports/{id}/status", produces = "application/json")
+    public ResponseEntity<ApiResponse<GetReportedAccount>> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> requestBody) {
+        Integer newStatus = requestBody.get("status");
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.updateReportedAccountStatus(id, newStatus), null));
+    }
+
+    @GetMapping(value = "/reportedAcc/website", produces = "application/json")
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getAllReportedAccountAndReports(@RequestHeader(name = "Authorization") String header){
+        JwtAuthFilter.checkAdminToken(header.substring(7));
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAllReportedAccountAndReports(), null));
+    }
+
+    @GetMapping(value = "/reportedAcc/website/reports/{reported_id}", produces = "application/json")
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccountDetailReports>>> getAllReportedAccountAndReportsDetail(@PathVariable long reported_id, @RequestHeader(name = "Authorization") String header){
+        JwtAuthFilter.checkAdminToken(header.substring(7));
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAllReportedAccountDetailReports(reported_id), null));
+    }
+    @GetMapping("/reportedAcc/average-completion-time")
+    public ResponseEntity<ApiResponse<Long>> getAverageCompletionTime() {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAverageWaktuPenyelesaianInDays(), null));
+    }
+
+    @GetMapping("/reportedAcc/count-by-status")
+    public ResponseEntity<ApiResponse<List<GetTotalReportedAccountByStatus>>> getCountReportedByStatus() {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getCountReportAccountByStatus(), null));
     }
 }

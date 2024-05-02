@@ -1,7 +1,6 @@
 package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
-import com.unboxit.bnichecking.entity.http.request.CreateReport;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.ReportAttachment;
 import com.unboxit.bnichecking.model.Reports;
@@ -10,9 +9,7 @@ import com.unboxit.bnichecking.util.AttachmentService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,6 +56,10 @@ public class ReportsService {
         return results;
     }
 
+    public List<Reports> getReportsByReportedAccountIdToReports(long reportedAccount_Id){
+        return reportsJpaRepository.findReportsByReportedAccountId(reportedAccount_Id);
+    }
+
     public List<GetAllReports> getReportsByReportedAccountId(long reportedAccount_Id){
         List<GetAllReports> results = new ArrayList<>();
         List<Reports> reports = reportsJpaRepository.findReportsByReportedAccountId(reportedAccount_Id);
@@ -90,6 +91,8 @@ public class ReportsService {
             reportsAndTransactionByCustomerName.setAmount((long) result[5]);
             reportsAndTransactionByCustomerName.setCreatedAtTransaction(((Timestamp) result[6]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setChronology((String) result[7]);
+            List<GetAllReportAttachments> reportAttachment = reportAttachmentService.findReportAttachmentByReportId(reportsAndTransactionByCustomerName.getReportsId());
+            reportsAndTransactionByCustomerName.setAttachment(reportAttachment.get(0).getFilePath());
             resultList.add(reportsAndTransactionByCustomerName);
         }
         return resultList;
@@ -185,5 +188,27 @@ public class ReportsService {
             reportAttachmentService.createReportAttachment(new ReportAttachment(report, url));
         }
         return result;
+    }
+
+    public Long countReports(){
+        return reportsJpaRepository.count();
+    }
+
+    public long countByReportedAccount_Status(Long status) {
+        System.out.println(reportsJpaRepository.countReportedByStatus(status));
+        System.out.println(status);
+        return reportsJpaRepository.countReportedByStatus(status);
+    }
+
+    public List<GetTotalReportCompleted> getTotalReportCompletedByMonth() {
+        List<Object[]> resultlist = reportsJpaRepository.getTotalReportByMonth();
+        List<GetTotalReportCompleted> res = new ArrayList<>();
+        for (Object[] obj : resultlist) {
+            GetTotalReportCompleted getTotalReportCompletedByMonth= new GetTotalReportCompleted();
+            getTotalReportCompletedByMonth.getBulan((String) obj[0]);
+            getTotalReportCompletedByMonth.setJumlah((Long) obj[1]);
+            res.add(getTotalReportCompletedByMonth);
+        }
+        return res;
     }
 }
