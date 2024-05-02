@@ -5,9 +5,11 @@ import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.ReportAttachment;
 import com.unboxit.bnichecking.model.Reports;
 import com.unboxit.bnichecking.repository.ReportsJpaRepository;
+import com.unboxit.bnichecking.util.AttachmentService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +28,9 @@ public class ReportsService {
     private ReportsJpaRepository reportsJpaRepository;
     private AccountService accountService;
     private ReportAttachmentService reportAttachmentService;
+
+    @Autowired
+    private AttachmentService attachmentService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -139,19 +144,8 @@ public class ReportsService {
                     Reports report = getReportsById(newReportsId);
 
                     for (MultipartFile file : files) {
-                        byte[] bytes = file.getBytes();
-
-                        String newFileName= newReportsId.toString() +"_"+file.getOriginalFilename();
-
-                        String filePath = "src/main/resources/ReportAttachments/"+newFileName;
-
-                        // Create a new file at the specified path
-                        File newFile = new File(filePath);
-
-                        // Write the file bytes to the new file
-                        // This saves the uploaded file to the specified location
-                        Files.write(newFile.toPath(), bytes);
-                        reportAttachmentService.createReportAttachment(new ReportAttachment(report, filePath));
+                        String url = attachmentService.saveAttachment(file);
+                        reportAttachmentService.createReportAttachment(new ReportAttachment(report, url));
                     }
                     return result;
                 } else {

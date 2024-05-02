@@ -3,6 +3,7 @@ package com.unboxit.bnichecking.service;
 import com.unboxit.bnichecking.entity.http.response.GetAccountNumberByUserId;
 import com.unboxit.bnichecking.entity.http.response.GetAllAccounts;
 import com.unboxit.bnichecking.entity.http.response.GetAllUser;
+import com.unboxit.bnichecking.entity.http.response.GetMyAccount;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.User;
 import com.unboxit.bnichecking.repository.UserJpaRepository;
@@ -45,15 +46,10 @@ public class UserService {
 
     public GetAccountNumberByUserId getAccountNumberByUserId(long userId){
         List<Account> accounts = accountService.getAccountByUserId(userId);
-        List<GetAllAccounts> results = new ArrayList<>();
+        List<GetMyAccount> results = new ArrayList<>();
 
         for (Account account : accounts) {
-            GetAllAccounts getAllAccounts = new GetAllAccounts();
-            getAllAccounts.setAccountId(account.getAccountId());
-            getAllAccounts.setAccountNumber(account.getAccountNumber());
-            getAllAccounts.setCustomerName(hideCustomerName(account.getUserId().getCustomerName()));
-            getAllAccounts.setBlocked(account.getBlocked());
-            results.add(getAllAccounts);
+            results.add(new GetMyAccount(account));
         }
 
         return new GetAccountNumberByUserId(
@@ -61,23 +57,5 @@ public class UserService {
                 results
         );
     }
-    // TODO: Move to util
-    private String hideCustomerName(String name) {
-        if (name != null && name.length() >= 5) {
-            StringBuilder maskedName = new StringBuilder();
-            for (int i = 0; i < name.length(); i++) {
-                char c = name.charAt(i);
-                if (i < 2 || i > name.length() - 3) {
-                    maskedName.append(c);
-                } else if (Character.isLetter(c)) {
-                    maskedName.append('*');
-                } else {
-                    maskedName.append(c);
-                }
-            }
-            return maskedName.toString();
-        } else {
-            return name;
-        }
-    }
+
 }

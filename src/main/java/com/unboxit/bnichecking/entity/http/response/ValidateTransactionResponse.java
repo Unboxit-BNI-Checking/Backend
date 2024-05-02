@@ -4,24 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
-public class CreateTransactionResponse {
-    @JsonProperty("transaction_id")
-    private long transactionId;
-
-    @JsonProperty("is_transaction_success")
-    private boolean transactionSuccess;
-
+public class ValidateTransactionResponse {
     @JsonProperty("account_number_destination")
     private String accountNumberDestination;
 
     @JsonProperty("account_name_destination")
     private String accountNameDestination;
-
-    @JsonProperty("transaction_time")
-    private LocalDateTime transactionTime;
-
-    @JsonProperty("email")
-    private String email;
 
     @JsonProperty("bank_destination")
     private String bankDestination = "BNI";
@@ -35,11 +23,11 @@ public class CreateTransactionResponse {
     @JsonProperty("account_number_source")
     private String accountNumberSource;
 
-    @JsonProperty("note")
-    private String note;
-
     @JsonProperty("amount")
     private long amount;
+
+    @JsonProperty("note")
+    private String note;
 
     @JsonProperty("fee")
     private long fee = 0;
@@ -47,19 +35,15 @@ public class CreateTransactionResponse {
     @JsonProperty("total_amount")
     private long totalAmount;
 
-    public CreateTransactionResponse(long transactionId, boolean transactionSuccess, String accountNumberDestination, String accountNameDestination, LocalDateTime transactionTime, String email, String bankDestination, int accountNumberDestinationStatus, String accountNameSource, String accountNumberSource, String note, long amount, long fee, long totalAmount) {
-        this.transactionId = transactionId;
-        this.transactionSuccess = transactionSuccess;
+    public ValidateTransactionResponse(String accountNumberDestination, String accountNameDestination, String bankDestination, int accountNumberDestinationStatus, String accountNameSource, String accountNumberSource, long amount, String note, long fee, long totalAmount) {
         this.accountNumberDestination = accountNumberDestination;
         this.accountNameDestination = accountNameDestination;
-        this.transactionTime = transactionTime;
-        this.email = email;
         this.bankDestination = bankDestination;
         this.accountNumberDestinationStatus = accountNumberDestinationStatus;
         this.accountNameSource = accountNameSource;
         this.accountNumberSource = accountNumberSource;
-        this.note = note;
         this.amount = amount;
+        this.note = note;
         this.fee = fee;
         this.totalAmount = totalAmount;
     }

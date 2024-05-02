@@ -63,7 +63,6 @@ public class UserController {
                             .issuedAt(Date.from(Instant.now()))
                             .expiration(Date.from(Instant.now().plus(365, ChronoUnit.DAYS)))
                             .compact();
-                    System.out.println("dwadniawdnwa"+tokenUser);
                     return ResponseEntity.ok(new ApiResponse<>(true,new LoginUserResponse(tokenUser),null));
                 }else {
                     ApiResponse<LoginUserResponse> response = new ApiResponse<>(false, null, "Username or Mpin incorrect");
