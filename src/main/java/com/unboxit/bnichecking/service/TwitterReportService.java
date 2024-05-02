@@ -33,4 +33,8 @@ public class TwitterReportService {
         }
         return repository.findTwitterReportByQueries(null, twitterUsername, includeDeleted);
     }
+
+    public Long countTwitterReport(){
+        return repository.count();
+    }
 }

@@ -18,7 +18,7 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
                     "INNER JOIN reported_account ra ON ra.reported_account_id = r.reported_account_id \n" +
                     "INNER JOIN transactions t ON r.transaction_id = t.transaction_id \n" +
                     "WHERE t.account_number_source \n" +
-                    "IN (SELECT a.account_number FROM accounts a INNER JOIN users u ON a.user_id = u.user_id WHERE u.customer_name like CONCAT('%', ?1, '%'))", nativeQuery = true)
+                    "IN (SELECT a.account_number FROM accounts a INNER JOIN users u ON a.user_id = u.user_id WHERE u.username like CONCAT('%', ?1, '%'))", nativeQuery = true)
     List<Object[]> findReportsAndTransactionByAccountName(String accountName);
 
     @Query(value="SELECT report_id FROM reports WHERE transaction_id = :transaction_id and reported_account_id = :reported_account_id and chronology = :chronology and created_at = :create_at", nativeQuery = true)
@@ -33,5 +33,12 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
     @Transactional
     @Query(value = "insert into reports (transaction_id, reported_account_id, chronology, created_at) values (:transaction_id, :reported_account_id, :chronology, :create_at);", nativeQuery = true)
     void insertReports(@Param("transaction_id") Long transaction_id, @Param("reported_account_id") Long reported_account_id, @Param("chronology") String chronology, @Param("create_at") LocalDateTime create_at);
+
+    @Query(value = "select count(r.*) from reports r inner join reported_account ra on r.reported_account_id =ra.reported_account_id where ra.status =:status",nativeQuery = true)
+    long countReportedByStatus(@Param("status") Long status);
+
+    @Query(value = "SELECT EXTRACT(MONTH from ra.time_finished) as bulan, COUNT(ra.reported_account_id) \n" +
+            "FROM reported_account ra  where  EXTRACT(year from ra.time_finished)=EXTRACT(MONTH from now()) GROUP BY EXTRACT(MONTH from ra.time_finished)", nativeQuery = true)
+    List<Object[]> getTotalReportByMonth();
 }
 
