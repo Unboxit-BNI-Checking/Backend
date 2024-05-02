@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class FavouriteService {
@@ -41,6 +42,16 @@ public class FavouriteService {
         return results;
     }
 
+    public boolean checkAccountNumberFavouritedByUserId(Long user_id, String accountNumber){
+        List<FavouriteDB> favouriteDBs = repository.findByUserId(user_id);
+
+        for (FavouriteDB favouriteDB: favouriteDBs) {
+            if (Objects.equals(favouriteDB.getFavouriteAccountNumber(), accountNumber)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
