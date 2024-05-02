@@ -1,7 +1,6 @@
 package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
-import com.unboxit.bnichecking.entity.http.request.CreateReport;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.ReportAttachment;
 import com.unboxit.bnichecking.model.Reports;
@@ -10,7 +9,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +50,10 @@ public class ReportsService {
         }
 
         return results;
+    }
+
+    public List<Reports> getReportsByReportedAccountIdToReports(long reportedAccount_Id){
+        return reportsJpaRepository.findReportsByReportedAccountId(reportedAccount_Id);
     }
 
     public List<GetAllReports> getReportsByReportedAccountId(long reportedAccount_Id){
