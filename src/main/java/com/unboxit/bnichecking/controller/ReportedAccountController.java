@@ -65,4 +65,14 @@ public class ReportedAccountController {
 
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountAndAccountByReportedAccountNumber(reportedAccount_Number), null));
     }
+
+    @GetMapping("/reportedAcc/average-completion-time")
+    public ResponseEntity<ApiResponse<Long>> getAverageCompletionTime() {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAverageWaktuPenyelesaianInDays(), null));
+    }
+
+    @GetMapping("/reportedAcc/count-by-status")
+    public ResponseEntity<ApiResponse<List<GetTotalReportedAccountByStatus>>> getCountReportedByStatus() {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getCountReportAccountByStatus(), null));
+    }
 }

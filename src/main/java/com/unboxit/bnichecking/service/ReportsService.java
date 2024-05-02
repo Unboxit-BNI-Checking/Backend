@@ -203,4 +203,26 @@ public class ReportsService {
         }
         return result;
     }
+
+    public Long countReports(){
+        return reportsJpaRepository.count();
+    }
+
+    public long countByReportedAccount_Status(Long status) {
+        System.out.println(reportsJpaRepository.countReportedByStatus(status));
+        System.out.println(status);
+        return reportsJpaRepository.countReportedByStatus(status);
+    }
+
+    public List<GetTotalReportCompleted> getTotalReportCompletedByMonth() {
+        List<Object[]> resultlist = reportsJpaRepository.getTotalReportByMonth();
+        List<GetTotalReportCompleted> res = new ArrayList<>();
+        for (Object[] obj : resultlist) {
+            GetTotalReportCompleted getTotalReportCompletedByMonth= new GetTotalReportCompleted();
+            getTotalReportCompletedByMonth.getBulan((String) obj[0]);
+            getTotalReportCompletedByMonth.setJumlah((Long) obj[1]);
+            res.add(getTotalReportCompletedByMonth);
+        }
+        return res;
+    }
 }

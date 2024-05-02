@@ -3,6 +3,7 @@ package com.unboxit.bnichecking.service;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccount;
 import com.unboxit.bnichecking.entity.http.response.GetAllReports;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
+import com.unboxit.bnichecking.entity.http.response.GetTotalReportedAccountByStatus;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.model.TwitterReport;
@@ -108,5 +109,25 @@ public class ReportedAccountService {
             getStatus = 1;
         }
         return getStatus;
+    }
+
+    public long getAverageWaktuPenyelesaianInDays() {
+        long avg = 0;
+        if(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports()!=null){
+            avg= Long.parseLong(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports());
+        }
+        return avg ;
+    }
+
+    public List<GetTotalReportedAccountByStatus> getCountReportAccountByStatus() {
+        List<Object[]> resultlist = reportedAccountJpaRepository.getCountReportAccountByStatus();
+        List<GetTotalReportedAccountByStatus> res = new ArrayList<>();
+        for (Object[] obj : resultlist) {
+            GetTotalReportedAccountByStatus getTotalReportedAccountByStatus= new GetTotalReportedAccountByStatus();
+            getTotalReportedAccountByStatus.setStatus((Long) obj[0]);
+            getTotalReportedAccountByStatus.setJumlah((Long) obj[1]);
+            res.add(getTotalReportedAccountByStatus);
+        }
+        return res;
     }
 }
