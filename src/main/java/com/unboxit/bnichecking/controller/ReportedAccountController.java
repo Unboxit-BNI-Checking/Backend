@@ -6,6 +6,7 @@ import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
+import com.unboxit.bnichecking.util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,12 +76,14 @@ public class ReportedAccountController {
     }
 
     @GetMapping(value = "/reportedAcc/website", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getAllReportedAccountAndReports(){
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getAllReportedAccountAndReports(@RequestHeader(name = "Authorization") String header){
+        JwtAuthFilter.checkAdminToken(header.substring(7));
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAllReportedAccountAndReports(), null));
     }
 
     @GetMapping(value = "/reportedAcc/website/reports/{reported_id}", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetAllReportedAccountDetailReports>>> getAllReportedAccountAndReportsDetail(@PathVariable long reported_id){
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccountDetailReports>>> getAllReportedAccountAndReportsDetail(@PathVariable long reported_id, @RequestHeader(name = "Authorization") String header){
+        JwtAuthFilter.checkAdminToken(header.substring(7));
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAllReportedAccountDetailReports(reported_id), null));
     }
     @GetMapping("/reportedAcc/average-completion-time")
