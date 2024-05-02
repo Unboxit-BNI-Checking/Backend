@@ -24,7 +24,7 @@ public class ReportAttachment {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Reports reportId;
 
-    @Column(name = "file_path", nullable = false)
+    @Column(name = "file_path", nullable = false, columnDefinition = "TEXT")
     private String filePath;
     @CreatedDate
     @Column(name="created_at", nullable = false, updatable = false)
