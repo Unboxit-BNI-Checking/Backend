@@ -59,6 +59,7 @@ public class UserController {
                     String tokenUser = Jwts.builder()
                             .subject(user.getUsername())
                             .claim("role", "user")
+                            .claim("user_id", user.getUserId())
                             .signWith(SignatureAlgorithm.HS256, "secretkeyasdafnajndnsakmdkamfkmakekasmdkammkfskamkamkdmasmdkmaskdmasmdmasmdka")
                             .issuedAt(Date.from(Instant.now()))
                             .expiration(Date.from(Instant.now().plus(365, ChronoUnit.DAYS)))

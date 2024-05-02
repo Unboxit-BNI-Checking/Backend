@@ -1,6 +1,8 @@
 package com.unboxit.bnichecking.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unboxit.bnichecking.exception.TokenInvalidException;
+import com.unboxit.bnichecking.exception.UserNotAllowedException;
 import com.unboxit.bnichecking.service.AdminDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -10,6 +12,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.antlr.v4.runtime.Token;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Objects;
 
 import static javax.crypto.Cipher.SECRET_KEY;
 
@@ -64,8 +68,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        } catch (AccessDeniedException e) {
-            System.out.println(e);
+        } catch (io.jsonwebtoken.JwtException e) {
+            response.setContentType("application/json");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(new TokenInvalidException("token is invalid: " + e.getMessage()).toString());
         }
     }
 
@@ -78,21 +84,34 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    private static Claims getTokenBody(String token) {
-        try {
-            return Jwts
-                    .parser()
-                    .setSigningKey("secretkeyasdafnajndnsakmdkamfkmakekasmdkammkfskamkamkdmasmdkmaskdmasmdmasmdka")
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
-        } catch (ExpiredJwtException e) { // Invalid signature or expired token
-            throw new AccessDeniedException("Access denied: " + e.getMessage());
-        }
+    public static Claims getTokenBody(String token) {
+        return Jwts
+                .parser()
+                .setSigningKey("secretkeyasdafnajndnsakmdkamfkmakekasmdkammkfskamkamkdmasmdkmaskdmasmdmasmdka")
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     private static boolean isTokenExpired(String token) {
         Claims claims = getTokenBody(token);
         return claims.getExpiration().before(new Date());
+    }
+
+    public static void checkAdminToken(String token) {
+        Claims claims = getTokenBody(token);
+        if (!claims.get("role").toString().equals("admin")) {
+            throw new UserNotAllowedException("");
+        }
+    }
+
+    public static Long getAdminIdFromToken(String token) {
+        Claims claims = getTokenBody(token);
+        return Long.parseLong(claims.get("admin_id").toString());
+    }
+
+    public static Long getUserIdFromToken(String token) {
+        Claims claims = getTokenBody(token);
+        return Long.parseLong(claims.get("user_id").toString());
     }
 }
