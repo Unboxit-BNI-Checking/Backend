@@ -58,7 +58,7 @@ public class DBSeeder {
     public CommandLineRunner accountSeederCommandLineRunner() {
         return args -> {
             if (seedDataEnabled && userJpaRepository.count() == 0) {
-                User user1 = new User("Sofi Shahira Khoirun Nisa", "Sofishr7", passwordHasherService.hashPassword("111111"), passwordHasherService.hashPassword("111111"));
+                User user1 = new User("Sofi Shahira Khoirun Nisa", "sofishr7", passwordHasherService.hashPassword("111111"), passwordHasherService.hashPassword("111111"));
                 User user2 = new User("Renata Rizki Rafi Athallah", "rizkirafi", passwordHasherService.hashPassword("222222"), passwordHasherService.hashPassword("222222"));
 
                 userJpaRepository.saveAll(Arrays.asList(user1, user2));

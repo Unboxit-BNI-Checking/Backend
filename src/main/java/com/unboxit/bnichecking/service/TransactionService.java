@@ -1,9 +1,7 @@
 package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.http.response.*;
-import com.unboxit.bnichecking.model.Account;
-import com.unboxit.bnichecking.model.Transaction;
-import com.unboxit.bnichecking.model.User;
+import com.unboxit.bnichecking.model.*;
 import com.unboxit.bnichecking.repository.TransactionJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +20,15 @@ public class TransactionService {
     private ReportedAccountService reportedAccountService;
     private UserService userService;
     private FavouriteService favouriteService;
+    private ReportsService reportsService;
 
-    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService, UserService userService, FavouriteService favouriteService) {
+    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService, UserService userService, FavouriteService favouriteService, ReportsService reportsService) {
         this.transactionJpaRepository = transactionJpaRepository;
         this.accountService = accountService;
         this.reportedAccountService = reportedAccountService;
         this.userService = userService;
         this.favouriteService = favouriteService;
+        this.reportsService = reportsService;
     }
     public List<GetTransaction> getAllTransactions() {
         List<GetTransaction> results = new ArrayList<>();
@@ -86,6 +86,13 @@ public class TransactionService {
         for (Transaction transaction : transactions) {
             String currDestinationAccountNumber = transaction.getAccountNumberDestination().getAccountNumber();
             String currSourceAccountNumber = transaction.getAccountNumberSource().getAccountNumber();
+            List<Reports> reports = reportsService.getReportsByTransactionId(transaction.getTransactionId());
+            boolean isReported;
+            if(reports.isEmpty()){
+                isReported = false;
+            } else {
+                isReported = true;
+            }
 
             results.add(new GetTransactionsByAccountNumberSource(
                     transaction.getTransactionId(),
@@ -95,7 +102,8 @@ public class TransactionService {
                     mapAccountSourceNameByAccountNumberSource.get(currSourceAccountNumber),
                     transaction.getAmount(),
                     "Transfer BNI",
-                    transaction.getCreatedAt()
+                    transaction.getCreatedAt(),
+                    isReported
             ));
         }
         return results;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class GetReportsAndTransactionByCustomerName {
     @JsonProperty("reports_id")
@@ -34,7 +35,7 @@ public class GetReportsAndTransactionByCustomerName {
     private LocalDateTime createdAtTransaction;
 
     @JsonProperty("attachment")
-    private String attachment;
+    private List<String> attachment;
 
     public String getAccountNumberSourceUsername() {
         return accountNumberSourceUsername;
@@ -116,11 +117,11 @@ public class GetReportsAndTransactionByCustomerName {
         this.createdAtTransaction = createdAtTransaction;
     }
 
-    public String getAttachment() {
+    public List<String> getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(String attachment) {
+    public void setAttachment(List<String> attachment) {
         this.attachment = attachment;
     }
 }
