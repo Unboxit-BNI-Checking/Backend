@@ -152,7 +152,7 @@ public class ReportsService {
                     reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
                     Long newReportsId = reportsJpaRepository.findReportIdByNewReport(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
                     Reports report = getReportsById(newReportsId);
-
+                    result.setReportsId(report.getReportId());
                     for (MultipartFile file : files) {
                         String url = attachmentService.saveAttachment(file);
                         reportAttachmentService.createReportAttachment(new ReportAttachment(report, url));
@@ -191,6 +191,7 @@ public class ReportsService {
         reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
         Long newReportsId = reportsJpaRepository.findReportIdByNewReport(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
         Reports report = getReportsById(newReportsId);
+        result.setReportsId(report.getReportId());
 
         for (MultipartFile file : files) {
             String url = attachmentService.saveAttachment(file);
