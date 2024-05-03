@@ -8,10 +8,12 @@ import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
 import com.unboxit.bnichecking.util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -86,13 +88,10 @@ public class ReportedAccountController {
         JwtAuthFilter.checkAdminToken(header.substring(7));
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAllReportedAccountDetailReports(reported_id), null));
     }
-    @GetMapping("/reportedAcc/average-completion-time")
-    public ResponseEntity<ApiResponse<Long>> getAverageCompletionTime() {
-        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAverageWaktuPenyelesaianInDays(), null));
-    }
 
-    @GetMapping("/reportedAcc/count-by-status")
-    public ResponseEntity<ApiResponse<List<GetTotalReportedAccountByStatus>>> getCountReportedByStatus() {
-        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getCountReportAccountByStatus(), null));
+    @GetMapping("/reports/dashboard")
+    public ResponseEntity<ApiResponse<GetDashboard>> getDashboardReport(@RequestHeader(name = "Authorization") String header, @RequestParam(name = "month", required = false) String month){
+        JwtAuthFilter.checkAdminToken(header.substring(7));
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportDashboard(month),null));
     }
 }

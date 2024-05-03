@@ -1,11 +1,8 @@
 package com.unboxit.bnichecking.controller;
 
 import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
-import com.unboxit.bnichecking.entity.http.request.CreateReport;
-import com.unboxit.bnichecking.entity.http.response.ApiResponse;
-import com.unboxit.bnichecking.entity.http.response.CreateReportResponse;
-import com.unboxit.bnichecking.entity.http.response.GetAllReports;
-import com.unboxit.bnichecking.entity.http.response.GetTotalReportCompleted;
+import com.unboxit.bnichecking.entity.http.request.CreateReportRequest;
+import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.service.ReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,22 +33,13 @@ public class ReportsController {
     }
 
     @PostMapping(value = "/reports") //Create Resource
-    public ResponseEntity<ApiResponse<CreateReportResponse>> createReportsAndReportsAttachment(@RequestParam("transaction_id") Long TransactionId, @RequestParam("chronology") String chronology, @RequestParam("file") List<MultipartFile> files) throws IOException {
-        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.createReportsAndAttachment(TransactionId, chronology, files), null));
-    }
-
-    @GetMapping(value = "/reports/total-reports")
-    public ResponseEntity<ApiResponse<Long>> getTotalReports(){
-        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.countReports(),null));
-    }
-
-    @GetMapping(value = "/reports/total-reports-by-status/{status}")
-    public ResponseEntity<ApiResponse<Long>> getTotalByReportedAccount_Status(@PathVariable Long status) {
-        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.countByReportedAccount_Status(status),null));
+    public ResponseEntity<ApiResponse<CreateReportResponse>> createReportsAndReportsAttachment(@ModelAttribute CreateReportRequest request) throws IOException {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.createReportsAndAttachment(request.getTransactionId(), request.getChronology(), request.getFiles()), null));
     }
 
     @GetMapping(value = "/reports/total-reports-by-month")
     public ResponseEntity<ApiResponse<List<GetTotalReportCompleted>>> getTotalReportsByMonth() {
         return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getTotalReportCompletedByMonth(),null));
     }
+
 }
