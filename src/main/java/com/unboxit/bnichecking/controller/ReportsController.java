@@ -1,6 +1,7 @@
 package com.unboxit.bnichecking.controller;
 
 import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
+import com.unboxit.bnichecking.entity.http.request.CreateReportRequest;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.service.ReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class ReportsController {
     }
 
     @PostMapping(value = "/reports") //Create Resource
-    public ResponseEntity<ApiResponse<CreateReportResponse>> createReportsAndReportsAttachment(@RequestParam("transaction_id") Long TransactionId, @RequestParam("chronology") String chronology, @RequestParam("file") List<MultipartFile> files) throws IOException {
-        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.createReportsAndAttachment(TransactionId, chronology, files), null));
+    public ResponseEntity<ApiResponse<CreateReportResponse>> createReportsAndReportsAttachment(@ModelAttribute CreateReportRequest request) throws IOException {
+        return ResponseEntity.ok(new ApiResponse<>(true, reportsService.createReportsAndAttachment(request.getTransactionId(), request.getChronology(), request.getFiles()), null));
     }
 
     @GetMapping(value = "/reports/total-reports-by-month")
