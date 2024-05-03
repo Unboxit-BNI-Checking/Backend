@@ -83,7 +83,7 @@ public class ReportsService {
         List<Object[]> results = reportsJpaRepository.findReportsAndTransactionByAccountName(accountUsername);
         List<GetReportsAndTransactionByCustomerName> resultList = new ArrayList<>();
 
-        List<String> filePath = new ArrayList<>();
+        List<String> filePath;
 
         for (Object[] result : results) {
             GetReportsAndTransactionByCustomerName reportsAndTransactionByCustomerName = new GetReportsAndTransactionByCustomerName();
@@ -98,6 +98,7 @@ public class ReportsService {
             reportsAndTransactionByCustomerName.setCreatedAtTransaction(((Timestamp) result[6]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setChronology((String) result[7]);
             List<GetAllReportAttachments> reportAttachment = reportAttachmentService.findReportAttachmentByReportId(reportsAndTransactionByCustomerName.getReportsId());
+            filePath = null;
             for (GetAllReportAttachments reportAtt : reportAttachment) {
                 filePath.add(reportAtt.getFilePath());
             }
