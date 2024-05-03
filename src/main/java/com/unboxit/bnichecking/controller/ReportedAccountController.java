@@ -6,10 +6,12 @@ import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -66,13 +68,8 @@ public class ReportedAccountController {
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountAndAccountByReportedAccountNumber(reportedAccount_Number), null));
     }
 
-    @GetMapping("/reportedAcc/average-completion-time")
-    public ResponseEntity<ApiResponse<Long>> getAverageCompletionTime() {
-        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAverageWaktuPenyelesaianInDays(), null));
-    }
-
-    @GetMapping("/reportedAcc/count-by-status")
-    public ResponseEntity<ApiResponse<List<GetTotalReportedAccountByStatus>>> getCountReportedByStatus() {
-        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getCountReportAccountByStatus(), null));
+    @GetMapping("/reports/dashboard")
+    public ResponseEntity<ApiResponse<GetDashboard>> getDashboardReport(@RequestParam(name = "month", required = false) String month){
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportDashboard(month),null));
     }
 }

@@ -1,7 +1,6 @@
 package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
-import com.unboxit.bnichecking.entity.http.request.CreateReport;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.ReportAttachment;
 import com.unboxit.bnichecking.model.Reports;
@@ -10,7 +9,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -204,14 +202,34 @@ public class ReportsService {
         return result;
     }
 
-    public Long countReports(){
-        return reportsJpaRepository.count();
+    public Long countReports(String month){
+        if (month != null) {
+            return reportsJpaRepository.getCount(Long.parseLong(month));
+        }
+        return reportsJpaRepository.getCount(null);
+
     }
 
-    public long countByReportedAccount_Status(Long status) {
-        System.out.println(reportsJpaRepository.countReportedByStatus(status));
-        System.out.println(status);
-        return reportsJpaRepository.countReportedByStatus(status);
+    public long countByReportedAccount_Status(Long status, String month) {
+        if (month != null) {
+            return reportsJpaRepository.countReportedByStatus(status, Long.parseLong(month));
+
+        }
+        return reportsJpaRepository.countReportedByStatus(status, null);
+    }
+
+    public long getCountReportsCompleted(String month){
+        if(month!=null){
+            return reportsJpaRepository.getCountReportsCompleted(Long.valueOf(month));
+        }
+        return reportsJpaRepository.getCountReportsCompleted(null);
+
+    }
+    public long getCountReportsUncompleted(String month){
+        if(month!=null){
+            return reportsJpaRepository.getCountReportUncompleted(Long.valueOf(month));
+        }
+        return reportsJpaRepository.getCountReportUncompleted(null);
     }
 
     public List<GetTotalReportCompleted> getTotalReportCompletedByMonth() {

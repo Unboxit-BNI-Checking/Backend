@@ -1,9 +1,6 @@
 package com.unboxit.bnichecking.service;
 
-import com.unboxit.bnichecking.entity.http.response.GetReportedAccount;
-import com.unboxit.bnichecking.entity.http.response.GetAllReports;
-import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
-import com.unboxit.bnichecking.entity.http.response.GetTotalReportedAccountByStatus;
+import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.model.TwitterReport;
@@ -114,7 +111,7 @@ public class ReportedAccountService {
     public long getAverageWaktuPenyelesaianInDays() {
         long avg = 0;
         if(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports()!=null){
-            avg= Long.parseLong(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports());
+            avg= Long.parseLong(String.valueOf(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports()));
         }
         return avg ;
     }
@@ -128,6 +125,20 @@ public class ReportedAccountService {
             getTotalReportedAccountByStatus.setJumlah((Long) obj[1]);
             res.add(getTotalReportedAccountByStatus);
         }
+        return res;
+    }
+
+    public GetDashboard getReportDashboard(String month){
+        GetDashboard res= new GetDashboard();
+
+        res.setTotal_laporan(reportsService.countReports(month));
+        res.setTotal_investigate(reportsService.countByReportedAccount_Status(2L, month));
+        res.setTotal_laporan_sosmed(twitterReportService.countTwitterReport());
+        res.setAvg_waktu_penanganan_laporan(getAverageWaktuPenyelesaianInDays());
+
+        res.setTotal_laporan_selesai(reportsService.getCountReportsCompleted(month));
+        res.setTotal_laporan_belum_selesai(reportsService.getCountReportsUncompleted(month));
+        System.out.println(reportsService.getCountReportsUncompleted(month));
         return res;
     }
 }
