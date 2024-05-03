@@ -9,6 +9,7 @@ import com.unboxit.bnichecking.model.User;
 import com.unboxit.bnichecking.service.UserService;
 
 import com.unboxit.bnichecking.entity.http.request.CreateUser;
+import com.unboxit.bnichecking.util.JwtAuthFilter;
 import com.unboxit.bnichecking.util.PasswordHasherService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -39,14 +40,14 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, userService.getAllUser(), null));
     }
 
-    @GetMapping(value = "/users/{user_id}", produces = "application/json") //Get Resource
-    public ResponseEntity<ApiResponse<User>> getUserByUserId(@PathVariable long user_id) {
-        return ResponseEntity.ok(new ApiResponse<>(true, userService.getUserByUserId(user_id), null));
+    @GetMapping(value = "/users/user_id", produces = "application/json") //Get Resource
+    public ResponseEntity<ApiResponse<User>> getUserByUserId(@RequestHeader(name = "Authorization") String header) {
+        return ResponseEntity.ok(new ApiResponse<>(true, userService.getUserByUserId(JwtAuthFilter.getUserIdFromToken(header.substring(7))), null));
     }
 
-    @GetMapping(value = "/users/accountNumber/{user_id}", produces = "application/json") //Get Resource
-    public ResponseEntity<ApiResponse<GetAccountNumberByUserId>> getAccountNumberByUserId(@PathVariable long user_id) {
-        return ResponseEntity.ok(new ApiResponse<>(true, userService.getAccountNumberByUserId(user_id), null));
+    @GetMapping(value = "/users/accountNumber", produces = "application/json") //Get Resource
+    public ResponseEntity<ApiResponse<GetAccountNumberByUserId>> getAccountNumberByUserId(@RequestHeader(name = "Authorization") String header) {
+        return ResponseEntity.ok(new ApiResponse<>(true, userService.getAccountNumberByUserId(JwtAuthFilter.getUserIdFromToken(header.substring(7))), null));
     }
     
     @PostMapping("/users/login")
@@ -59,6 +60,7 @@ public class UserController {
                     String tokenUser = Jwts.builder()
                             .subject(user.getUsername())
                             .claim("role", "user")
+                            .claim("user_id", user.getUserId())
                             .signWith(SignatureAlgorithm.HS256, "secretkeyasdafnajndnsakmdkamfkmakekasmdkammkfskamkamkdmasmdkmaskdmasmdmasmdka")
                             .issuedAt(Date.from(Instant.now()))
                             .expiration(Date.from(Instant.now().plus(365, ChronoUnit.DAYS)))

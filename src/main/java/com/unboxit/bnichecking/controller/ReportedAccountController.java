@@ -3,8 +3,10 @@ package com.unboxit.bnichecking.controller;
 import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.Account;
+import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.ReportedAccountService;
+import com.unboxit.bnichecking.util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -27,7 +30,7 @@ public class ReportedAccountController {
     }
 
     @GetMapping(value = "/reportedAcc", produces = "application/json")
-    public ResponseEntity<ApiResponse<List<GetReportedAccount>>> getAllTransaction(){
+    public ResponseEntity<ApiResponse<List<GetReportedAccount>>> getAllReportedAccount(){
          return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccount(), null));
     }
 
@@ -69,7 +72,8 @@ public class ReportedAccountController {
     }
 
     @GetMapping("/reports/dashboard")
-    public ResponseEntity<ApiResponse<GetDashboard>> getDashboardReport(@RequestParam(name = "month", required = false) String month){
+    public ResponseEntity<ApiResponse<GetDashboard>> getDashboardReport(@RequestHeader(name = "Authorization") String header, @RequestParam(name = "month", required = false) String month){
+        JwtAuthFilter.checkAdminToken(header.substring(7));
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportDashboard(month),null));
     }
 }

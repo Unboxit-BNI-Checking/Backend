@@ -48,6 +48,7 @@ public class AdminController {
                     String token = Jwts.builder()
                             .subject(admins.getUsername())
                             .claim("role", "admin")
+                            .claim("admin_id", admins.getAdminId())
                             .signWith(SignatureAlgorithm.HS256, "secretkeyasdafnajndnsakmdkamfkmakekasmdkammkfskamkamkdmasmdkmaskdmasmdmasmdka")
                             .issuedAt(Date.from(Instant.now()))
                             .expiration(Date.from(Instant.now().plus(365, ChronoUnit.DAYS)))

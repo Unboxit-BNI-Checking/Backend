@@ -1,13 +1,20 @@
 package com.unboxit.bnichecking.service;
 
 import com.unboxit.bnichecking.entity.http.response.*;
+import com.unboxit.bnichecking.model.*;
+import com.unboxit.bnichecking.entity.http.response.GetReportedAccount;
+import com.unboxit.bnichecking.entity.http.response.GetAllReports;
+import com.unboxit.bnichecking.entity.http.response.GetReportedAccountAndAccountByAccountNumber;
+import com.unboxit.bnichecking.entity.http.response.GetTotalReportedAccountByStatus;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.model.ReportedAccount;
 import com.unboxit.bnichecking.model.TwitterReport;
 import com.unboxit.bnichecking.repository.ReportedAccountJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +25,14 @@ public class ReportedAccountService {
     private AccountService accountService;
     private ReportsService reportsService;
     private TwitterReportService twitterReportService;
+    private ReportAttachmentService reportAttachmentService;
 
-    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService, TwitterReportService twitterReportService) {
+    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService, TwitterReportService twitterReportService, ReportAttachmentService reportAttachmentService) {
         this.reportedAccountJpaRepository = reportedAccountJpaRepository;
         this.accountService = accountService;
         this.reportsService = reportsService;
         this.twitterReportService = twitterReportService;
+        this.reportAttachmentService = reportAttachmentService;
     }
     public List<GetReportedAccount> getReportedAccount(){
         List<GetReportedAccount> results = new ArrayList<>();
@@ -106,6 +115,65 @@ public class ReportedAccountService {
             getStatus = 1;
         }
         return getStatus;
+    }
+
+    public GetReportedAccount updateReportedAccountStatus(Long reportedAccountId, int newStatus) {
+        ReportedAccount reportedAccount = reportedAccountJpaRepository.findReportedAccountById(reportedAccountId);
+        if (reportedAccount != null) {
+            reportedAccount.setStatus(newStatus);
+            if(reportedAccount.getStatus() > 2){
+                reportedAccount.setTime_finished(LocalDateTime.now());
+            }
+            reportedAccountJpaRepository.save(reportedAccount);
+            return new GetReportedAccount(
+                    reportedAccount.getReportedAccountId(),
+                    reportedAccount.getReportedAccountNumber().getAccountNumber(),
+                    reportedAccount.getTime_finished(),
+                    reportedAccount.getStatus(),
+                    reportedAccount.getCreatedAt()
+            );
+        }
+        return null;
+    }
+
+    public List<GetAllReportedAccountDetailReports> getAllReportedAccountDetailReports(long reported_account_id) {
+        List<GetAllReportedAccountDetailReports> result = new ArrayList<>();
+        ReportedAccount reportedAccounts = reportedAccountJpaRepository.findReportedAccountById(reported_account_id);
+        List<Reports> reports = reportsService.getReportsByReportedAccountIdToReports(reportedAccounts.getReportedAccountId());
+        List<TwitterReport> twitterReports = twitterReportService.getAllTwitterReportByAccountNumber(reportedAccounts.getReportedAccountNumber().getAccountNumber());
+        for (Reports report : reports) {
+            GetAllReportedAccountDetailReports getAllReportedAccountDetailReports = new GetAllReportedAccountDetailReports();
+            getAllReportedAccountDetailReports.setAccountNumberReported(reportedAccounts.getReportedAccountNumber().getAccountNumber());
+            getAllReportedAccountDetailReports.setAccountUsernameReported(reportedAccounts.getReportedAccountNumber().getUserId().getCustomerName());
+            getAllReportedAccountDetailReports.setStatus(reportedAccounts.getStatus());
+            getAllReportedAccountDetailReports.setReportId(report.getReportId());
+            getAllReportedAccountDetailReports.setReportsCreatedAt(report.getCreatedAt());
+            getAllReportedAccountDetailReports.setAccountNumber(report.getTransaction().getAccountNumberSource().getAccountNumber());
+            getAllReportedAccountDetailReports.setAccountUsername(report.getTransaction().getAccountNumberSource().getUserId().getCustomerName());
+            getAllReportedAccountDetailReports.setTransactionCreatedAt(report.getTransaction().getCreatedAt());
+            getAllReportedAccountDetailReports.setAmount(report.getTransaction().getAmount());
+            getAllReportedAccountDetailReports.setChronology(report.getChronology());
+            getAllReportedAccountDetailReports.setAttachment(reportAttachmentService.findReportAttachmentByReportId(report.getReportId()).get(0).getFilePath());
+            getAllReportedAccountDetailReports.setTwitterReportsCount(twitterReports.size());
+            result.add(getAllReportedAccountDetailReports);
+        }
+        return result;
+    }
+
+    public List<GetAllReportedAccount> getAllReportedAccountAndReports() {
+        List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findAll();
+        List<GetAllReportedAccount> results = new ArrayList<>();
+        for (ReportedAccount reported : reportedAccounts) {
+            GetAllReportedAccount reportedAccount = new GetAllReportedAccount();
+            reportedAccount.setReportAccountId(reported.getReportedAccountId());
+            reportedAccount.setAccountNumber(reported.getReportedAccountNumber().getAccountNumber());
+            reportedAccount.setReportsCount(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()).size());
+            reportedAccount.setStatus(reported.getStatus());
+            String adminUsername = reported.getAdmins() != null ? reported.getAdmins().getUsername() : null;
+            reportedAccount.setAdmin(adminUsername);
+            results.add(reportedAccount);
+        }
+        return results;
     }
 
     public long getAverageWaktuPenyelesaianInDays() {

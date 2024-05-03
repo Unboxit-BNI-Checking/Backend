@@ -5,10 +5,10 @@ import com.unboxit.bnichecking.entity.http.response.ApiResponse;
 import com.unboxit.bnichecking.entity.http.response.GetAllAccounts;
 import com.unboxit.bnichecking.entity.http.response.GetMyAccount;
 import com.unboxit.bnichecking.model.Account;
-import com.unboxit.bnichecking.model.Favourite;
 import com.unboxit.bnichecking.model.User;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.UserService;
+import com.unboxit.bnichecking.util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,8 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    public ResponseEntity<ApiResponse<List<GetAllAccounts>>> getAllAccount() {
+    public ResponseEntity<ApiResponse<List<GetAllAccounts>>> getAllAccount(@RequestHeader(name = "Authorization") String header) {
+        JwtAuthFilter.checkAdminToken(header.substring(7));
         return ResponseEntity.ok(new ApiResponse<>(true, accountService.getAllAccounts(), null));
     }
 
@@ -40,8 +41,8 @@ public class AccountController {
 
 
     @PostMapping("/accounts")
-    public ResponseEntity<ApiResponse<Account>> createAccount(@RequestBody CreateAccount newAccount) {
-        User user = userService.getUserByUserId(newAccount.getUserId());
+    public ResponseEntity<ApiResponse<Account>> createAccount(@RequestBody CreateAccount newAccount, @RequestHeader(name = "Authorization") String header) {
+        User user = userService.getUserByUserId(JwtAuthFilter.getUserIdFromToken(header.substring(7)));
         if (user == null) {
             ApiResponse<Account> response = new ApiResponse<>(false, null, "User id is invalid");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
