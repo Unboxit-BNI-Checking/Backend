@@ -71,6 +71,24 @@ public class ReportedAccountController {
         return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportedAccountAndAccountByReportedAccountNumber(reportedAccount_Number), null));
     }
 
+    @PatchMapping(value = "/reportedAcc/reports/{id}/status", produces = "application/json")
+    public ResponseEntity<ApiResponse<GetReportedAccount>> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> requestBody) {
+        Integer newStatus = requestBody.get("status");
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.updateReportedAccountStatus(id, newStatus), null));
+    }
+
+    @GetMapping(value = "/reportedAcc/website", produces = "application/json")
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccount>>> getAllReportedAccountAndReports(@RequestHeader(name = "Authorization") String header){
+        JwtAuthFilter.checkAdminToken(header.substring(7));
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAllReportedAccountAndReports(), null));
+    }
+
+    @GetMapping(value = "/reportedAcc/website/reports/{reported_id}", produces = "application/json")
+    public ResponseEntity<ApiResponse<List<GetAllReportedAccountDetailReports>>> getAllReportedAccountAndReportsDetail(@PathVariable long reported_id, @RequestHeader(name = "Authorization") String header){
+        JwtAuthFilter.checkAdminToken(header.substring(7));
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getAllReportedAccountDetailReports(reported_id), null));
+    }
+
     @GetMapping("/reports/dashboard")
     public ResponseEntity<ApiResponse<GetDashboard>> getDashboardReport(@RequestHeader(name = "Authorization") String header, @RequestParam(name = "month", required = false) String month){
         JwtAuthFilter.checkAdminToken(header.substring(7));
