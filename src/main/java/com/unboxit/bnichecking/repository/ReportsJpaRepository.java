@@ -57,5 +57,8 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
             "TRUE= :#{#month==null} OR extract(month from r.created_at) =:month and extract(year from r.created_at)=extract(year from current_date)" , nativeQuery = true)
     Long getCount(@Param("month") Long month);
 
+    @Query(value="SELECT * FROM reports WHERE transaction_id=?1", nativeQuery = true)
+    List<Reports> findReportsByTransactionId(long transaction_id);
+
 }
 
