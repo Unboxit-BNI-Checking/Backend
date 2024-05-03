@@ -4,6 +4,8 @@ import com.unboxit.bnichecking.entity.db.GetReportsAndTransactionByCustomerName;
 import com.unboxit.bnichecking.entity.http.request.CreateReportRequest;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.service.ReportsService;
+import com.unboxit.bnichecking.service.UserService;
+import com.unboxit.bnichecking.util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import java.util.List;
 @RequestMapping("/api")
 public class ReportsController {
     private final ReportsService reportsService;
+    private final UserService userService;
 
     @Autowired
-    public ReportsController(ReportsService reportsService) {
+    public ReportsController(ReportsService reportsService, UserService userService) {
         this.reportsService = reportsService;
+        this.userService = userService;
     }
 
     @GetMapping(value = "/reports", produces = "application/json") //Get Resource
@@ -27,8 +31,9 @@ public class ReportsController {
         return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getReports(), null));
     }
 
-    @GetMapping(value = "/reports/reportsByName/{username}", produces = "application/json") //Get Resource
-    public ResponseEntity<ApiResponse<List<GetReportsAndTransactionByCustomerName>>> getReportsAndTransactionByCustomerName(@PathVariable String username) {
+    @GetMapping(value = "/reports/me", produces = "application/json") //Get Resource
+    public ResponseEntity<ApiResponse<List<GetReportsAndTransactionByCustomerName>>> getReportsAndTransactionByCustomerName(@RequestHeader(name = "Authorization") String header) {
+        String username = userService.getUserByUserId(JwtAuthFilter.getUserIdFromToken(header.substring(7))).getUsername();
         return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getReportsAndTransactionByCustomerNames(username), null));
     }
 
