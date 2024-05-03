@@ -60,6 +60,10 @@ public class ReportsService {
         return reportsJpaRepository.findReportsByReportedAccountId(reportedAccount_Id);
     }
 
+    public List<Reports> getReportsByTransactionId(long transaction_Id){
+        return reportsJpaRepository.findReportsByTransactionId(transaction_Id);
+    }
+
     public List<GetAllReports> getReportsByReportedAccountId(long reportedAccount_Id){
         List<GetAllReports> results = new ArrayList<>();
         List<Reports> reports = reportsJpaRepository.findReportsByReportedAccountId(reportedAccount_Id);
@@ -79,6 +83,8 @@ public class ReportsService {
         List<Object[]> results = reportsJpaRepository.findReportsAndTransactionByAccountName(accountUsername);
         List<GetReportsAndTransactionByCustomerName> resultList = new ArrayList<>();
 
+        List<String> filePath = new ArrayList<>();
+
         for (Object[] result : results) {
             GetReportsAndTransactionByCustomerName reportsAndTransactionByCustomerName = new GetReportsAndTransactionByCustomerName();
             reportsAndTransactionByCustomerName.setReportsId((long) result[0]);
@@ -92,7 +98,10 @@ public class ReportsService {
             reportsAndTransactionByCustomerName.setCreatedAtTransaction(((Timestamp) result[6]).toLocalDateTime());
             reportsAndTransactionByCustomerName.setChronology((String) result[7]);
             List<GetAllReportAttachments> reportAttachment = reportAttachmentService.findReportAttachmentByReportId(reportsAndTransactionByCustomerName.getReportsId());
-            reportsAndTransactionByCustomerName.setAttachment(reportAttachment.get(0).getFilePath());
+            for (GetAllReportAttachments reportAtt : reportAttachment) {
+                filePath.add(reportAtt.getFilePath());
+            }
+            reportsAndTransactionByCustomerName.setAttachment(filePath);
             resultList.add(reportsAndTransactionByCustomerName);
         }
         return resultList;
@@ -143,7 +152,7 @@ public class ReportsService {
                     reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
                     Long newReportsId = reportsJpaRepository.findReportIdByNewReport(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
                     Reports report = getReportsById(newReportsId);
-
+                    result.setReportsId(report.getReportId());
                     for (MultipartFile file : files) {
                         String url = attachmentService.saveAttachment(file);
                         reportAttachmentService.createReportAttachment(new ReportAttachment(report, url));
@@ -182,6 +191,7 @@ public class ReportsService {
         reportsJpaRepository.insertReports(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
         Long newReportsId = reportsJpaRepository.findReportIdByNewReport(result.getTransactionId(), result.getReportedAccountId(), result.getChronology(), result.getCreateAt());
         Reports report = getReportsById(newReportsId);
+        result.setReportsId(report.getReportId());
 
         for (MultipartFile file : files) {
             String url = attachmentService.saveAttachment(file);

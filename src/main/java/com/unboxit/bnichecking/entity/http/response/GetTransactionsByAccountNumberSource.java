@@ -30,7 +30,10 @@ public class GetTransactionsByAccountNumberSource {
     @JsonProperty("transaction_time")
     private LocalDateTime createdAt;
 
-    public GetTransactionsByAccountNumberSource(long transactionId, String accountNumberDestination, String accountDestinationOwnerName, String accountNumberSource, String accountSourceOwnerName, long amount, String transactionType, LocalDateTime createdAt) {
+    @JsonProperty("is_reported")
+    private boolean isReported;
+
+    public GetTransactionsByAccountNumberSource(long transactionId, String accountNumberDestination, String accountDestinationOwnerName, String accountNumberSource, String accountSourceOwnerName, long amount, String transactionType, LocalDateTime createdAt, boolean isReported) {
         this.transactionId = transactionId;
         this.accountNumberDestination = accountNumberDestination;
         this.accountDestinationOwnerName = accountDestinationOwnerName;
@@ -39,5 +42,6 @@ public class GetTransactionsByAccountNumberSource {
         this.amount = amount;
         this.transactionType = transactionType;
         this.createdAt = createdAt;
+        this.isReported = isReported;
     }
 }

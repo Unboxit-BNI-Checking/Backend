@@ -14,12 +14,15 @@ public class CreateReportResponse {
     private String chronology;
     @JsonProperty("create_at")
     private LocalDateTime createAt;
+    @JsonProperty("reports_id")
+    private long reportsId;
 
-    public CreateReportResponse(long transactionId, long reportedAccountId, String chronology, LocalDateTime createAt) {
+    public CreateReportResponse(long transactionId, long reportedAccountId, String chronology, LocalDateTime createAt, long reportsId) {
         this.transactionId = transactionId;
         this.reportedAccountId = reportedAccountId;
         this.chronology = chronology;
         this.createAt = createAt;
+        this.reportsId = reportsId;
     }
 
     public CreateReportResponse() {
@@ -56,5 +59,13 @@ public class CreateReportResponse {
 
     public void setChronology(String chronology) {
         this.chronology = chronology;
+    }
+
+    public long getReportsId() {
+        return reportsId;
+    }
+
+    public void setReportsId(long reportsId) {
+        this.reportsId = reportsId;
     }
 }
