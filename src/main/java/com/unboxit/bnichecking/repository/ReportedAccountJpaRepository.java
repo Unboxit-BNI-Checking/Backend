@@ -16,7 +16,7 @@ public interface ReportedAccountJpaRepository extends JpaRepository<ReportedAcco
     ReportedAccount findReportedAccountById(long reported_account_id);
 
     @Query(value = "select avg(r.waktu_penyelesaian) from (select ra.reported_account_id , (ra.time_finished  - ra.created_at)/ 86400 as waktu_penyelesaian from reported_account ra where ra.time_finished is not null) as r ", nativeQuery = true)
-    String getAverageWaktuPenyelesaianReports();
+    Long getAverageWaktuPenyelesaianReports();
 
     @Query(value = "select ra.status , count(reported_account_id)as jumlah from reported_account ra group by status",nativeQuery = true)
     List<Object[]> getCountReportAccountByStatus();
