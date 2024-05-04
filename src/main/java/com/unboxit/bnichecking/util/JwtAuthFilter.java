@@ -114,4 +114,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         Claims claims = getTokenBody(token);
         return Long.parseLong(claims.get("user_id").toString());
     }
+    public static String getPasswordFromToken(String token) {
+        Claims claims = getTokenBody(token);
+        return (claims.get("password").toString());
+    }
 }

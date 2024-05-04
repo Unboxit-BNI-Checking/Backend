@@ -27,7 +27,7 @@ public class CreateTransactionResponse {
     private String bankDestination = "BNI";
 
     @JsonProperty("account_number_destination_status")
-    private int accountNumberDestinationStatus;
+    private long accountNumberDestinationStatus;
 
     @JsonProperty("account_name_source")
     private String accountNameSource;
@@ -47,7 +47,7 @@ public class CreateTransactionResponse {
     @JsonProperty("total_amount")
     private long totalAmount;
 
-    public CreateTransactionResponse(long transactionId, boolean transactionSuccess, String accountNumberDestination, String accountNameDestination, LocalDateTime transactionTime, String email, String bankDestination, int accountNumberDestinationStatus, String accountNameSource, String accountNumberSource, String note, long amount, long fee, long totalAmount) {
+    public CreateTransactionResponse(long transactionId, boolean transactionSuccess, String accountNumberDestination, String accountNameDestination, LocalDateTime transactionTime, String email, String bankDestination, long accountNumberDestinationStatus, String accountNameSource, String accountNumberSource, String note, long amount, long fee, long totalAmount) {
         this.transactionId = transactionId;
         this.transactionSuccess = transactionSuccess;
         this.accountNumberDestination = accountNumberDestination;

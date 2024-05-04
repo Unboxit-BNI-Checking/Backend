@@ -91,7 +91,9 @@ public class ReportedAccountService {
         List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findReportedAccountsByReportedAccountNumber(accountNumber);
         List<GetAllReports> Reports = new ArrayList<>();
         for (ReportedAccount reported : reportedAccounts) {
-            Reports.addAll(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()));
+            if(reported.getStatus() < 4){
+                Reports.addAll(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()));
+            }
         }
         List<TwitterReport> twitterReports = twitterReportService.getAllTwitterReportByAccountNumber(accountNumber);
         GetReportedAccountAndAccountByAccountNumber results = new GetReportedAccountAndAccountByAccountNumber(
@@ -107,7 +109,7 @@ public class ReportedAccountService {
     private long getStatus(List<ReportedAccount> reportedAccounts){
         long getStatus = 0;
         for (ReportedAccount reported : reportedAccounts) {
-            if(getStatus < reported.getStatus() && reported.getStatus() < 3){
+            if(getStatus < reported.getStatus() && reported.getStatus() < 4){
                 getStatus = reported.getStatus();
             }
         }
