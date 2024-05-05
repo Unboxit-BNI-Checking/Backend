@@ -144,8 +144,8 @@ public class TransactionService {
         );
     }
 
-    public CreateTransactionResponse createTransaction(Transaction newTransaction, String password,String jwtPassword){
-        if(passwordHasherService.checkPassword(password, jwtPassword)){
+    public CreateTransactionResponse createTransaction(Transaction newTransaction, String password){
+        if(passwordHasherService.checkPassword(password, newTransaction.getAccountNumberSource().getUserId().getHashedPassword())){
             Transaction result = transactionJpaRepository.save(newTransaction);
             Account accountDestination = newTransaction.getAccountNumberDestination();
             Account accountSource = newTransaction.getAccountNumberSource();

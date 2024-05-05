@@ -71,7 +71,7 @@ public class TransactionController {
 
     //Post Transaction
     @PostMapping("/transaction")
-    public ResponseEntity<ApiResponse<CreateTransactionResponse>> createTransaction(@RequestBody CreateTransactionWithPassword newTransaction, @RequestHeader(name = "Authorization") String header) {
+    public ResponseEntity<ApiResponse<CreateTransactionResponse>> createTransaction(@RequestBody CreateTransactionWithPassword newTransaction) {
         if (newTransaction.getAccountNumberSource() == null || newTransaction.getAccountNumberDestination() == null || newTransaction.getAccountNumberSource().isEmpty() || newTransaction.getAccountNumberDestination().isEmpty()) {
             ApiResponse<CreateTransactionResponse> response = new ApiResponse<>(false, null, "Account number source and destination can't be empty");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -109,7 +109,7 @@ public class TransactionController {
                 accountDestination,
                 newTransaction.getAmount(),
                 newTransaction.getNote()),
-                newTransaction.getPassword(), JwtAuthFilter.getPasswordFromToken(header.substring(7)));
+                newTransaction.getPassword());
         if(response == null){
             ApiResponse<CreateTransactionResponse> result = new ApiResponse<>(false, null, "Your transaction password is incorrect");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
