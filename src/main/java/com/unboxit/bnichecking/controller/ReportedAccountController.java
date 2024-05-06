@@ -90,8 +90,8 @@ public class ReportedAccountController {
     }
 
     @GetMapping("/reports/dashboard")
-    public ResponseEntity<ApiResponse<GetDashboard>> getDashboardReport(@RequestHeader(name = "Authorization") String header, @RequestParam(name = "month", required = false) String month){
+    public ResponseEntity<ApiResponse<GetDashboard>> getDashboardReport(@RequestHeader(name = "Authorization") String header){
         JwtAuthFilter.checkAdminToken(header.substring(7));
-        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportDashboard(month),null));
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.getReportDashboard(),null));
     }
 }

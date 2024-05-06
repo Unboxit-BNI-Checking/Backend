@@ -204,7 +204,7 @@ public class ReportedAccountService {
         return res;
     }
 
-    public GetDashboard getReportDashboard(String month){
+    public GetDashboard getReportDashboard(){
         GetDashboard res= new GetDashboard();
 
         res.setTotal_laporan(reportsService.countReports());
