@@ -26,13 +26,15 @@ public class ReportedAccountService {
     private ReportsService reportsService;
     private TwitterReportService twitterReportService;
     private ReportAttachmentService reportAttachmentService;
+    private AdminService adminService;
 
-    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService, TwitterReportService twitterReportService, ReportAttachmentService reportAttachmentService) {
+    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService, TwitterReportService twitterReportService, ReportAttachmentService reportAttachmentService, AdminService adminService) {
         this.reportedAccountJpaRepository = reportedAccountJpaRepository;
         this.accountService = accountService;
         this.reportsService = reportsService;
         this.twitterReportService = twitterReportService;
         this.reportAttachmentService = reportAttachmentService;
+        this.adminService = adminService;
     }
     public List<GetReportedAccount> getReportedAccount(){
         List<GetReportedAccount> results = new ArrayList<>();
@@ -91,7 +93,9 @@ public class ReportedAccountService {
         List<ReportedAccount> reportedAccounts = reportedAccountJpaRepository.findReportedAccountsByReportedAccountNumber(accountNumber);
         List<GetAllReports> Reports = new ArrayList<>();
         for (ReportedAccount reported : reportedAccounts) {
-            Reports.addAll(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()));
+            if(reported.getStatus() < 4){
+                Reports.addAll(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()));
+            }
         }
         List<TwitterReport> twitterReports = twitterReportService.getAllTwitterReportByAccountNumber(accountNumber);
         GetReportedAccountAndAccountByAccountNumber results = new GetReportedAccountAndAccountByAccountNumber(
@@ -107,7 +111,7 @@ public class ReportedAccountService {
     private long getStatus(List<ReportedAccount> reportedAccounts){
         long getStatus = 0;
         for (ReportedAccount reported : reportedAccounts) {
-            if(getStatus < reported.getStatus() && reported.getStatus() < 3){
+            if(getStatus < reported.getStatus() && reported.getStatus() < 4){
                 getStatus = reported.getStatus();
             }
         }
@@ -117,9 +121,12 @@ public class ReportedAccountService {
         return getStatus;
     }
 
-    public GetReportedAccount updateReportedAccountStatus(Long reportedAccountId, int newStatus) {
+    public GetReportedAccount updateReportedAccountStatus(Long reportedAccountId, int newStatus, long adminId) {
         ReportedAccount reportedAccount = reportedAccountJpaRepository.findReportedAccountById(reportedAccountId);
         if (reportedAccount != null) {
+            if(reportedAccount.getAdmins() == null){
+                reportedAccount.setAdmins(adminService.findAdminById(adminId));
+            }
             reportedAccount.setStatus(newStatus);
             if(reportedAccount.getStatus() > 2){
                 reportedAccount.setTime_finished(LocalDateTime.now());
@@ -169,6 +176,7 @@ public class ReportedAccountService {
             reportedAccount.setAccountNumber(reported.getReportedAccountNumber().getAccountNumber());
             reportedAccount.setReportsCount(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()).size());
             reportedAccount.setStatus(reported.getStatus());
+            reportedAccount.setTimeFinished(reported.getTime_finished());
             String adminUsername = reported.getAdmins() != null ? reported.getAdmins().getUsername() : null;
             reportedAccount.setAdmin(adminUsername);
             results.add(reportedAccount);
