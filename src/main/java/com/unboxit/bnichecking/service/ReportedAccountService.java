@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -185,12 +186,13 @@ public class ReportedAccountService {
         return results;
     }
 
-    public long getAverageWaktuPenyelesaianInDays() {
-        long avg = 0;
+    public Double getAverageWaktuPenyelesaianInDays() {
         if(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports()!=null){
-            avg= Long.parseLong(String.valueOf(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports()));
+            DecimalFormat df = new DecimalFormat("#.##");
+            String formatted = df.format(reportedAccountJpaRepository.getAverageWaktuPenyelesaianReports());
+            return Double.parseDouble(formatted);
         }
-        return avg ;
+        return 0.0;
     }
 
     public List<GetTotalReportedAccountByStatus> getCountReportAccountByStatus() {
