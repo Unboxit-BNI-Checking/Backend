@@ -43,12 +43,13 @@ public class Reports {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private ReportedAccount reportedAccount;
 
-    public Reports() {}
+    public Reports() {
+    }
 
-    public Reports(String chronology, Transaction transaction2, ReportedAccount reportedAccount1) {
+    public Reports(String chronology, Transaction transaction, ReportedAccount reportedAccount) {
         this.chronology = chronology;
-        this.transaction = transaction2;
-        this.reportedAccount = reportedAccount1;
+        this.transaction = transaction;
+        this.reportedAccount = reportedAccount;
     }
 
     public long getReportId() {
