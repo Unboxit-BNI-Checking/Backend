@@ -26,13 +26,15 @@ public class ReportedAccountService {
     private ReportsService reportsService;
     private TwitterReportService twitterReportService;
     private ReportAttachmentService reportAttachmentService;
+    private AdminService adminService;
 
-    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService, TwitterReportService twitterReportService, ReportAttachmentService reportAttachmentService) {
+    public ReportedAccountService(ReportedAccountJpaRepository reportedAccountJpaRepository, AccountService accountService, ReportsService reportsService, TwitterReportService twitterReportService, ReportAttachmentService reportAttachmentService, AdminService adminService) {
         this.reportedAccountJpaRepository = reportedAccountJpaRepository;
         this.accountService = accountService;
         this.reportsService = reportsService;
         this.twitterReportService = twitterReportService;
         this.reportAttachmentService = reportAttachmentService;
+        this.adminService = adminService;
     }
     public List<GetReportedAccount> getReportedAccount(){
         List<GetReportedAccount> results = new ArrayList<>();
@@ -119,9 +121,12 @@ public class ReportedAccountService {
         return getStatus;
     }
 
-    public GetReportedAccount updateReportedAccountStatus(Long reportedAccountId, int newStatus) {
+    public GetReportedAccount updateReportedAccountStatus(Long reportedAccountId, int newStatus, long adminId) {
         ReportedAccount reportedAccount = reportedAccountJpaRepository.findReportedAccountById(reportedAccountId);
         if (reportedAccount != null) {
+            if(reportedAccount.getAdmins() == null){
+                reportedAccount.setAdmins(adminService.findAdminById(adminId));
+            }
             reportedAccount.setStatus(newStatus);
             if(reportedAccount.getStatus() > 2){
                 reportedAccount.setTime_finished(LocalDateTime.now());
