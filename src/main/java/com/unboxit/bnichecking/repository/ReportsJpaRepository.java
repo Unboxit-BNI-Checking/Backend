@@ -61,6 +61,5 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
     List<Reports> findReportsByTransactionId(long transaction_id);
 
     Reports findReportsByReportId(Long reportId);
-
 }
 

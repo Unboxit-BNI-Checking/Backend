@@ -20,8 +20,8 @@ public class AdminService {
         return repository.findAdminsByUsername(username);
     }
 
-    public Admins findAdminById(long id){
-        return repository.findAdminsById(id);
+    public Admins findAdminsByAdminId(long id){
+        return repository.findAdminsByAdminId(id);
     }
 
 
