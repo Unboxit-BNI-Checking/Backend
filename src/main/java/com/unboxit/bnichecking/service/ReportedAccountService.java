@@ -159,6 +159,7 @@ public class ReportedAccountService {
             getAllReportedAccountDetailReports.setAccountNumber(report.getTransaction().getAccountNumberSource().getAccountNumber());
             getAllReportedAccountDetailReports.setAccountUsername(report.getTransaction().getAccountNumberSource().getUserId().getCustomerName());
             getAllReportedAccountDetailReports.setTransactionCreatedAt(report.getTransaction().getCreatedAt());
+            getAllReportedAccountDetailReports.setTransactionNote(report.getTransaction().getNote());
             getAllReportedAccountDetailReports.setAmount(report.getTransaction().getAmount());
             getAllReportedAccountDetailReports.setChronology(report.getChronology());
             getAllReportedAccountDetailReports.setAttachment(reportAttachmentService.findReportAttachmentByReportId(report.getReportId()).get(0).getFilePath());
