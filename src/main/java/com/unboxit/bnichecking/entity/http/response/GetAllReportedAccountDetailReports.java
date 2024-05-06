@@ -33,6 +33,9 @@ public class GetAllReportedAccountDetailReports {
     @JsonProperty("transaction_created_at")
     private LocalDateTime transactionCreatedAt;
 
+    @JsonProperty("transaction_note")
+    private String transactionNote;
+
     @JsonProperty("amount")
     private long amount;
 
@@ -140,5 +143,13 @@ public class GetAllReportedAccountDetailReports {
 
     public void setTwitterReportsCount(long twitterReportsCount) {
         this.twitterReportsCount = twitterReportsCount;
+    }
+
+    public String getTransactionNote() {
+        return transactionNote;
+    }
+
+    public void setTransactionNote(String transactionNote) {
+        this.transactionNote = transactionNote;
     }
 }
