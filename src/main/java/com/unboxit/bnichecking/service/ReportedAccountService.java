@@ -176,6 +176,7 @@ public class ReportedAccountService {
             reportedAccount.setAccountNumber(reported.getReportedAccountNumber().getAccountNumber());
             reportedAccount.setReportsCount(reportsService.getReportsByReportedAccountId(reported.getReportedAccountId()).size());
             reportedAccount.setStatus(reported.getStatus());
+            reportedAccount.setTimeFinished(reported.getTime_finished());
             String adminUsername = reported.getAdmins() != null ? reported.getAdmins().getUsername() : null;
             reportedAccount.setAdmin(adminUsername);
             results.add(reportedAccount);
