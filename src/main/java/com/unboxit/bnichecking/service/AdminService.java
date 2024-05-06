@@ -20,5 +20,9 @@ public class AdminService {
         return repository.findAdminsByUsername(username);
     }
 
+    public Admins findAdminById(long id){
+        return repository.findAdminsById(id);
+    }
+
 
 }
