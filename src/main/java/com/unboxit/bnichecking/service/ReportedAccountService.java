@@ -214,7 +214,6 @@ public class ReportedAccountService {
 
         res.setTotal_laporan_selesai(reportsService.getCountReportsCompleted());
         res.setTotal_laporan_belum_selesai(reportsService.getCountReportsUncompleted());
-        System.out.println(reportsService.getCountReportsUncompleted());
         return res;
     }
 }
