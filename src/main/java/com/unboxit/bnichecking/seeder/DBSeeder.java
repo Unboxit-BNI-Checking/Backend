@@ -65,15 +65,15 @@ public class DBSeeder {
     public CommandLineRunner accountSeederCommandLineRunner() {
         return args -> {
             if (seedDataEnabled && userJpaRepository.count() == 0) {
-                User user1 = new User("Sofi Shahira Khoirun Nisa", "sofishr7", passwordHasherService.hashPassword("111111"), passwordHasherService.hashPassword("111111"));
-                User user2 = new User("Renata Rizki Rafi Athallah", "rizkirafi", passwordHasherService.hashPassword("222222"), passwordHasherService.hashPassword("222222"));
-                User user3 = new User("Jonathan Richard Sugandhi", "richiesugan", passwordHasherService.hashPassword("333333"), passwordHasherService.hashPassword("333333"));
-                User user4 = new User("Muhamad Dani Setiawan", "danti01", passwordHasherService.hashPassword("444444"), passwordHasherService.hashPassword("444444"));
-                User user5 = new User("Tiansi Ade Bora", "danti02", passwordHasherService.hashPassword("555555"), passwordHasherService.hashPassword("555555"));
-                User user6 = new User("Muhammad Rasidan Haikal", "haikal69", passwordHasherService.hashPassword("666666"), passwordHasherService.hashPassword("666666"));
-                User user7 = new User("Nabila Rizqa Damayanti", "nabir96", passwordHasherService.hashPassword("777777"), passwordHasherService.hashPassword("777777"));
-                User user8 = new User("Nurleila Rahmawati Sulistyo", "leilanrs", passwordHasherService.hashPassword("888888"), passwordHasherService.hashPassword("888888"));
-                User user9 = new User("Amelia Qatrunnada", "ameliaqat", passwordHasherService.hashPassword("999999"), passwordHasherService.hashPassword("999999"));
+                User user1 = new User("Sofi Shahira Khoirun Nisa", "sofishr7", passwordHasherService.hashPassword("P11111"), passwordHasherService.hashPassword("111111"));
+                User user2 = new User("Renata Rizki Rafi Athallah", "rizkirafi", passwordHasherService.hashPassword("P22222"), passwordHasherService.hashPassword("222222"));
+                User user3 = new User("Jonathan Richard Sugandhi", "richiesugan", passwordHasherService.hashPassword("P33333"), passwordHasherService.hashPassword("333333"));
+                User user4 = new User("Muhamad Dani Setiawan", "danti01", passwordHasherService.hashPassword("P44444"), passwordHasherService.hashPassword("444444"));
+                User user5 = new User("Tiansi Ade Bora", "danti02", passwordHasherService.hashPassword("P55555"), passwordHasherService.hashPassword("555555"));
+                User user6 = new User("Muhammad Rasidan Haikal", "haikal69", passwordHasherService.hashPassword("P66666"), passwordHasherService.hashPassword("666666"));
+                User user7 = new User("Nabila Rizqa Damayanti", "nabir96", passwordHasherService.hashPassword("P77777"), passwordHasherService.hashPassword("777777"));
+                User user8 = new User("Nurleila Rahmawati Sulistyo", "leilanrs", passwordHasherService.hashPassword("P88888"), passwordHasherService.hashPassword("888888"));
+                User user9 = new User("Amelia Qatrunnada", "ameliaqat", passwordHasherService.hashPassword("P99999"), passwordHasherService.hashPassword("999999"));
 
                 userJpaRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9));
 
