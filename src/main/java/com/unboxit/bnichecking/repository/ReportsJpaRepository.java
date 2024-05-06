@@ -36,8 +36,8 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
 
     @Query(value = "select count(r.*) from reports r inner join reported_account ra on r.reported_account_id =ra.reported_account_id " +
             "where ra.status =:status and extract(year from r.created_at)=extract(year from current_date) and " +
-            "TRUE= :#{#month==null} OR extract(month from r.created_at) =:month",nativeQuery = true)
-    long countReportedByStatus(@Param("status") Long status, @Param("month") Long month);
+            " extract(month from r.created_at) =extract(month from current_date)",nativeQuery = true)
+    long countReportedByStatus(@Param("status") Long status);
 
     @Query(value = "SELECT EXTRACT(MONTH from ra.time_finished) as bulan, COUNT(ra.reported_account_id) \n" +
             "FROM reported_account ra  where  EXTRACT(year from ra.time_finished)=EXTRACT(MONTH from now()) GROUP BY EXTRACT(MONTH from ra.time_finished)", nativeQuery = true)
@@ -45,17 +45,17 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
 
     @Query(value ="select count(r.*) from reports r inner join reported_account ra on r.reported_account_id =ra.reported_account_id " +
             "where (ra.status =3 or ra.status =4) and extract(year from r.created_at)=extract(year from current_date) and " +
-            "TRUE= :#{#month==null} OR extract(month from r.created_at) =:month " ,nativeQuery = true)
-    Long getCountReportsCompleted(@Param("month") Long month);
+            " extract(month from r.created_at) = extract(month from current_date)" ,nativeQuery = true)
+    Long getCountReportsCompleted();
     @Query(value ="select count(r.*) from reports r inner join reported_account ra on r.reported_account_id =ra.reported_account_id " +
             "where (ra.status =1 or ra.status =2) and extract(year from r.created_at)=extract(year from current_date) and "+
-            "TRUE= :#{#month==null} OR extract(month from r.created_at) =:month" ,nativeQuery = true)
+            " extract(month from r.created_at) =extract(month from current_date) " ,nativeQuery = true)
     Long
-    getCountReportUncompleted(@Param("month") Long month);
+    getCountReportUncompleted();
 
-    @Query(value ="select count(r) from reports r where " +
-            "TRUE= :#{#month==null} OR extract(month from r.created_at) =:month and extract(year from r.created_at)=extract(year from current_date)" , nativeQuery = true)
-    Long getCount(@Param("month") Long month);
+    @Query(value ="select count(r.*) from reports r where " +
+            " extract(month from r.created_at) =extract(month from current_date) and extract(year from r.created_at)=extract(year from current_date)" , nativeQuery = true)
+    Long getCount();
 
     @Query(value="SELECT * FROM reports WHERE transaction_id=?1", nativeQuery = true)
     List<Reports> findReportsByTransactionId(long transaction_id);
