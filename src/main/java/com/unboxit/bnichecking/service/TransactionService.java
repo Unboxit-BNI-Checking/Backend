@@ -219,7 +219,7 @@ public class TransactionService {
         }
         if(statusAccount.isEmpty()){
             statusNumberDestination = 1L;
-        } else if(statusAccount.contains(2L)){
+        } else if(statusAccount.contains(2L) || statusAccount.contains(3L)){
             if(statusAccount.contains(3L)){
                 statusNumberDestination = 3L;
             } else {

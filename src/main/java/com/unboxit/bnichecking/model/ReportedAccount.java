@@ -17,21 +17,21 @@ public class ReportedAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long reportedAccountId;
 
-    @Column(name="time_finished")
+    @Column(name="time_finished", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime time_finished;
 
     @Column(name="status", nullable = false)
     private long status;
 
     @CreatedDate
-    @Column(name="created_at", nullable = false, updatable = false)
+    @Column(name="created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name="updated_at")
+    @Column(name="updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime updatedAt;
 
-    @Column(name="deleted_at")
+    @Column(name="deleted_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime deletedAt;
 
     @ManyToOne
