@@ -72,9 +72,9 @@ public class ReportedAccountController {
     }
 
     @PatchMapping(value = "/reportedAcc/reports/{id}/status", produces = "application/json")
-    public ResponseEntity<ApiResponse<GetReportedAccount>> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> requestBody) {
+    public ResponseEntity<ApiResponse<GetReportedAccount>> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> requestBody, @RequestHeader(name = "Authorization") String header) {
         Integer newStatus = requestBody.get("status");
-        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.updateReportedAccountStatus(id, newStatus), null));
+        return ResponseEntity.ok(new ApiResponse<>(true, reportedAccountService.updateReportedAccountStatus(id, newStatus, JwtAuthFilter.getAdminIdFromToken(header.substring(7))), null));
     }
 
     @GetMapping(value = "/reportedAcc/website", produces = "application/json")

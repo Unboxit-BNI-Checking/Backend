@@ -52,6 +52,17 @@ public class FavouriteService {
         }
         return false;
     }
+
+    public boolean checkNameFavouritedByUserId(Long user_id, String name){
+        List<FavouriteDB> favouriteDBs = repository.findByUserId(user_id);
+
+        for (FavouriteDB favouriteDB: favouriteDBs) {
+            if (Objects.equals(favouriteDB.getName(), name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 

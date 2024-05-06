@@ -1,11 +1,13 @@
 package com.unboxit.bnichecking.controller;
 
 import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
+import com.unboxit.bnichecking.entity.http.request.CreateTransactionWithPassword;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.entity.http.response.GetTransaction;
 import com.unboxit.bnichecking.model.Account;
 import com.unboxit.bnichecking.service.AccountService;
 import com.unboxit.bnichecking.service.TransactionService;
+import com.unboxit.bnichecking.util.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,14 +64,14 @@ public class TransactionController {
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionByAccountNumberSource(account_number_source), null));
     }
 
-        @GetMapping(value = "/transaction/validation/{account_number_source}/{account_number_destination}")
+    @GetMapping(value = "/transaction/validation/{account_number_source}/{account_number_destination}")
         public ResponseEntity<ApiResponse<GetTransactionValidationByAccountNumber>> getTransactionValidationByAccountNumbers(@PathVariable("account_number_source") String accountNumberSource,  @PathVariable("account_number_destination") String accountNumberDestination) {
         return ResponseEntity.ok(new ApiResponse<>(true, transactionService.getTransactionValidationByAccountNumber(accountNumberSource, accountNumberDestination), null));
     }
 
     //Post Transaction
     @PostMapping("/transaction")
-    public ResponseEntity<ApiResponse<CreateTransactionResponse>> createTransaction(@RequestBody CreateTransaction newTransaction) {
+    public ResponseEntity<ApiResponse<CreateTransactionResponse>> createTransaction(@RequestBody CreateTransactionWithPassword newTransaction) {
         if (newTransaction.getAccountNumberSource() == null || newTransaction.getAccountNumberDestination() == null || newTransaction.getAccountNumberSource().isEmpty() || newTransaction.getAccountNumberDestination().isEmpty()) {
             ApiResponse<CreateTransactionResponse> response = new ApiResponse<>(false, null, "Account number source and destination can't be empty");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -106,12 +108,18 @@ public class TransactionController {
                 accountSource,
                 accountDestination,
                 newTransaction.getAmount(),
-                newTransaction.getNote()));
-        return ResponseEntity.ok(new ApiResponse<>(true, response, null));
+                newTransaction.getNote()),
+                newTransaction.getPassword());
+        if(response == null){
+            ApiResponse<CreateTransactionResponse> result = new ApiResponse<>(false, null, "Your transaction password is incorrect");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        } else {
+            return ResponseEntity.ok(new ApiResponse<>(true, response, null));
+        }
     }
 
     @PostMapping("/transaction/validate")
-    public ResponseEntity<ApiResponse<ValidateTransactionResponse>> validateTransaction(@RequestBody CreateTransaction newTransaction) {
+    public ResponseEntity<ApiResponse<ValidateTransactionResponse>> validateTransaction(@RequestBody CreateTransaction newTransaction, @RequestHeader(name = "Authorization") String header) {
         if (newTransaction.getAccountNumberSource() == null || newTransaction.getAccountNumberDestination() == null || newTransaction.getAccountNumberSource().isEmpty() || newTransaction.getAccountNumberDestination().isEmpty()) {
             ApiResponse<ValidateTransactionResponse> response = new ApiResponse<>(false, null, "Account number source and destination can't be empty");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -148,7 +156,7 @@ public class TransactionController {
                 accountSource,
                 accountDestination,
                 newTransaction.getAmount(),
-                newTransaction.getNote()));
+                newTransaction.getNote()), newTransaction, JwtAuthFilter.getUserIdFromToken(header.substring(7)));
         return ResponseEntity.ok(new ApiResponse<>(true, response, null));
     }
 }

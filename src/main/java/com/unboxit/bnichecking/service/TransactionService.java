@@ -1,12 +1,16 @@
 package com.unboxit.bnichecking.service;
 
+import com.unboxit.bnichecking.entity.http.request.CreateTransaction;
+import com.unboxit.bnichecking.entity.http.request.CreateTransactionWithPassword;
 import com.unboxit.bnichecking.entity.http.response.*;
 import com.unboxit.bnichecking.model.*;
 import com.unboxit.bnichecking.repository.TransactionJpaRepository;
+import com.unboxit.bnichecking.util.PasswordHasherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -21,14 +25,16 @@ public class TransactionService {
     private UserService userService;
     private FavouriteService favouriteService;
     private ReportsService reportsService;
+    private PasswordHasherService passwordHasherService;
 
-    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService, UserService userService, FavouriteService favouriteService, ReportsService reportsService) {
+    public TransactionService(TransactionJpaRepository transactionJpaRepository, AccountService accountService, ReportedAccountService reportedAccountService, UserService userService, FavouriteService favouriteService, ReportsService reportsService, PasswordHasherService passwordHasherService) {
         this.transactionJpaRepository = transactionJpaRepository;
         this.accountService = accountService;
         this.reportedAccountService = reportedAccountService;
         this.userService = userService;
         this.favouriteService = favouriteService;
         this.reportsService = reportsService;
+        this.passwordHasherService = passwordHasherService;
     }
     public List<GetTransaction> getAllTransactions() {
         List<GetTransaction> results = new ArrayList<>();
@@ -138,54 +144,89 @@ public class TransactionService {
         );
     }
 
-    public CreateTransactionResponse createTransaction(Transaction newTransaction){
-        newTransaction = transactionJpaRepository.save(newTransaction);
-        Account accountDestination = newTransaction.getAccountNumberDestination();
-        Account accountSource = newTransaction.getAccountNumberSource();
-        accountService.HandleAccountTransaction(accountSource.getAccountNumber(), accountDestination.getAccountNumber(), newTransaction.getAmount());
-        List<GetReportedAccount> reportedAccounts = reportedAccountService.getReportedAccountsByReportedAccountNumber(newTransaction.getAccountNumberDestination().getAccountNumber());
-        List<Long> statusAccount = new ArrayList<>();
-        int statusNumberDestination;
-        for (GetReportedAccount reportedAccount : reportedAccounts) {
-            statusAccount.add(reportedAccount.getStatus());
-        }
-        if(statusAccount.contains(2)){
-            statusNumberDestination = 2;
+    public CreateTransactionResponse createTransaction(Transaction newTransaction, String password){
+        if(passwordHasherService.checkPassword(password, newTransaction.getAccountNumberSource().getUserId().getHashedPassword())){
+            Transaction result = transactionJpaRepository.save(newTransaction);
+            Account accountDestination = newTransaction.getAccountNumberDestination();
+            Account accountSource = newTransaction.getAccountNumberSource();
+            accountService.HandleAccountTransaction(accountSource.getAccountNumber(), accountDestination.getAccountNumber(), newTransaction.getAmount());
+            List<GetReportedAccount> reportedAccounts = reportedAccountService.getReportedAccountsByReportedAccountNumber(newTransaction.getAccountNumberDestination().getAccountNumber());
+            List<Long> statusAccount = new ArrayList<>();
+            long statusNumberDestination;
+            for (GetReportedAccount reportedAccount : reportedAccounts) {
+                statusAccount.add(reportedAccount.getStatus());
+            }
+            if(statusAccount.isEmpty()){
+                statusNumberDestination = 1L;
+            } else if(statusAccount.contains(2L)){
+                if(statusAccount.contains(3L)){
+                    statusNumberDestination = 3L;
+                } else {
+                    statusNumberDestination = 2L;
+                }
+            } else {
+                statusNumberDestination = 1L;
+            }
+            return new CreateTransactionResponse(
+                    result.getTransactionId(),
+                    true,
+                    accountDestination.getAccountNumber(),
+                    accountDestination.getUserId().getCustomerName(),
+                    result.getCreatedAt(),
+                    "",
+                    "BNI",
+                    statusNumberDestination,
+                    accountSource.getUserId().getCustomerName(),
+                    accountSource.getAccountNumber(),
+                    newTransaction.getNote(),
+                    newTransaction.getAmount(),
+                    0,
+                    newTransaction.getAmount()
+            );
         } else {
-            statusNumberDestination = 1;
+            return null;
         }
-        return new CreateTransactionResponse(
-                newTransaction.getTransactionId(),
-                true,
-                accountDestination.getAccountNumber(),
-                accountDestination.getUserId().getCustomerName(),
-                newTransaction.getCreatedAt(),
-                "",
-                "BNI",
-                statusNumberDestination,
-                accountSource.getUserId().getCustomerName(),
-                accountSource.getAccountNumber(),
-                newTransaction.getNote(),
-                newTransaction.getAmount(),
-                0,
-                newTransaction.getAmount()
-        );
     }
 
-    public ValidateTransactionResponse validateTransaction(Transaction newTransaction){
+    public ValidateTransactionResponse validateTransaction(Transaction newTransaction, CreateTransaction transaction, long userId){
         Account accountDestination = newTransaction.getAccountNumberDestination();
         Account accountSource = newTransaction.getAccountNumberSource();
         User userSource = newTransaction.getAccountNumberSource().getUserId();
+        long checkFavourite = 0;
+        String favouriteDescription = "Nothing change in favourite";
+        if(transaction.isFavourite()){
+            if(favouriteService.checkAccountNumberFavouritedByUserId(userSource.getUserId(), accountDestination.getAccountNumber())){
+                checkFavourite = 2;
+                favouriteDescription = "Account number already in favourite";
+            } else {
+                if(favouriteService.checkNameFavouritedByUserId(userSource.getUserId(), transaction.getName())){
+                    checkFavourite = 3;
+                    favouriteDescription = "Name is already exits in favourite, please input another name";
+                } else {
+                    if(accountSource.getUserId().getUserId() == userId){
+                        favouriteService.createFavourite(new Favourite(accountDestination, transaction.getName(), userSource));
+                        checkFavourite = 1;
+                        favouriteDescription = "Favourite added successfully";
+                    }
+                }
+            }
+        }
         List<GetReportedAccount> reportedAccounts = reportedAccountService.getReportedAccountsByReportedAccountNumber(newTransaction.getAccountNumberDestination().getAccountNumber());
         List<Long> statusAccount = new ArrayList<>();
-        int statusNumberDestination;
+        long statusNumberDestination;
         for (GetReportedAccount reportedAccount : reportedAccounts) {
             statusAccount.add(reportedAccount.getStatus());
         }
-        if(statusAccount.contains(2)){
-            statusNumberDestination = 2;
+        if(statusAccount.isEmpty()){
+            statusNumberDestination = 1L;
+        } else if(statusAccount.contains(2L)){
+            if(statusAccount.contains(3L)){
+                statusNumberDestination = 3L;
+            } else {
+                statusNumberDestination = 2L;
+            }
         } else {
-            statusNumberDestination = 1;
+            statusNumberDestination = 1L;
         }
         return new ValidateTransactionResponse(
                 accountDestination.getAccountNumber(),
@@ -194,7 +235,8 @@ public class TransactionService {
                 statusNumberDestination,
                 accountSource.getUserId().getCustomerName(),
                 accountSource.getAccountNumber(),
-                favouriteService.checkAccountNumberFavouritedByUserId(userSource.getUserId(), accountDestination.getAccountNumber()),
+                checkFavourite,
+                favouriteDescription,
                 newTransaction.getAmount(),
                 newTransaction.getNote(),
                 0,
