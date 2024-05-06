@@ -4,7 +4,7 @@ public class GetDashboard {
     private long total_laporan;
     private long total_investigate;
     private long total_laporan_sosmed;
-    private long avg_waktu_penanganan_laporan;
+    private double avg_waktu_penanganan_laporan;
     private long total_laporan_selesai;
 
     private long total_laporan_belum_selesai;
@@ -32,11 +32,11 @@ public class GetDashboard {
         this.total_laporan_sosmed = total_laporan_sosmed;
     }
 
-    public long getAvg_waktu_penanganan_laporan() {
+    public double getAvg_waktu_penanganan_laporan() {
         return avg_waktu_penanganan_laporan;
     }
 
-    public void setAvg_waktu_penanganan_laporan(long avg_waktu_penanganan_laporan) {
+    public void setAvg_waktu_penanganan_laporan(double avg_waktu_penanganan_laporan) {
         this.avg_waktu_penanganan_laporan = avg_waktu_penanganan_laporan;
     }
 

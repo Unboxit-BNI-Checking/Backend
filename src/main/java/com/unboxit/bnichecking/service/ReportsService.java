@@ -217,9 +217,10 @@ public class ReportsService {
         List<Object[]> resultlist = reportsJpaRepository.getTotalReportByMonth();
         List<GetTotalReportCompleted> res = new ArrayList<>();
         for (Object[] obj : resultlist) {
+            System.out.println(obj[0]);
             GetTotalReportCompleted getTotalReportCompletedByMonth= new GetTotalReportCompleted();
-            getTotalReportCompletedByMonth.getBulan((String) obj[0]);
-            getTotalReportCompletedByMonth.setJumlah((Long) obj[1]);
+            getTotalReportCompletedByMonth.setBulan((int) obj[0]);
+            getTotalReportCompletedByMonth.setJumlah((int) obj[1]);
             res.add(getTotalReportCompletedByMonth);
         }
         return res;
