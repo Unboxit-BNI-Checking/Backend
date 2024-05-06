@@ -125,7 +125,7 @@ public class ReportedAccountService {
         ReportedAccount reportedAccount = reportedAccountJpaRepository.findReportedAccountById(reportedAccountId);
         if (reportedAccount != null) {
             if(reportedAccount.getAdmins() == null){
-                reportedAccount.setAdmins(adminService.findAdminById(adminId));
+                reportedAccount.setAdmins(adminService.findAdminsByAdminId(adminId));
             }
             reportedAccount.setStatus(newStatus);
             if(reportedAccount.getStatus() > 2){
