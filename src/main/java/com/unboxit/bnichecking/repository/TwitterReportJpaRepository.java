@@ -21,5 +21,8 @@ public interface TwitterReportJpaRepository extends JpaRepository<TwitterReport,
             @Param("twitterUsername") String twitterUsername,
             @Param("includeDeleted") Boolean includeDeleted);
 
+    @Query(value ="select count(tr.*) from twitter_reports tr  where " +
+            "extract(month from tr.created_at) =extract(month from current_date) and extract(year from tr.created_at)=extract(year from current_date)" , nativeQuery = true)
+    Long getCount();
 
 }

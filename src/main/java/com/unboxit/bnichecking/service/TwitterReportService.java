@@ -35,6 +35,6 @@ public class TwitterReportService {
     }
 
     public Long countTwitterReport(){
-        return repository.count();
+        return repository.getCount();
     }
 }
