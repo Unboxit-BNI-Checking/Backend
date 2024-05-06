@@ -33,12 +33,12 @@ public class Transaction {
     private String note;
 
     @CreatedDate
-    @Column(name="created_at", nullable = false, updatable = false)
+    @Column(name="created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime createdAt;
     @LastModifiedDate
-    @Column(name="updated_at")
+    @Column(name="updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime updatedAt;
-    @Column(name="deleted_at")
+    @Column(name="deleted_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime deletedAt;
 
     @OneToOne(mappedBy = "transaction")
