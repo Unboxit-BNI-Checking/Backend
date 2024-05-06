@@ -60,5 +60,6 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
     @Query(value="SELECT * FROM reports WHERE transaction_id=?1", nativeQuery = true)
     List<Reports> findReportsByTransactionId(long transaction_id);
 
+    Reports findReportsByReportId(Long reportId);
 }
 

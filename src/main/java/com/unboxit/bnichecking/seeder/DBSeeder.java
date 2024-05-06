@@ -128,7 +128,7 @@ public class DBSeeder {
                 Transaction transaction8 = new Transaction(accountService.getAccountByAccountId(1L), accountService.getAccountByAccountId(6L), 20000L, "Transfer");
                 Transaction transaction9 = new Transaction(accountService.getAccountByAccountId(2L), accountService.getAccountByAccountId(4L), 20000L, "Transfer");
 
-                transactionJpaRepository.saveAll(Arrays.asList(transaction1, transaction2, transaction3));
+                transactionJpaRepository.saveAll(Arrays.asList(transaction1, transaction2, transaction3,transaction4,transaction5,transaction6,transaction7,transaction8,transaction9));
                 if (seedDataEnabled && reportedAccountJpaRepository.count() == 0) {
                     ReportedAccount reportedAccount1= new ReportedAccount(transaction1.getAccountNumberDestination(), 1);
                     ReportedAccount reportedAccount2= new ReportedAccount(transaction3.getAccountNumberDestination(), 2);
@@ -136,32 +136,49 @@ public class DBSeeder {
                     ReportedAccount reportedAccount4= new ReportedAccount(transaction8.getAccountNumberDestination(), 4);
 
                     reportedAccountJpaRepository.saveAll(Arrays.asList(reportedAccount1,reportedAccount2,reportedAccount3,reportedAccount4));
-                    if(seedDataEnabled && reportsJpaRepository.count() == 0){
-                        Reports report1=new Reports("Sudah bayar barang tidak dikasih",transaction2, reportedAccount1);
-                        Reports report2=new Reports("Penipuan",transaction2, reportedAccount2);
-                        Reports report3=new Reports("Penipuan",transaction3, reportedAccount2);
-                        Reports report4=new Reports("Penipuan",transaction4, reportedAccount3);
-                        Reports report5=new Reports("Penipuan",transaction5, reportedAccount3);
-                        Reports report6=new Reports("Penipuan",transaction7, reportedAccount1);
-                        Reports report7=new Reports("Pembohong",transaction8, reportedAccount2);
-                        Reports report8=new Reports("Pembohong",transaction9, reportedAccount1);
-                        Reports report9=new Reports("Sudah bayar barang tidak dikasih",transaction1, reportedAccount1);
-
-                        reportsJpaRepository.saveAll(Arrays.asList(report1,report2,report3,report4,report5,report6,report7,report8,report9));
-                        if(seedDataEnabled && reportAttachmentJpaRepository.count() ==0){
-                            ReportAttachment reportAttachment1= new ReportAttachment(report1, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
-                            ReportAttachment reportAttachment2= new ReportAttachment(report2, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
-                            ReportAttachment reportAttachment3= new ReportAttachment(report3, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
-                            ReportAttachment reportAttachment4= new ReportAttachment(report4, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
-                            ReportAttachment reportAttachment5= new ReportAttachment(report5, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
-                            ReportAttachment reportAttachment6= new ReportAttachment(report6, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
-                            ReportAttachment reportAttachment7= new ReportAttachment(report7, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
-                            ReportAttachment reportAttachment8= new ReportAttachment(report8, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
-                            ReportAttachment reportAttachment9= new ReportAttachment(report9, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
-                            reportAttachmentJpaRepository.saveAll(Arrays.asList(reportAttachment1,reportAttachment2,reportAttachment3,reportAttachment4,reportAttachment5,reportAttachment6,reportAttachment7,reportAttachment8,reportAttachment9));
-                        }
-                    }
                 }
+            }
+            if(seedDataEnabled && reportsJpaRepository.count() == 0){
+                Transaction transaction1 = transactionJpaRepository.findTransactionByTransactionId(1L);
+                Transaction transaction2 = transactionJpaRepository.findTransactionByTransactionId(2L);
+                Transaction transaction3 = transactionJpaRepository.findTransactionByTransactionId(3L);
+                Transaction transaction4 = transactionJpaRepository.findTransactionByTransactionId(4L);
+                Transaction transaction5 = transactionJpaRepository.findTransactionByTransactionId(5L);
+                Transaction transaction6 = transactionJpaRepository.findTransactionByTransactionId(6L);
+                Transaction transaction7 = transactionJpaRepository.findTransactionByTransactionId(7L);
+                Transaction transaction8 = transactionJpaRepository.findTransactionByTransactionId(8L);
+                Transaction transaction9 = transactionJpaRepository.findTransactionByTransactionId(9L);
+
+                Reports report1=new Reports("Sudah bayar barang tidak dikasih",transaction1, reportedAccountJpaRepository.findReportedAccountById(1));
+                Reports report2=new Reports("Penipuan",transaction2, reportedAccountJpaRepository.findReportedAccountById(2));
+                Reports report3=new Reports("Penipuan",transaction3, reportedAccountJpaRepository.findReportedAccountById(2));
+                Reports report4=new Reports("Penipuan",transaction4, reportedAccountJpaRepository.findReportedAccountById(3));
+                Reports report5=new Reports("Penipuan",transaction5, reportedAccountJpaRepository.findReportedAccountById(3));
+                Reports report6=new Reports("Penipuan",transaction7, reportedAccountJpaRepository.findReportedAccountById(1));
+                Reports report7=new Reports("Pembohong",transaction8, reportedAccountJpaRepository.findReportedAccountById(2));
+                Reports report8=new Reports("Pembohong",transaction9, reportedAccountJpaRepository.findReportedAccountById(3));
+
+                reportsJpaRepository.saveAll(Arrays.asList(report1,report2,report3,report4,report5,report6,report7,report8));
+            }
+            if(seedDataEnabled && reportAttachmentJpaRepository.count() ==0){
+                Reports report1=reportsJpaRepository.findReportsByReportId(1L);
+                Reports report2=reportsJpaRepository.findReportsByReportId(2L);
+                Reports report3=reportsJpaRepository.findReportsByReportId(3L);
+                Reports report4=reportsJpaRepository.findReportsByReportId(4L);
+                Reports report5=reportsJpaRepository.findReportsByReportId(5L);
+                Reports report6=reportsJpaRepository.findReportsByReportId(6L);
+                Reports report7=reportsJpaRepository.findReportsByReportId(7L);
+                Reports report8=reportsJpaRepository.findReportsByReportId(8L);
+
+                ReportAttachment reportAttachment1= new ReportAttachment(report1, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
+                ReportAttachment reportAttachment2= new ReportAttachment(report2, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
+                ReportAttachment reportAttachment3= new ReportAttachment(report3, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
+                ReportAttachment reportAttachment4= new ReportAttachment(report4, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
+                ReportAttachment reportAttachment5= new ReportAttachment(report5, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
+                ReportAttachment reportAttachment6= new ReportAttachment(report6, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
+                ReportAttachment reportAttachment7= new ReportAttachment(report7, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
+                ReportAttachment reportAttachment8= new ReportAttachment(report8, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
+                reportAttachmentJpaRepository.saveAll(Arrays.asList(reportAttachment1,reportAttachment2,reportAttachment3,reportAttachment4,reportAttachment5,reportAttachment6,reportAttachment7,reportAttachment8));
             }
 
             if (seedDataEnabled && twitterReportJpaRepository.count() == 0) {
