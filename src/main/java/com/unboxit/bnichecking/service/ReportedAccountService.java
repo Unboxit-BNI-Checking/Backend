@@ -162,7 +162,12 @@ public class ReportedAccountService {
             getAllReportedAccountDetailReports.setTransactionNote(report.getTransaction().getNote());
             getAllReportedAccountDetailReports.setAmount(report.getTransaction().getAmount());
             getAllReportedAccountDetailReports.setChronology(report.getChronology());
-            getAllReportedAccountDetailReports.setAttachment(reportAttachmentService.findReportAttachmentByReportId(report.getReportId()).get(0).getFilePath());
+            List<GetAllReportAttachments> reportAttachment = reportAttachmentService.findReportAttachmentByReportId(report.getReportId());
+            List<String> filePath = new ArrayList<>();
+            for (GetAllReportAttachments reportAtt : reportAttachment) {
+                filePath.add(reportAtt.getFilePath());
+            }
+            getAllReportedAccountDetailReports.setAttachment(filePath);
             getAllReportedAccountDetailReports.setTwitterReportsCount(twitterReports.size());
             result.add(getAllReportedAccountDetailReports);
         }
