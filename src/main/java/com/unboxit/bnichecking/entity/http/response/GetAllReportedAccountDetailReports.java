@@ -44,7 +44,7 @@ public class GetAllReportedAccountDetailReports {
     private String chronology;
 
     @JsonProperty("attachment")
-    private String attachment;
+    private List<String> attachment;
 
     @JsonProperty("twitter_reports_count")
     private long twitterReportsCount;
@@ -129,11 +129,11 @@ public class GetAllReportedAccountDetailReports {
         this.chronology = chronology;
     }
 
-    public String getAttachment() {
+    public List<String> getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(String attachment) {
+    public void setAttachment(List<String> attachment) {
         this.attachment = attachment;
     }
 
