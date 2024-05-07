@@ -195,7 +195,10 @@ public class TransactionService {
         long checkFavourite = 0;
         String favouriteDescription = "Nothing change in favourite";
         if(transaction.isFavourite()){
-            if(favouriteService.checkAccountNumberFavouritedByUserId(userSource.getUserId(), accountDestination.getAccountNumber())){
+            if(favouriteService.checkNameAndAccountNumberFavouritedByUserId(userSource.getUserId(), accountDestination.getAccountNumber(), transaction.getName())){
+                checkFavourite = 0;
+                favouriteDescription = "Nothing change in favourite";
+            } else if(favouriteService.checkAccountNumberFavouritedByUserId(userSource.getUserId(), accountDestination.getAccountNumber())){
                 checkFavourite = 2;
                 favouriteDescription = "Account number already in favourite";
             } else {
