@@ -43,7 +43,8 @@ public class ReportsController {
     }
 
     @GetMapping(value = "/reports/total-reports-by-month")
-    public ResponseEntity<ApiResponse<List<GetTotalReportCompleted>>> getTotalReportsByMonth() {
+    public ResponseEntity<ApiResponse<List<GetTotalReportCompleted>>> getTotalReportsByMonth(@RequestHeader(name = "Authorization") String header) {
+        JwtAuthFilter.checkAdminToken(header.substring(7));
         return ResponseEntity.ok(new ApiResponse<>(true, reportsService.getTotalReportCompletedByMonth(),null));
     }
 
