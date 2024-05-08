@@ -44,7 +44,7 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
     List<Object[]> getTotalReportByMonth();
 
     @Query(value ="select count(r.*) from reports r inner join reported_account ra on r.reported_account_id =ra.reported_account_id " +
-            "where (ra.status =3 or ra.status =4) and extract(year from r.created_at)=extract(year from current_date) and " +
+            "where (ra.status =3 or ra.status =4 or ra.status=5) and extract(year from r.created_at)=extract(year from current_date) and " +
             " extract(month from r.created_at) = extract(month from current_date)" ,nativeQuery = true)
     Long getCountReportsCompleted();
     @Query(value ="select count(r.*) from reports r inner join reported_account ra on r.reported_account_id =ra.reported_account_id " +
