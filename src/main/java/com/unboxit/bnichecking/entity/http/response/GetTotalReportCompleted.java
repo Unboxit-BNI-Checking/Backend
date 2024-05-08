@@ -1,22 +1,22 @@
 package com.unboxit.bnichecking.entity.http.response;
 
 public class GetTotalReportCompleted {
-    private String bulan;
-    private long jumlah;
+    private int bulan;
+    private int jumlah;
 
-    public String getBulan(String s) {
+    public int getBulan() {
         return bulan;
     }
 
-    public void setBulan(String bulan) {
+    public void setBulan(int bulan) {
         this.bulan = bulan;
     }
 
-    public long getJumlah() {
+    public int getJumlah() {
         return jumlah;
     }
 
-    public void setJumlah(long jumlah) {
+    public void setJumlah(int jumlah) {
         this.jumlah = jumlah;
     }
 
