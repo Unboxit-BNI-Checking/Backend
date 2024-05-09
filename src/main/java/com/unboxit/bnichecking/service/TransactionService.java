@@ -213,6 +213,17 @@ public class TransactionService {
                     }
                 }
             }
+        } else {
+            if(favouriteService.checkNameAndAccountNumberFavouritedByUserId(userSource.getUserId(), accountDestination.getAccountNumber(), transaction.getName())){
+                checkFavourite = 0;
+                favouriteDescription = "Nothing change in favourite";
+            } else if(favouriteService.checkAccountNumberFavouritedByUserId(userSource.getUserId(), accountDestination.getAccountNumber())){
+                checkFavourite = 2;
+                favouriteDescription = "Account number already in favourite";
+            } else {
+                checkFavourite = 4;
+                favouriteDescription = "Transfer biasa, nothing change in favourite, muncul pop up";
+            }
         }
         List<GetReportedAccount> reportedAccounts = reportedAccountService.getReportedAccountsByReportedAccountNumber(newTransaction.getAccountNumberDestination().getAccountNumber());
         List<Long> statusAccount = new ArrayList<>();

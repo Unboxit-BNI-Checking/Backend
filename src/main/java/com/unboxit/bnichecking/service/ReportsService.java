@@ -73,6 +73,7 @@ public class ReportsService {
             getAllReports.setReportId(report.getReportId());
             getAllReports.setTransactionId(report.getTransaction().getTransactionId());
             getAllReports.setChronology(report.getChronology());
+            getAllReports.setReportedAccountId(report.getReportedAccount().getReportedAccountId());
             results.add(getAllReports);
         }
 
