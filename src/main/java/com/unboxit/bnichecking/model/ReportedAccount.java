@@ -17,21 +17,21 @@ public class ReportedAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long reportedAccountId;
 
-    @Column(name="time_finished", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name="time_finished")
     private LocalDateTime time_finished;
 
     @Column(name="status", nullable = false)
     private long status;
 
     @CreatedDate
-    @Column(name="created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name="created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name="updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name="deleted_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name="deleted_at")
     private LocalDateTime deletedAt;
 
     @ManyToOne
@@ -53,6 +53,19 @@ public class ReportedAccount {
     public ReportedAccount(Account reportedAccountNumber, int status) {
         this.reportedAccountNumber = reportedAccountNumber;
         this.status = status;
+    }
+
+    public ReportedAccount(Account reportedAccountNumber, int status, Admins admins) {
+        this.reportedAccountNumber = reportedAccountNumber;
+        this.status = status;
+        this.admins = admins;
+    }
+
+    public ReportedAccount(Account reportedAccountNumber, int status, Admins admins, LocalDateTime time_finished) {
+        this.reportedAccountNumber = reportedAccountNumber;
+        this.status = status;
+        this.admins = admins;
+        this.time_finished = time_finished;
     }
 
     public LocalDateTime getTime_finished() {
