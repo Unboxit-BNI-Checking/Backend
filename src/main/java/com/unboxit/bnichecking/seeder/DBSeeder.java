@@ -55,6 +55,9 @@ public class DBSeeder {
     @Autowired
     private ReportAttachmentJpaRepository reportAttachmentJpaRepository;
 
+    @Autowired
+    private FavouriteJpaRepository favouriteJpaRepository;
+
     @Value("${seed.data.enabled:true}")
     private boolean seedDataEnabled;
 
@@ -65,7 +68,7 @@ public class DBSeeder {
     public CommandLineRunner accountSeederCommandLineRunner() {
         return args -> {
             if (seedDataEnabled && userJpaRepository.count() == 0) {
-                User user1 = new User("Sofi Shahira Khoirun Nisa", "sofishr7", passwordHasherService.hashPassword("P11111"), passwordHasherService.hashPassword("111111"));
+                User user1 = new User("Poppy", "poppy", passwordHasherService.hashPassword("P11111"), passwordHasherService.hashPassword("111111"));
                 User user2 = new User("Renata Rizki Rafi Athallah", "rizkirafi", passwordHasherService.hashPassword("P22222"), passwordHasherService.hashPassword("222222"));
                 User user3 = new User("Jonathan Richard Sugandhi", "richiesugan", passwordHasherService.hashPassword("P33333"), passwordHasherService.hashPassword("333333"));
                 User user4 = new User("Muhamad Dani Setiawan", "danti01", passwordHasherService.hashPassword("P44444"), passwordHasherService.hashPassword("444444"));
@@ -85,7 +88,10 @@ public class DBSeeder {
                 User user18 = new User("Rima", "rima", passwordHasherService.hashPassword("P18181"), passwordHasherService.hashPassword("181818"));
                 User user19 = new User("Akhdan", "akhdan", passwordHasherService.hashPassword("P19191"), passwordHasherService.hashPassword("191919"));
 
-                userJpaRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11, user12, user13, user14, user15, user16, user17, user18, user19));
+                //user demo
+                User user20 = new User("Sofi Shahira Khoirun Nisa", "sofishr7", passwordHasherService.hashPassword("P12345"), passwordHasherService.hashPassword("123456"));
+
+                userJpaRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11, user12, user13, user14, user15, user16, user17, user18, user19, user20));
 
                 if (seedDataEnabled && accountJpaRepository.count() == 0) {
                     Account account1 = new Account("1813111111", user1, 10000000L, false);
@@ -126,7 +132,17 @@ public class DBSeeder {
                     Account account36 = new Account("1812483828", user18, 236700L, false);
                     Account account37 = new Account("1701016265", user19, 236700L, false);
 
-                    accountJpaRepository.saveAll(Arrays.asList(account1, account2, account3, account4, account5, account6, account7, account8, account9, account10, account11, account12, account13, account14, account15, account16, account17, account18, account19, account20, account21, account22, account23, account24, account25, account26, account27, account28, account29, account30, account31, account32, account33, account34, account35, account36, account37));
+                    //Account demo
+                    Account account38 = new Account("1813123456", user20, 10000000L, false);
+
+                    accountJpaRepository.saveAll(Arrays.asList(account1, account2, account3, account4, account5, account6, account7, account8, account9, account10, account11, account12, account13, account14, account15, account16, account17, account18, account19, account20, account21, account22, account23, account24, account25, account26, account27, account28, account29, account30, account31, account32, account33, account34, account35, account36, account37, account38));
+
+                    //favourite demo
+                    if (seedDataEnabled && favouriteJpaRepository.count() == 0) {
+                        Favourite favourite1 = new Favourite(account5, "BNI - Rizki", user20);
+                        Favourite favourite2 = new Favourite(account7, "BNI - Richie", user20);
+                        favouriteJpaRepository.saveAll(Arrays.asList(favourite1, favourite2));
+                    }
                 }
             }
 
@@ -140,7 +156,6 @@ public class DBSeeder {
             }
 
             if (seedDataEnabled && transactionJpaRepository.count() == 0) {
-                //transaksi direports
                 Transaction transaction1 = new Transaction(accountService.getAccountByAccountId(1L), accountService.getAccountByAccountId(27L), 900000L, "Transfer");
                 Transaction transaction2 = new Transaction(accountService.getAccountByAccountId(2L), accountService.getAccountByAccountId(22L), 21313L, "Transfer");
                 Transaction transaction3 = new Transaction(accountService.getAccountByAccountId(2L), accountService.getAccountByAccountId(14L), 12900L, "Transfer");
@@ -186,6 +201,29 @@ public class DBSeeder {
                 Transaction transaction43 = new Transaction(accountService.getAccountByAccountId(25L), accountService.getAccountByAccountId(29L), 10000L, "Transfer");
                 Transaction transaction44 = new Transaction(accountService.getAccountByAccountId(27L), accountService.getAccountByAccountId(30L), 11000L, "Transfer");
 
+                //Transacstion demo
+                Transaction transaction45 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(25L), 900000L, "Transfer");
+                Transaction transaction46 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(26L), 21313L, "Transfer");
+                Transaction transaction47 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(25L), 12900L, "Transfer");
+                Transaction transaction48 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(24L), 121000L, "Transfer");
+                Transaction transaction49 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(23L), 132100L, "Transfer");
+                Transaction transaction50 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(23L), 213100L, "Transfer");
+                Transaction transaction51 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(24L), 89000L, "Transfer");
+                Transaction transaction52 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(23L), 78000L, "Transfer");
+                Transaction transaction53 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(25L), 150000L, "Transfer");
+                Transaction transaction54 = new Transaction(accountService.getAccountByAccountId(38L), accountService.getAccountByAccountId(26L), 8000L, "Transfer");
+
+                Transaction transaction55 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(19L), 100000L, "Transfer");
+
+                Transaction transaction56 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(6L), 100000L, "Transfer");
+                Transaction transaction57 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(6L), 100000L, "Transfer");
+                Transaction transaction58 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(6L), 100000L, "Transfer");
+                Transaction transaction59 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(6L), 100000L, "Transfer");
+                Transaction transaction60 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(6L), 100000L, "Transfer");
+                Transaction transaction61 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(6L), 100000L, "Transfer");
+                Transaction transaction62 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(6L), 100000L, "Transfer");
+                Transaction transaction63 = new Transaction(accountService.getAccountByAccountId(37L), accountService.getAccountByAccountId(6L), 100000L, "Transfer");
+
 
                 transactionJpaRepository.saveAll(Arrays.asList(
                         transaction1, transaction2, transaction3,transaction4,transaction5,
@@ -196,24 +234,32 @@ public class DBSeeder {
                         transaction26, transaction27, transaction28,transaction29,transaction30,
                         transaction31, transaction32, transaction33,transaction34,transaction35,
                         transaction36,transaction37,transaction38,transaction39, transaction40,
-                        transaction41, transaction42, transaction43,transaction44));
+                        transaction41, transaction42, transaction43,transaction44, transaction45, transaction46, transaction47,transaction48,transaction49,
+                        transaction50,transaction51,transaction52,transaction53, transaction54,
+                        transaction55, transaction56,transaction57,transaction58,transaction59, transaction60,
+                        transaction61, transaction62, transaction63));
 
                 if (seedDataEnabled && reportedAccountJpaRepository.count() == 0) {
-                    ReportedAccount reportedAccount1= new ReportedAccount(transaction1.getAccountNumberDestination(), 2);
-                    ReportedAccount reportedAccount2= new ReportedAccount(transaction2.getAccountNumberDestination(), 3, LocalDateTime.now().plusDays(1));
+                    Admins admin1 =  adminJpaRepository.findAdminsByAdminId(1L);
+                    Admins admin2 =  adminJpaRepository.findAdminsByAdminId(2L);
+                    Admins admin3 =  adminJpaRepository.findAdminsByAdminId(3L);
+                    Admins admin4 =  adminJpaRepository.findAdminsByAdminId(4L);
+
+                    ReportedAccount reportedAccount1= new ReportedAccount(transaction1.getAccountNumberDestination(), 2, admin1);
+                    ReportedAccount reportedAccount2= new ReportedAccount(transaction2.getAccountNumberDestination(), 3, admin1 ,LocalDateTime.now());
                     ReportedAccount reportedAccount3= new ReportedAccount(transaction3.getAccountNumberDestination(), 1);
-                    ReportedAccount reportedAccount4= new ReportedAccount(transaction4.getAccountNumberDestination(), 4, LocalDateTime.now().plusHours(5));
-                    ReportedAccount reportedAccount5= new ReportedAccount(transaction5.getAccountNumberDestination(), 5, LocalDateTime.now().plusHours(2));
+                    ReportedAccount reportedAccount4= new ReportedAccount(transaction4.getAccountNumberDestination(), 4, admin2, LocalDateTime.now());
+                    ReportedAccount reportedAccount5= new ReportedAccount(transaction5.getAccountNumberDestination(), 5, admin3,LocalDateTime.now());
                     ReportedAccount reportedAccount6= new ReportedAccount(transaction6.getAccountNumberDestination(), 1);
                     ReportedAccount reportedAccount7= new ReportedAccount(transaction11.getAccountNumberDestination(), 1);
-                    ReportedAccount reportedAccount8= new ReportedAccount(transaction12.getAccountNumberDestination(), 2);
-                    ReportedAccount reportedAccount9= new ReportedAccount(transaction14.getAccountNumberDestination(), 3, LocalDateTime.now().plusDays(2));
-                    ReportedAccount reportedAccount10= new ReportedAccount(transaction19.getAccountNumberDestination(), 2);
-                    ReportedAccount reportedAccount11= new ReportedAccount(transaction22.getAccountNumberDestination(), 4, LocalDateTime.now().plusHours(12));
-                    ReportedAccount reportedAccount12= new ReportedAccount(transaction24.getAccountNumberDestination(), 5, LocalDateTime.now().plusHours(16));
-                    ReportedAccount reportedAccount13= new ReportedAccount(transaction27.getAccountNumberDestination(), 3, LocalDateTime.now().plusHours(8));
-                    ReportedAccount reportedAccount14= new ReportedAccount(transaction35.getAccountNumberDestination(), 4, LocalDateTime.now().plusHours(16));
-                    ReportedAccount reportedAccount15= new ReportedAccount(transaction36.getAccountNumberDestination(), 5, LocalDateTime.now().plusHours(8));
+                    ReportedAccount reportedAccount8= new ReportedAccount(transaction12.getAccountNumberDestination(), 2, admin1);
+                    ReportedAccount reportedAccount9= new ReportedAccount(transaction14.getAccountNumberDestination(), 3, admin2,LocalDateTime.now());
+                    ReportedAccount reportedAccount10= new ReportedAccount(transaction19.getAccountNumberDestination(), 2, admin1);
+                    ReportedAccount reportedAccount11= new ReportedAccount(transaction22.getAccountNumberDestination(), 4, admin4,LocalDateTime.now());
+                    ReportedAccount reportedAccount12= new ReportedAccount(transaction24.getAccountNumberDestination(), 5, admin3,LocalDateTime.now());
+                    ReportedAccount reportedAccount13= new ReportedAccount(transaction27.getAccountNumberDestination(), 3, admin2,LocalDateTime.now());
+                    ReportedAccount reportedAccount14= new ReportedAccount(transaction35.getAccountNumberDestination(), 4, admin1,LocalDateTime.now());
+                    ReportedAccount reportedAccount15= new ReportedAccount(transaction36.getAccountNumberDestination(), 5, admin2,LocalDateTime.now());
 
                     reportedAccountJpaRepository.saveAll(Arrays.asList(
                             reportedAccount1,reportedAccount2,reportedAccount3,reportedAccount4, reportedAccount5,
@@ -266,6 +312,15 @@ public class DBSeeder {
                 Transaction transaction42 = transactionJpaRepository.findTransactionByTransactionId(42L);
                 Transaction transaction43 = transactionJpaRepository.findTransactionByTransactionId(43L);
                 Transaction transaction44 = transactionJpaRepository.findTransactionByTransactionId(44L);
+                Transaction transaction55 = transactionJpaRepository.findTransactionByTransactionId(55L);
+                Transaction transaction56 = transactionJpaRepository.findTransactionByTransactionId(56L);
+                Transaction transaction57 = transactionJpaRepository.findTransactionByTransactionId(57L);
+                Transaction transaction58 = transactionJpaRepository.findTransactionByTransactionId(58L);
+                Transaction transaction59 = transactionJpaRepository.findTransactionByTransactionId(59L);
+                Transaction transaction60 = transactionJpaRepository.findTransactionByTransactionId(60L);
+                Transaction transaction61 = transactionJpaRepository.findTransactionByTransactionId(61L);
+                Transaction transaction62 = transactionJpaRepository.findTransactionByTransactionId(62L);
+                Transaction transaction63 = transactionJpaRepository.findTransactionByTransactionId(63L);
 
                 Reports report1=new Reports("Saya menerima panggilan telepon palsu yang mengklaim berasal dari Bank BNI dan diminta untuk transfer",transaction1, reportedAccountJpaRepository.findReportedAccountById(1));
                 Reports report2=new Reports("Penipuan hadiah",transaction2, reportedAccountJpaRepository.findReportedAccountById(2));
@@ -312,7 +367,20 @@ public class DBSeeder {
                 Reports report43=new Reports("Pelaku menawarkan \"beasiswa\" palsu atau bantuan pendidikan dan meminta pembayaran sebagai biaya administrasi atau pendaftaran, tetapi tidak ada bantuan pendidikan yang diberikan kepada korban.",transaction43, reportedAccountJpaRepository.findReportedAccountById(14));
                 Reports report44=new Reports("Pelaku mengklaim bahwa korban telah memenangkan hadiah besar dan meminta pembayaran kecil sebagai biaya pengiriman atau administrasi, tetapi tidak ada hadiah yang diterima oleh korban.",transaction44, reportedAccountJpaRepository.findReportedAccountById(15));
 
-                reportsJpaRepository.saveAll(Arrays.asList(report1, report2, report3, report4, report5, report6, report7, report8, report9, report10, report11, report12, report13, report14, report15, report16, report17, report18, report19, report20, report21, report22, report23, report24, report25, report26, report27, report28, report29, report30, report31, report32, report33, report34, report35, report36, report37, report38, report39, report40, report41, report42, report43, report44));
+                //Tambah untuk nabir
+                Reports report45=new Reports("Pelaku mengklaim bahwa korban telah memenangkan hadiah besar dan meminta pembayaran kecil sebagai biaya pengiriman atau administrasi, tetapi tidak ada hadiah yang diterima oleh korban.",transaction55, reportedAccountJpaRepository.findReportedAccountById(10));
+
+                //Tambah untuk rizki
+                Reports report46=new Reports("Penipuan hadiah",transaction56, reportedAccountJpaRepository.findReportedAccountById(9));
+                Reports report47=new Reports("Pelaku memalsukan penjualan online, menerima pembayaran dari korban, tetapi tidak memberikan produk atau layanan yang dijanjikan.",transaction57, reportedAccountJpaRepository.findReportedAccountById(9));
+                Reports report48=new Reports("Saya membeli barang akan tetapi barang tidak dikirim",transaction58, reportedAccountJpaRepository.findReportedAccountById(9));
+                Reports report49=new Reports("Pelaku menawarkan investasi palsu dalam kriptokurensi atau skema ponzi yang menghasilkan imbal hasil yang tidak realistis, dan kemudian menghilang dengan dana yang diinvestasikan.",transaction59, reportedAccountJpaRepository.findReportedAccountById(9));
+                Reports report50=new Reports("Pelaku menyamar sebagai petugas pelayanan darurat (misalnya polisi, dokter, atau pengacara) dan meminta pembayaran segera untuk biaya pengobatan atau hukum yang tidak ada.",transaction60, reportedAccountJpaRepository.findReportedAccountById(9));
+                Reports report51=new Reports("Pelaku menawarkan pekerjaan palsu kepada korban dengan janji gaji yang tinggi. Mereka kemudian meminta korban untuk membayar biaya pendaftaran atau biaya lainnya, yang pada akhirnya digunakan oleh pelaku untuk melakukan transfer uang.",transaction61, reportedAccountJpaRepository.findReportedAccountById(9));
+                Reports report52=new Reports("Pelaku menawarkan investasi palsu dalam kriptokurensi atau skema ponzi yang menghasilkan imbal hasil yang tidak realistis, dan kemudian menghilang dengan dana yang diinvestasikan.",transaction62, reportedAccountJpaRepository.findReportedAccountById(9));
+                Reports report53=new Reports("Pelaku menawarkan pekerjaan palsu kepada korban dengan janji gaji yang tinggi. Setelah korban menerima \"gaji pertama\", mereka diminta untuk mengirim kembali sebagian uangnya sebagai \"biaya administrasi\", tetapi transfer tersebut sebenarnya ke rekening pelaku.",transaction63, reportedAccountJpaRepository.findReportedAccountById(9));
+
+                reportsJpaRepository.saveAll(Arrays.asList(report1, report2, report3, report4, report5, report6, report7, report8, report9, report10, report11, report12, report13, report14, report15, report16, report17, report18, report19, report20, report21, report22, report23, report24, report25, report26, report27, report28, report29, report30, report31, report32, report33, report34, report35, report36, report37, report38, report39, report40, report41, report42, report43, report44, report45, report46, report47, report48, report49, report50, report51, report52, report53));
             }
             if(seedDataEnabled && reportAttachmentJpaRepository.count() ==0){
                 Reports report1=reportsJpaRepository.findReportsByReportId(1L);
@@ -359,6 +427,17 @@ public class DBSeeder {
                 Reports report42=reportsJpaRepository.findReportsByReportId(42L);
                 Reports report43=reportsJpaRepository.findReportsByReportId(43L);
                 Reports report44=reportsJpaRepository.findReportsByReportId(44L);
+
+                Reports report45=reportsJpaRepository.findReportsByReportId(45L);
+
+                Reports report46=reportsJpaRepository.findReportsByReportId(46L);
+                Reports report47=reportsJpaRepository.findReportsByReportId(47L);
+                Reports report48=reportsJpaRepository.findReportsByReportId(48L);
+                Reports report49=reportsJpaRepository.findReportsByReportId(49L);
+                Reports report50=reportsJpaRepository.findReportsByReportId(50L);
+                Reports report51=reportsJpaRepository.findReportsByReportId(51L);
+                Reports report52=reportsJpaRepository.findReportsByReportId(52L);
+                Reports report53=reportsJpaRepository.findReportsByReportId(53L);
 
                 ReportAttachment reportAttachment1= new ReportAttachment(report1, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
                 ReportAttachment reportAttachment2= new ReportAttachment(report1, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
@@ -441,8 +520,20 @@ public class DBSeeder {
                 ReportAttachment reportAttachment79= new ReportAttachment(report44, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
                 ReportAttachment reportAttachment80= new ReportAttachment(report44, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
 
+                ReportAttachment reportAttachment81= new ReportAttachment(report45, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
+                ReportAttachment reportAttachment82= new ReportAttachment(report45, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
+
+                ReportAttachment reportAttachment83= new ReportAttachment(report46, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
+                ReportAttachment reportAttachment84= new ReportAttachment(report47, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
+                ReportAttachment reportAttachment85= new ReportAttachment(report48, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
+                ReportAttachment reportAttachment86= new ReportAttachment(report49, "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2023/07/19/penipuan-bank-3632286447.jpg");
+                ReportAttachment reportAttachment87= new ReportAttachment(report50, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
+                ReportAttachment reportAttachment88= new ReportAttachment(report51, "https://panduaji.com/wp-content/uploads/2020/05/Penipuan-Online-Pembeli-576x1024.jpg");
+                ReportAttachment reportAttachment89= new ReportAttachment(report52, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
+                ReportAttachment reportAttachment90= new ReportAttachment(report53, "https://cdn.antaranews.com/cache/1200x800/2023/07/25/IMG_20230725_061556.jpg.webp");
+
                 reportAttachmentJpaRepository.saveAll(Arrays.asList(
-                        reportAttachment1, reportAttachment2, reportAttachment3, reportAttachment4, reportAttachment5, reportAttachment6, reportAttachment7, reportAttachment8, reportAttachment9, reportAttachment10, reportAttachment11, reportAttachment12, reportAttachment13, reportAttachment14, reportAttachment15, reportAttachment16, reportAttachment17, reportAttachment18, reportAttachment19, reportAttachment20, reportAttachment21, reportAttachment22, reportAttachment23, reportAttachment24, reportAttachment25, reportAttachment26, reportAttachment27, reportAttachment28, reportAttachment29, reportAttachment30, reportAttachment31, reportAttachment32, reportAttachment33, reportAttachment34, reportAttachment35, reportAttachment36, reportAttachment37, reportAttachment38, reportAttachment39, reportAttachment40, reportAttachment41, reportAttachment42, reportAttachment43, reportAttachment44, reportAttachment45, reportAttachment46, reportAttachment47, reportAttachment48, reportAttachment49, reportAttachment50, reportAttachment51, reportAttachment52, reportAttachment53, reportAttachment54, reportAttachment55, reportAttachment56, reportAttachment57, reportAttachment58, reportAttachment59, reportAttachment60, reportAttachment61, reportAttachment62, reportAttachment63, reportAttachment64, reportAttachment65, reportAttachment66, reportAttachment67, reportAttachment68, reportAttachment69, reportAttachment70, reportAttachment71, reportAttachment72, reportAttachment73, reportAttachment74, reportAttachment75, reportAttachment76, reportAttachment77, reportAttachment78, reportAttachment79, reportAttachment80
+                        reportAttachment1, reportAttachment2, reportAttachment3, reportAttachment4, reportAttachment5, reportAttachment6, reportAttachment7, reportAttachment8, reportAttachment9, reportAttachment10, reportAttachment11, reportAttachment12, reportAttachment13, reportAttachment14, reportAttachment15, reportAttachment16, reportAttachment17, reportAttachment18, reportAttachment19, reportAttachment20, reportAttachment21, reportAttachment22, reportAttachment23, reportAttachment24, reportAttachment25, reportAttachment26, reportAttachment27, reportAttachment28, reportAttachment29, reportAttachment30, reportAttachment31, reportAttachment32, reportAttachment33, reportAttachment34, reportAttachment35, reportAttachment36, reportAttachment37, reportAttachment38, reportAttachment39, reportAttachment40, reportAttachment41, reportAttachment42, reportAttachment43, reportAttachment44, reportAttachment45, reportAttachment46, reportAttachment47, reportAttachment48, reportAttachment49, reportAttachment50, reportAttachment51, reportAttachment52, reportAttachment53, reportAttachment54, reportAttachment55, reportAttachment56, reportAttachment57, reportAttachment58, reportAttachment59, reportAttachment60, reportAttachment61, reportAttachment62, reportAttachment63, reportAttachment64, reportAttachment65, reportAttachment66, reportAttachment67, reportAttachment68, reportAttachment69, reportAttachment70, reportAttachment71, reportAttachment72, reportAttachment73, reportAttachment74, reportAttachment75, reportAttachment76, reportAttachment77, reportAttachment78, reportAttachment79, reportAttachment80, reportAttachment81, reportAttachment82, reportAttachment83, reportAttachment84, reportAttachment85, reportAttachment86, reportAttachment87, reportAttachment88, reportAttachment89, reportAttachment90
                 ));
             }
 
@@ -519,7 +610,16 @@ public class DBSeeder {
                 TwitterReport twitterReport60 = new TwitterReport(LocalDateTime.now(), "Nitsyyy13", "https://twitter.com/Nitsyyy13/status/1676917675916943363", accountService.getAccountByAccountId(37L), null);
                 TwitterReport twitterReport61 = new TwitterReport(LocalDateTime.now(), "Nitsyyy13", "https://twitter.com/Nitsyyy13/status/1676917552658923520", accountService.getAccountByAccountId(37L), null);
 
-                twitterReportJpaRepository.saveAll(Arrays.asList(twitterReport1, twitterReport2, twitterReport3, twitterReport4, twitterReport5, twitterReport6, twitterReport7, twitterReport8, twitterReport9, twitterReport10, twitterReport11, twitterReport12, twitterReport13, twitterReport14, twitterReport15, twitterReport16, twitterReport17, twitterReport18, twitterReport19, twitterReport20, twitterReport21, twitterReport22, twitterReport23, twitterReport24, twitterReport25, twitterReport26, twitterReport27, twitterReport28, twitterReport29, twitterReport30, twitterReport31, twitterReport32, twitterReport33, twitterReport34, twitterReport35, twitterReport36, twitterReport37, twitterReport38, twitterReport39, twitterReport40, twitterReport41, twitterReport42, twitterReport43, twitterReport44, twitterReport45, twitterReport46, twitterReport47, twitterReport48, twitterReport49, twitterReport50, twitterReport51, twitterReport52, twitterReport53, twitterReport54, twitterReport55, twitterReport56, twitterReport57, twitterReport58, twitterReport59, twitterReport60, twitterReport61));
+                TwitterReport twitterReport62 = new TwitterReport(LocalDateTime.now(), "doiemoie", "https://twitter.com/doiemoie/status/1768195068404613140", accountService.getAccountByAccountId(6L), null);
+                TwitterReport twitterReport63 = new TwitterReport(LocalDateTime.now(), "doiemoie", "https://twitter.com/doiemoie/status/1768195068404613140", accountService.getAccountByAccountId(6L), null);
+                TwitterReport twitterReport64 = new TwitterReport(LocalDateTime.now(), "_thisisformark", "https://twitter.com/_thisisformark/status/1737326803445051795", accountService.getAccountByAccountId(6L), null);
+                TwitterReport twitterReport65 = new TwitterReport(LocalDateTime.now(), "_thisisformark", "https://twitter.com/_thisisformark/status/1737326803445051795", accountService.getAccountByAccountId(6L), null);
+                TwitterReport twitterReport66 = new TwitterReport(LocalDateTime.now(), "woopycakes_", "https://twitter.com/woopycakes_/status/1734607285211766856", accountService.getAccountByAccountId(6L), null);
+                TwitterReport twitterReport67 = new TwitterReport(LocalDateTime.now(), "Nitsyyy13", "https://twitter.com/Nitsyyy13/status/1676918034945171456", accountService.getAccountByAccountId(6L), null);
+                TwitterReport twitterReport68 = new TwitterReport(LocalDateTime.now(), "Nitsyyy13", "https://twitter.com/Nitsyyy13/status/1676917675916943363", accountService.getAccountByAccountId(6L), null);
+                TwitterReport twitterReport69 = new TwitterReport(LocalDateTime.now(), "Nitsyyy13", "https://twitter.com/Nitsyyy13/status/1676917552658923520", accountService.getAccountByAccountId(6L), null);
+
+                twitterReportJpaRepository.saveAll(Arrays.asList(twitterReport1, twitterReport2, twitterReport3, twitterReport4, twitterReport5, twitterReport6, twitterReport7, twitterReport8, twitterReport9, twitterReport10, twitterReport11, twitterReport12, twitterReport13, twitterReport14, twitterReport15, twitterReport16, twitterReport17, twitterReport18, twitterReport19, twitterReport20, twitterReport21, twitterReport22, twitterReport23, twitterReport24, twitterReport25, twitterReport26, twitterReport27, twitterReport28, twitterReport29, twitterReport30, twitterReport31, twitterReport32, twitterReport33, twitterReport34, twitterReport35, twitterReport36, twitterReport37, twitterReport38, twitterReport39, twitterReport40, twitterReport41, twitterReport42, twitterReport43, twitterReport44, twitterReport45, twitterReport46, twitterReport47, twitterReport48, twitterReport49, twitterReport50, twitterReport51, twitterReport52, twitterReport53, twitterReport54, twitterReport55, twitterReport56, twitterReport57, twitterReport58, twitterReport59, twitterReport60, twitterReport61, twitterReport62, twitterReport63, twitterReport64, twitterReport65, twitterReport66, twitterReport67, twitterReport68, twitterReport69));
             }
         };
     }

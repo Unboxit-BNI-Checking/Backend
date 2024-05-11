@@ -55,9 +55,16 @@ public class ReportedAccount {
         this.status = status;
     }
 
-    public ReportedAccount(Account reportedAccountNumber, int status, LocalDateTime time_finished) {
+    public ReportedAccount(Account reportedAccountNumber, int status, Admins admins) {
         this.reportedAccountNumber = reportedAccountNumber;
         this.status = status;
+        this.admins = admins;
+    }
+
+    public ReportedAccount(Account reportedAccountNumber, int status, Admins admins, LocalDateTime time_finished) {
+        this.reportedAccountNumber = reportedAccountNumber;
+        this.status = status;
+        this.admins = admins;
         this.time_finished = time_finished;
     }
 
