@@ -185,7 +185,11 @@ public class ReportedAccountService {
             reportedAccount.setStatus(reported.getStatus());
             reportedAccount.setTimeFinished(reported.getTime_finished());
             String adminUsername = reported.getAdmins() != null ? reported.getAdmins().getUsername() : null;
+            Long adminId = reported.getAdmins() != null ? reported.getAdmins().getAdminId() : null;
             reportedAccount.setAdmin(adminUsername);
+            if (adminId != null) {
+                reportedAccount.setAdminId(adminId);
+            }
             results.add(reportedAccount);
         }
         return results;

@@ -20,6 +20,9 @@ public class GetAllReportedAccount {
     @JsonProperty("admin")
     private String admin;
 
+    @JsonProperty("admin_id")
+    private long adminId;
+
     @JsonProperty("time_finished")
     private LocalDateTime timeFinished;
 
@@ -61,6 +64,14 @@ public class GetAllReportedAccount {
 
     public void setAdmin(String admin) {
         this.admin = admin;
+    }
+
+    public long getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(long adminId) {
+        this.adminId = adminId;
     }
 
     public LocalDateTime getTimeFinished() {
