@@ -39,8 +39,9 @@ public interface ReportsJpaRepository extends JpaRepository<Reports, Long> {
             " extract(month from r.created_at) =extract(month from current_date)",nativeQuery = true)
     long countReportedByStatus(@Param("status") Long status);
 
-    @Query(value = "SELECT cast(EXTRACT(MONTH from ra.time_finished) as int), cast(COUNT(ra.reported_account_id) as int ) \n" +
-            "FROM reported_account ra  where  EXTRACT(YEAR from ra.time_finished)=EXTRACT(YEAR from now()) GROUP BY EXTRACT(MONTH from ra.time_finished)", nativeQuery = true)
+    @Query(value = "SELECT cast(EXTRACT(MONTH from ra.time_finished) as int), cast(COUNT(r) as int ) \n" +
+            " FROM reports r   inner join reported_account ra  on r.reported_account_id= ra.reported_account_id  \n" +
+            " where  EXTRACT(YEAR from ra.time_finished)=EXTRACT(YEAR from now()) GROUP BY EXTRACT(MONTH from ra.time_finished)", nativeQuery = true)
     List<Object[]> getTotalReportByMonth();
 
     @Query(value ="select count(r.*) from reports r inner join reported_account ra on r.reported_account_id =ra.reported_account_id " +
