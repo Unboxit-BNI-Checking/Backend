@@ -4,6 +4,7 @@ pipeline {
     environment {
         db_password = credentials('bf887856-38ad-4410-93b7-b5121f0094b6')
         docker_login_password = credentials('b6d657b1-feea-4ff0-91f6-f71c9602f0cc')
+        jwt_token = credentials('93a8a42b-8107-48de-8ef6-e0f00491fc22')
     }
 
     stages {
@@ -38,7 +39,7 @@ pipeline {
         stage('Run the container on port 1110') {
             steps {
                 echo 'Running the container'
-                sh "echo '${db_password.toString()}' && docker run -d --restart unless-stopped --name unboxit-mono-api -p 1200:8080 ghcr.io/unboxit-bni-checking/backend:latest --spring.application.name=bni-checking --security.ignored=/** --spring.jpa.hibernate.ddl-auto=none --spring.datasource.url=jdbc:postgresql://direct.50soa.my.id:5432/bni_checking --spring.datasource.username=unboxit-dbuser --spring.datasource.password='${db_password.toString()}' --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect --seed.data.enabled=true --seed.data.csv.path=data/account.csv --account.id=1 --spring.servlet.multipart.max-file-size=10MB --spring.servlet.multipart.max-request-size=10MB --spring.servlet.multipart.location=ReportAttachments" 
+                sh "echo '${db_password.toString()}' && docker run -d --restart unless-stopped --name unboxit-mono-api -p 1200:8080 ghcr.io/unboxit-bni-checking/backend:latest --spring.application.name=bni-checking --security.ignored=/** --spring.jpa.hibernate.ddl-auto=none --spring.datasource.url=jdbc:postgresql://direct.50soa.my.id:5432/bni_checking --spring.datasource.username=unboxit-dbuser --spring.datasource.password='${db_password.toString()}' --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect --seed.data.enabled=true --seed.data.csv.path=data/account.csv --account.id=1 --spring.servlet.multipart.max-file-size=10MB --spring.servlet.multipart.max-request-size=10MB --spring.servlet.multipart.location=ReportAttachments jwt.secretKey='${jwt_token.toString()}'" 
             }
         }
 
