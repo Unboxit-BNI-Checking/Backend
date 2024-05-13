@@ -9,6 +9,7 @@ import com.unboxit.bnichecking.util.PasswordHasherService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,8 @@ import java.util.List;
 @RequestMapping("/api")
 public class AdminController {
 
+    @Value("${jwt.secretKey}")
+    private String jwtSecretKey;
     private final AdminService adminService;
     @Autowired
     private PasswordHasherService passwordHasherService;
@@ -49,7 +52,7 @@ public class AdminController {
                             .subject(admins.getUsername())
                             .claim("role", "admin")
                             .claim("admin_id", admins.getAdminId())
-                            .signWith(SignatureAlgorithm.HS256, "secretkeyasdafnajndnsakmdkamfkmakekasmdkammkfskamkamkdmasmdkmaskdmasmdmasmdka")
+                            .signWith(SignatureAlgorithm.HS256, jwtSecretKey)
                             .issuedAt(Date.from(Instant.now()))
                             .expiration(Date.from(Instant.now().plus(365, ChronoUnit.DAYS)))
                             .compact();
