@@ -39,7 +39,7 @@ pipeline {
         stage('Run the container on port 1110') {
             steps {
                 echo 'Running the container'
-                sh "echo '${db_password.toString()}' && docker run -d --restart unless-stopped --name unboxit-mono-api -p 1200:8080 ghcr.io/unboxit-bni-checking/backend:latest --spring.application.name=bni-checking --security.ignored=/** --spring.jpa.hibernate.ddl-auto=none --spring.datasource.url=jdbc:postgresql://direct.50soa.my.id:5432/bni_checking --spring.datasource.username=unboxit-dbuser --spring.datasource.password='${db_password.toString()}' --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect --seed.data.enabled=true --seed.data.csv.path=data/account.csv --account.id=1 --spring.servlet.multipart.max-file-size=10MB --spring.servlet.multipart.max-request-size=10MB --spring.servlet.multipart.location=ReportAttachments jwt.secretKey='${jwt_token.toString()}'" 
+                sh "echo '${db_password.toString()}' && docker run -d --restart unless-stopped --name unboxit-mono-api -p 1200:8080 ghcr.io/unboxit-bni-checking/backend:latest --spring.application.name=bni-checking --security.ignored=/** --spring.jpa.hibernate.ddl-auto=none --spring.datasource.url=jdbc:postgresql://direct.50soa.my.id:5432/bni_checking --spring.datasource.username=unboxit-dbuser --spring.datasource.password='${db_password.toString()}' --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect --seed.data.enabled=true --seed.data.csv.path=data/account.csv --account.id=1 --spring.servlet.multipart.max-file-size=10MB --spring.servlet.multipart.max-request-size=10MB --spring.servlet.multipart.location=ReportAttachments --jwt.secretKey='${jwt_token.toString()}'" 
             }
         }
 
