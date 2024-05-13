@@ -30,14 +30,14 @@ import static javax.crypto.Cipher.SECRET_KEY;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-    @Value("${jwt.secretKey}")
     private static String jwtSecretKey;
     private final AdminDetailService adminDetailsService;
     private final ObjectMapper objectMapper;
 
-    public JwtAuthFilter( AdminDetailService adminDetailsService, ObjectMapper objectMapper) {
+    public JwtAuthFilter( @Value("${jwt.secretKey}") String jwtSecretKey, AdminDetailService adminDetailsService, ObjectMapper objectMapper) {
         this.adminDetailsService = adminDetailsService;
         this.objectMapper = objectMapper;
+        this.jwtSecretKey = jwtSecretKey;
     }
 
     @Override
