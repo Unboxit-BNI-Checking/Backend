@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.antlr.v4.runtime.Token;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,8 @@ import static javax.crypto.Cipher.SECRET_KEY;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
+    @Value("${jwt.secretKey}")
+    private static String jwtSecretKey;
     private final AdminDetailService adminDetailsService;
     private final ObjectMapper objectMapper;
 
@@ -87,7 +90,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     public static Claims getTokenBody(String token) {
         return Jwts
                 .parser()
-                .setSigningKey("secretkeyasdafnajndnsakmdkamfkmakekasmdkammkfskamkamkdmasmdkmaskdmasmdmasmdka")
+                .setSigningKey(jwtSecretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
