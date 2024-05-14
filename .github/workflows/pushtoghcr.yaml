@@ -31,7 +31,7 @@ jobs:
           java-version: '17'  # Set the JDK version required by your project
 
       - name: Decode and save the secret file
-        run: echo "${{ secrets.UNBOXIT_BUCKET_B64 }}" | base64 --decode > src\main\resources\unboxit.json
+        run: echo "${{ secrets.UNBOXIT_BUCKET_B64 }}" | base64 --decode > src/main/resources/unboxit.json
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
